@@ -2,7 +2,7 @@
   "name": "@mix-portal/source",
   "version": "0.0.0",
   "license": "MIT",
-  "packageManager": "pnpm@8.6.0",
+  "packageManager": "pnpm@9.0.0",
   "scripts": {
     "dev:mobile": "pnpm nx serve shell-mobile",
     "dev:ecom": "pnpm exec nx run shell:serve:ecom",
