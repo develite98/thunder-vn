@@ -7,7 +7,7 @@
     "dev:mobile": "pnpm nx serve shell-mobile",
     "dev:ecom": "pnpm exec nx run shell:serve:ecom",
     "dev:bo": "pnpm nx serve shell",
-    "build:bo": "pnpm exec nx run shell:build:production",
+    "build": "pnpm exec nx run shell:build:production",
     "start-docs": "pnpm --filter ./docs start"
   },
   "private": true,
