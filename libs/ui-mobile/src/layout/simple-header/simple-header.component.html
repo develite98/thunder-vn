@@ -1,0 +1,17 @@
+<div
+  class="h-[63px] ps-3 pe-3 flex items-center justify-start border-b border-base-content/10"
+>
+  <mix-back-button [onBack]="onBack()"></mix-back-button>
+
+  @if (pageTitle(); as title) {
+    <div>
+      <div class="text-base ms-4 page-title">
+        {{ title }}
+      </div>
+
+      <div class="text-[13px] ms-4 font-semibold">
+        {{ pageDescription() }}
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,18 @@
+{
+  "name": "@mixcore/ui-mobile/layout",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ui-mobile/src/layout",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/ui-mobile/src/layout/**/*.ts",
+          "libs/ui-mobile/src/layout/**/*.html"
+        ]
+      }
+    }
+  }
+}

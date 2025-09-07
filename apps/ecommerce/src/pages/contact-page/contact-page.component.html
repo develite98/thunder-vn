@@ -1,0 +1,89 @@
+<div data-theme="red">
+  <mix-public-header></mix-public-header>
+  <mix-breadcrumb [items]="breadcrumb"></mix-breadcrumb>
+  <div class="container mx-auto px-4 md:px-0">
+    <div class="grid lg:grid-cols-2 mt-12 mb-12 gap-12">
+      <div class="">
+        <p class="text-xl font-medium">Liên hệ chúng tôi</p>
+        <p class="text-gray-400">
+          Để lại thông tin, chung tôi sẽ liên hệ lại với bạn trong thời gian sớm
+          nhất.
+        </p>
+
+        <div class="" [formGroup]="form">
+          <label for="email" class="mt-4 mb-2 block text-sm font-medium"
+            >Email (*)</label
+          >
+          <div class="relative">
+            <input
+              type="text"
+              id="email"
+              formControlName="email"
+              name="email"
+              class="w-full input"
+              placeholder="email.cua.quykhach@gmail.com"
+            />
+          </div>
+
+          <label for="name" class="mt-4 mb-2 block text-sm font-medium"
+            >Họ & Tên</label
+          >
+          <div class="relative">
+            <input
+              type="text"
+              id="name"
+              formControlName="full_name"
+              name="name"
+              class="w-full input"
+              placeholder="Xin nhập tên của quý khách"
+            />
+          </div>
+
+          <label for="phoneNumber" class="mt-4 mb-2 block text-sm font-medium"
+            >Số điện thoại</label
+          >
+          <div class="relative">
+            <input
+              type="tel"
+              id="phoneNumber"
+              name="phoneNumber"
+              formControlName="phone_number"
+              class="w-full input"
+              placeholder="Xin nhập số diện thoại của quý khách"
+            />
+          </div>
+
+          <label for="note" class="mt-4 mb-2 block text-sm font-medium"
+            >Ghi chú</label
+          >
+          <div class="relative">
+            <textarea
+              type="text"
+              id="note"
+              formControlName="note"
+              name="note"
+              rows="5"
+              class="w-full textarea"
+              placeholder="Xin nhập tên của quý khách"
+            ></textarea>
+          </div>
+        </div>
+
+        <mix-button
+          (click)="onSubmit()"
+          [loading]="isLoading()"
+          class="mt-8 mb-8 w-full btn btn-primary"
+        >
+          Gửi thông tin
+        </mix-button>
+      </div>
+
+      <div
+        class="w-fit max-w-full h-fit rounded-lg overflow-hidden border border-base-content/10"
+        [innerHTML]="mapUrl()"
+      ></div>
+    </div>
+
+    <mix-public-footer></mix-public-footer>
+  </div>
+</div>

@@ -1,0 +1,109 @@
+<mix-dialog-wrapper [titleTpl]="titleTpl">
+  <div dialog-body [formGroup]="form">
+    <mix-form-field
+      class="w-full"
+      [required]="true"
+      [autoFocus]="true"
+      [name]="'common.label.displayName'"
+      [description]="'bms.branch.device.displayName.description'"
+    >
+      <input
+        #autofocus
+        formControlName="name"
+        class="input input-bordered"
+        [placeholder]="'common.input.placeholder' | transloco"
+      />
+    </mix-form-field>
+
+    <div class="p-4 rounded-lg bg-base-200 mt-6 flex flex-col gap-4">
+      @if (typeId === DeviceType.Cashier) {
+        <label class="label">
+          <input type="checkbox" formControlName="isDefault" class="checkbox" />
+          {{ 'bms.branch.device.isDefault' | transloco }}
+        </label>
+      }
+
+      @if (typeId === DeviceType.Printer || typeId === DeviceType.Handy) {
+        <mix-form-field
+          class="w-full"
+          [required]="true"
+          [name]="'bms.branch.device.masterDevice'"
+          [description]="'bms.branch.device.masterDeviceDescription'"
+        >
+          <mix-select
+            formControlName="masterDeviceId"
+            [items]="devices"
+            [labelProcess]="deviceLabelProcess"
+            [valueKey]="'id'"
+          ></mix-select>
+        </mix-form-field>
+      }
+
+      @if (
+        typeId === DeviceType.Printer || typeId === DeviceType.KitchenPrinter
+      ) {
+        <mix-form-field
+          class="w-full"
+          [required]="true"
+          [name]="'bms.branch.device.ip'"
+          [description]="'bms.branch.device.ipDescription'"
+        >
+          <input
+            formControlName="deviceIp"
+            class="input input-bordered"
+            [placeholder]="'common.input.placeholder' | transloco"
+          />
+        </mix-form-field>
+      }
+    </div>
+  </div>
+
+  <div dialog-footer class="flex items-center justify-end gap-2">
+    <mix-button (click)="dialogRef.close()">
+      {{ 'common.cancel' | transloco }}
+    </mix-button>
+    <mix-button [color]="'primary'" (click)="onSubmit()">
+      {{ isUpdate ? 'common.update' : ('common.create' | transloco) }}
+    </mix-button>
+  </div>
+</mix-dialog-wrapper>
+
+<ng-template #titleTpl>
+  <span class="text-2xl font-title !font-medium flex items-center gap-4">
+    <div class="w-8 h-8 rounded-xl flex items-center justify-center text-white">
+      @switch (typeId) {
+        @case (DeviceType.Cashier) {
+          <img
+            src="images/cashier-device.png"
+            alt="Cashier Device"
+            class="w-full h-auto"
+          />
+        }
+        @case (DeviceType.Handy) {
+          <img
+            src="images/handy-device.png"
+            alt="Handy Device"
+            class="w-full h-auto"
+          />
+        }
+        @case (DeviceType.Printer) {
+          <img
+            src="images/printer-device.png"
+            alt="Printer Device"
+            class="w-full h-auto"
+          />
+        }
+        @case (DeviceType.KitchenPrinter) {
+          <img
+            src="images/printer-device.png"
+            alt="Printer Device"
+            class="w-full h-auto"
+          />
+        }
+        @default {}
+      }
+    </div>
+
+    {{ isUpdate ? 'Update' : 'Add' }} {{ displayName }}
+  </span>
+</ng-template>

@@ -1,0 +1,32 @@
+<mix-tile>
+  <div class="stat-title flex items-center gap-2 uppercase font-bold">
+    <mix-icon icon="folder-clock"></mix-icon>
+    {{ 'system-dashboard.releases' | transloco }}
+  </div>
+  <div class="stat-value">
+    {{ releaseStore.pagingInfo().total || 0 }}
+    <div class="stat-desc font-medium">
+      {{ 'system-dashboard.releaseCount' | transloco }}
+    </div>
+  </div>
+
+  <div>
+    @for (data of releaseStore.dataEntities() | slice: 0 : 3; track $index) {
+      <div
+        class="px-0 py-3 border-b border-base-content/10 flex justify-between items-center"
+      >
+        <div>
+          <div class="font-bold">
+            {{ data.tag_name }}
+          </div>
+          <div class="text-xs text-base-content/60">
+            {{ data.created_at | date }}
+          </div>
+        </div>
+        <button class="btn btn-ghost">
+          <mix-icon icon="download"></mix-icon>
+        </button>
+      </div>
+    }
+  </div>
+</mix-tile>

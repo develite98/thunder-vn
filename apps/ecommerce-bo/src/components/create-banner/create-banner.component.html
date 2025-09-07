@@ -1,0 +1,95 @@
+<mix-dialog-wrapper
+  [title]="isUpdate() ? 'ecommerce.banner.update' : 'ecommerce.banner.create'"
+>
+  <div dialog-body [formGroup]="form">
+    <mix-form-field
+      [name]="'ecommerce.banner.name'"
+      [required]="true"
+      class="mb-6"
+      [description]="'ecommerce.banner.nameDescription'"
+    >
+      <input
+        formControlName="title"
+        class="input w-full"
+        type="text"
+        [placeholder]="'common.input.placeholder' | transloco"
+      />
+    </mix-form-field>
+
+    <mix-form-field
+      [name]="'common.label.priority'"
+      [required]="true"
+      class="mb-6"
+      [description]="'common.label.priorityDescription'"
+    >
+      <input
+        formControlName="priority"
+        class="input w-full"
+        type="number"
+        [placeholder]="'common.input.placeholder' | transloco"
+      />
+    </mix-form-field>
+
+    <mix-form-field
+      [name]="'common.label.url'"
+      [required]="true"
+      class="mb-6"
+      [description]="'common.label.urlDescription'"
+    >
+      <input
+        formControlName="cta_button_url"
+        class="input w-full"
+        type="text"
+        [placeholder]="'common.input.placeholder' | transloco"
+      />
+    </mix-form-field>
+
+    <mix-form-field
+      [name]="'ecommerce.banner.image'"
+      [required]="true"
+      class="mb-6"
+      [description]="'ecommerce.banner.imageDescription'"
+    >
+      <div class="flex items-center gap-2 w-full">
+        <button class="btn btn-square" (click)="onUpLoad()">
+          <mix-icon icon="image-up" />
+        </button>
+      </div>
+
+      @if (form.controls.image.getRawValue()) {
+        <div
+          class="w-full h-[90px] max-h-[90px] w-[auto] rounded-box bg-base-200 border border-base-content/10 relative mt-2"
+        >
+          <img
+            [src]="form.controls.image.getRawValue()"
+            alt="Banner Image"
+            class="w-auto h-full object-cover rounded-box mx-auto"
+          />
+
+          <mix-button
+            (click)="form.controls.image.setValue('')"
+            class="absolute top-2 right-2 btn-sm"
+            type="ghost"
+            [iconButton]="true"
+          >
+            <mix-icon icon="trash" class="text-error"></mix-icon>
+          </mix-button>
+        </div>
+      }
+    </mix-form-field>
+  </div>
+
+  <div dialog-footer class="flex items-center justify-end gap-2">
+    <mix-button (click)="dialogRef.close()" [disabled]="isLoading()">
+      {{ 'common.cancel' | transloco }}
+    </mix-button>
+
+    <mix-button
+      [color]="'primary'"
+      (click)="onSumbit()"
+      [loading]="isLoading()"
+    >
+      {{ (isUpdate() ? 'common.update' : 'common.create') | transloco }}
+    </mix-button>
+  </div>
+</mix-dialog-wrapper>

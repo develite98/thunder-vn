@@ -1,0 +1,57 @@
+@let tb = table();
+@let columns = tb?.columns || [];
+
+<mix-table
+  [toolbarTpl]="toolar"
+  [contextMenu]="contextMenu"
+  [data]="columns"
+  [loading]="tableState()?.isLoading || false"
+  (refresh)="dispatch.refreshed(store.query())"
+>
+  <ng-template #toolar>
+    @if (tb) {
+      <mix-create-column-button [table]="tb"></mix-create-column-button>
+    }
+  </ng-template>
+
+  <div mixTableColumn [header]="'Name'" [key]="'displayName'">
+    <ng-template mixColumnCell let-row>
+      <span class="font-medium">{{ row.data.displayName }}</span>
+    </ng-template>
+  </div>
+
+  <div mixTableColumn [header]="'Key'" [key]="'systemName'">
+    <ng-template mixColumnCell let-row>
+      <div class="flex items-center gap-2">
+        <mix-copy-text [text]="row.data.systemName"></mix-copy-text>
+      </div>
+    </ng-template>
+  </div>
+
+  <div mixTableColumn [header]="'Data type'" [key]="'dataType'">
+    <ng-template mixColumnCell let-row>
+      <div class="flex items-center gap-4">
+        <mix-table-column-type-icon
+          [column]="row.data.dataType"
+        ></mix-table-column-type-icon>
+        <span class="font-medium">{{ row.data.dataType }}</span>
+      </div>
+    </ng-template>
+  </div>
+
+  <div mixTableColumn [header]="'Default value'" [key]="'defaultValue'">
+    <ng-template mixColumnCell let-row>
+      <div class="flex items-center gap-4">
+        {{ row.data.defaultValue }}
+      </div>
+    </ng-template>
+  </div>
+
+  <div mixTableColumn [header]="'Added at'" [key]="'createdDateTime'">
+    <ng-template mixColumnCell let-row>
+      <span class="text-sm">
+        {{ row.data.createdDateTime | date: 'short' }}
+      </span>
+    </ng-template>
+  </div>
+</mix-table>

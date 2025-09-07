@@ -1,0 +1,18 @@
+<div role="tablist" class="mix-tabs tabs tabs-border w-fit {{ className() }}">
+  @for (tab of tabs(); track $index; let index = $index) {
+    <a
+      role="tab"
+      class="tab"
+      (click)="onTabClick(tab.route || [], tab.queryParams)"
+      [class.tab-active]="activeTabIndex() === index"
+    >
+      <div class="flex gap-3 items-center">
+        @if (tab.icon) {
+          <mix-icon class="opacity-50" [icon]="tab.icon"></mix-icon>
+        }
+
+        {{ tab.title | transloco }}
+      </div>
+    </a>
+  }
+</div>

@@ -1,0 +1,18 @@
+{
+  "name": "@mixcore/ui/delete",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ui-controls/src/delete",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/ui-controls/src/delete/**/*.ts",
+          "libs/ui-controls/src/delete/**/*.html"
+        ]
+      }
+    }
+  }
+}

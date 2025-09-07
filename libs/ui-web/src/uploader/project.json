@@ -1,0 +1,18 @@
+{
+  "name": "@mixcore/ui/uploader",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ui-controls/src/uploader",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/ui-controls/src/uploader/**/*.ts",
+          "libs/ui-controls/src/uploader/**/*.html"
+        ]
+      }
+    }
+  }
+}

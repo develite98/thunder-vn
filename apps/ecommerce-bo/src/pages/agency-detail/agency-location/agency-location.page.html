@@ -1,0 +1,40 @@
+<mix-table
+  [toolbarTpl]="toolar"
+  [data]="members() || []"
+  [loading]="store.isLoading()"
+  [contextMenu]="contextMenu"
+>
+  <ng-template #toolar>
+    <mix-button
+      (click)="onCreateMember()"
+      [prefixIcon]="'plus'"
+      [color]="'primary'"
+    >
+      {{ 'ecommerce.agency.locationAdd' | transloco }}
+    </mix-button>
+  </ng-template>
+
+  <div mixTableColumn [header]="'common.province'" [key]="'displayName'">
+    <ng-template mixColumnCell let-row>
+      <span class="font-medium">{{ row.data?.province?.name }}</span>
+    </ng-template>
+  </div>
+
+  <div mixTableColumn [header]="'common.ward'" [key]="'phoneNumber'">
+    <ng-template mixColumnCell let-row>
+      {{ row.data?.ward?.name }}
+    </ng-template>
+  </div>
+
+  <div
+    mixTableColumn
+    [header]="'common.created_date'"
+    [key]="'createdDateTime'"
+  >
+    <ng-template mixColumnCell let-row>
+      <span class="text-sm">
+        {{ row.data.created_date | date: 'short' }}
+      </span>
+    </ng-template>
+  </div>
+</mix-table>

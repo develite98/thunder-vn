@@ -1,0 +1,18 @@
+{
+  "name": "@mixcore/ui-web/toggle",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ui-web/src/toggle",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/ui-web/src/toggle/**/*.ts",
+          "libs/ui-web/src/toggle/**/*.html"
+        ]
+      }
+    }
+  }
+}

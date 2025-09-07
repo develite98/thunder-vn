@@ -1,0 +1,18 @@
+{
+  "name": "@mixcore/types",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/core/src/types",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/core/src/types/**/*.ts",
+          "libs/core/src/types/**/*.html"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+<label class="flex items-center w-full" [for]="id">
+  <input
+    [id]="id"
+    type="checkbox"
+    class="toggle toggle-primary"
+    [checked]="cva.value$()"
+    (change)="onValueChange($event)"
+  />
+
+  <span class="ms-4 cursor-pointer text-sm flex flex-col"
+    ><ng-content></ng-content>
+    @if (description(); as description) {
+      <span class="label text-xs whitespace-normal">
+        {{ description }}
+      </span>
+    }
+  </span>
+</label>

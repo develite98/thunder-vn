@@ -1,0 +1,70 @@
+<div class="grow overflow-auto">
+  <div class="text-xl font-bold">OAuth Provider</div>
+
+  <div class="mt-6 grid grid-cols-2 md:grid-cols-5 gap-4">
+    @let passwordOption = passwordAuthConfig();
+    @let googleOption = googleAuthClientConfig();
+
+    <mix-tile
+      (click)="editPasswordConfig()"
+      class="h-full"
+      className="h-full flex flex-col items-center justify-center cursor-pointer gap-4"
+    >
+      <div
+        class="w-12 h-12 rounded-full flex flex-col items-center justify-center bg-base-200"
+      >
+        <mix-icon icon="key-round" />
+      </div>
+      <div class="text-xs">Password</div>
+
+      @if (passwordOption?.Enable === false) {
+        <div class="badge badge-soft badge-error">Disable</div>
+      } @else {
+        <div class="badge badge-soft badge-success">Enable</div>
+      }
+    </mix-tile>
+
+    <mix-tile
+      (click)="editGoogleConfig()"
+      class="h-full"
+      className="h-full flex flex-col items-center justify-center cursor-pointer"
+    >
+      <div
+        class="w-12 h-12 rounded-full flex flex-col items-center justify-center bg-base-200 gap-4"
+      >
+        <img alt="Google" src="/logos/google.svg" />
+      </div>
+      <div class="text-xs">Google</div>
+
+      @if (googleOption?.Enable) {
+        <div class="badge badge-soft badge-success">Enable</div>
+      } @else {
+        <div class="badge badge-soft badge-error">Disable</div>
+      }
+    </mix-tile>
+
+    @let fbClientConfig = facebookAuthClientConfig();
+    @let fbServerConfig = facebookAuthServerConfig();
+
+    <mix-tile
+      (click)="
+        editDyanmicConfig(provider.Facebook, fbClientConfig, fbServerConfig)
+      "
+      class="h-full"
+      className="h-full flex flex-col items-center justify-center cursor-pointer"
+    >
+      <div
+        class="w-12 h-12 rounded-full flex flex-col items-center justify-center bg-base-200 gap-4"
+      >
+        <img alt="Google" src="/logos/facebook.svg" />
+      </div>
+      <div class="text-xs">Facebook</div>
+
+      @if (fbClientConfig?.Enable) {
+        <div class="badge badge-soft badge-success">Enable</div>
+      } @else {
+        <div class="badge badge-soft badge-error">Disable</div>
+      }
+    </mix-tile>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<ng-template #breadcrumb>
+  <mix-breadcrumbs>
+    <div name="Home" icon="home" mixBreadcrumbItem></div>
+    <div name="IAM" mixBreadcrumbItem></div>
+    <div name="User detail" mixBreadcrumbItem [active]="true"></div>
+  </mix-breadcrumbs>
+</ng-template>
+
+@let data = user();
+
+<mix-page-container
+  [backButton]="true"
+  [defaultPage]="['users']"
+  [pageTitle]="data?.email || ''"
+  [pageDescription]="data?.id || ''"
+  [tabs]="tabs()"
+  [loading]="dataState()?.isLoading"
+>
+  <router-outlet></router-outlet>
+</mix-page-container>

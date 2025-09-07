@@ -1,0 +1,15 @@
+.chat-message__banner {
+  /* background: linear-gradient(
+    90deg,
+    rgb(242, 250, 253) 0%,
+    rgb(250, 248, 255) 50%,
+    rgb(255, 239, 254) 100%
+  ); */
+
+  background: linear-gradient(
+    90deg,
+    var(--cyan-100) 0%,
+    var(--brigth-purple-200) 50%,
+    var(--magenta-200) 100%
+  );
+}

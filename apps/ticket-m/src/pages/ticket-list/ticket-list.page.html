@@ -1,0 +1,25 @@
+<div class="grow overflow-auto p-4 flex flex-col gap-4">
+  @for (item of store.dataEntities(); track $index) {
+    <div
+      class="ticket-item card border border-base-content/10 p-4"
+      tabindex="0"
+      (click)="gotoDetail(item.id)"
+      (keyup.enter)="gotoDetail(item.id)"
+    >
+      <h2>{{ item.subject }}</h2>
+
+      @if (
+        ticketStatusStore.dataEntityMap()[item.ticket_status_id];
+        as status
+      ) {
+        {{ status.name }}
+      }
+    </div>
+  } @empty {
+    <div class="flex w-52 flex-col gap-4">
+      <div class="skeleton h-4 w-28"></div>
+      <div class="skeleton h-4 w-full"></div>
+      <div class="skeleton h-4 w-full"></div>
+    </div>
+  }
+</div>

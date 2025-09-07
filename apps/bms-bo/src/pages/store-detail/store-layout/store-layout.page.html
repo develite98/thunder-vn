@@ -1,0 +1,11 @@
+<div class="-mt-6">
+  <div class="flex items-center gap-2 mb-6">
+    <mix-tabs class="block" [tabs]="tabs()"></mix-tabs>
+    <button class="btn btn-ghost btn-sm" (click)="editLayout()">
+      <mix-icon icon="pen"></mix-icon>
+      Edit layout
+    </button>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,38 @@
+<div class="dropdown dropdown-end">
+  <div
+    class="avatar hover:opacity-70 cursor-pointer transition-all"
+    id="culture-select"
+    role="button"
+    tabindex="0"
+  >
+    <div class="w-8 rounded-xl">
+      <img
+        src="https://img.daisyui.com/images/profile/demo/yellingwoman@192.webp"
+      />
+    </div>
+  </div>
+
+  <ul
+    #element
+    tabindex="0"
+    class="menu dropdown-content bg-base-100 border border-base-content/10 rounded-box z-1 w-52 p-2 mt-2 shadow-sm !animate-none !transition-none"
+  >
+    <div class="px-3 pb-4 pt-2 mb-2 border-b border-base-content/10">
+      <span
+        >Hi, <span class="text-lg font-bold">{{ user?.userName }}</span></span
+      >
+    </div>
+    <li>
+      <a (click)="element.blur()">
+        <mix-icon class="me-4" [icon]="'message-square-warning'" />
+        Feedback</a
+      >
+    </li>
+    <li (click)="onLogOut()">
+      <a (click)="element.blur()">
+        <mix-icon class="me-4" [icon]="'log-out'" />
+        Logout</a
+      >
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,69 @@
+<div class="flex gap-4 items-start">
+  @if (type() === 'Success') {
+  <div
+    class="absolute h-[80%] top-[10%] left-[6px] w-[4px] rounded-lg bg-success/50"
+  ></div>
+  } @else if (type() === 'Error') {
+  <div
+    class="absolute h-[80%] top-[10%] left-[6px] w-[4px] rounded-lg bg-error/50"
+  ></div>
+
+  } @else if (type() === 'Info') {
+  <div
+    class="absolute h-[80%] top-[10%] left-[6px] w-[4px] rounded-lg bg-info/50"
+  ></div>
+  } @else if (type() === 'Warning') {
+  <div
+    class="absolute h-[80%] top-[10%] left-[6px] w-[4px] rounded-lg bg-warning/50"
+  ></div>
+
+  } @else if (type() === 'Loading') {
+  <div
+    class="absolute h-[80%] top-[10%] left-[6px] w-[4px] rounded-lg bg-base-content/30"
+  ></div>
+  }
+  <div class="flex h-full gap-2 mx-2 items-center">
+    @if (type() === 'Success') {
+    <div class="p-2 rounded-full bg-success/20">
+      <mix-icon
+        class="text-success/90"
+        [size]="24"
+        [icon]="'circle-check-big'"
+      ></mix-icon>
+    </div>
+    } @else if (type() === 'Error') {
+    <div class="p-2 rounded-full bg-error/20">
+      <mix-icon
+        class="text-error/90"
+        [size]="24"
+        [icon]="'triangle-alert'"
+      ></mix-icon>
+    </div>
+    } @else if (type() === 'Info') {
+    <div class="p-2 rounded-full bg-info/20">
+      <mix-icon
+        class="text-info/90"
+        [size]="24"
+        [icon]="'message-circle'"
+      ></mix-icon>
+    </div>
+    } @else if (type() === 'Warning') {
+    <div class="p-2 rounded-full bg-warning/20">
+      <mix-icon
+        class="text-warning/90"
+        [size]="24"
+        [icon]="'message-circle-warning'"
+      ></mix-icon>
+    </div>
+    } @else if (type() === 'Loading') {
+    <div class="p-2 rounded-full bg-base-content/5">
+      <span class="loading loading-spinner"></span>
+    </div>
+
+    }
+  </div>
+  <div>
+    <div class="font-semibold font-title text-sm">{{ typeTitle }}</div>
+    <div class="text-sm text-base-content/80">{{ message() }}</div>
+  </div>
+</div>

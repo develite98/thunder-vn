@@ -1,0 +1,21 @@
+<div class="">
+  <div class="p-8 border-b border-base-content/10 border-dashed">
+    <div class="dialog-title font-title !font-medium text-2xl">
+      @if (titleTpl) {
+        <ng-container *ngTemplateOutlet="titleTpl"></ng-container>
+      } @else {
+        @if (title(); as title) {
+          {{ title | transloco }}
+        } @else {
+          {{ 'dialog.title.default' | transloco }}
+        }
+      }
+    </div>
+  </div>
+  <div class="p-8">
+    <ng-content select="[dialog-body]"></ng-content>
+  </div>
+  <div class="p-8 border-t border-base-content/10 border-dashed">
+    <ng-content select="[dialog-footer]"></ng-content>
+  </div>
+</div>

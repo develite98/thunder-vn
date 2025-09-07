@@ -1,0 +1,9 @@
+@if (form) {
+  <form [formGroup]="form">
+    <formly-form
+      [form]="form"
+      [fields]="formConfig()"
+      [model]="value()"
+    ></formly-form>
+  </form>
+}

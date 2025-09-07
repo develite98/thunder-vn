@@ -1,0 +1,11 @@
+{
+  "appName": "Finance",
+  "invoice.pageTitle": "E-Invoices",
+  "invoice.tab.all": "All",
+  "invoice.tab.inprogress": "Need to process",
+  "requestBy": "Request by",
+  "store": "Store",
+  "voidBill.pageTitle": "Void bill",
+  "voidBill.pageDescription": "Void a bill that has been issued",
+  "searchById": "Search by ID"
+}

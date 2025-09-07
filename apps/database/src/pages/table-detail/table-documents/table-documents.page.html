@@ -1,0 +1,34 @@
+@let tb = table();
+@let documents = documentStore.dataEntities();
+
+<mix-table
+  [toolbarTpl]="toolar"
+  [contextMenu]="contextMenu"
+  [data]="documents"
+  [paging]="documentStore.pagingInfo()"
+  (goPrevious)="documentStore.goPreviousPageRouter()"
+  (goNext)="documentStore.goNextPageRouter()"
+  (refresh)="documentStore.refresh()"
+  [loading]="tableState()?.isLoading || false"
+>
+  <ng-template #toolar>
+    <mix-button
+      [prefixIcon]="'plus'"
+      [color]="'primary'"
+      (click)="onCreateNew()"
+      >{{ 'New record' }}</mix-button
+    >
+  </ng-template>
+
+  @for (col of tb?.columns; track col.id) {
+    <div mixTableColumn [header]="col.displayName" [key]="col.systemName">
+      <ng-template mixColumnCell let-row>
+        <div
+          class="gap-2 max-w-32 whitespace-nowrap overflow-hidden text-ellipsis"
+        >
+          {{ row.data[col.systemName] }}
+        </div>
+      </ng-template>
+    </div>
+  }
+</mix-table>

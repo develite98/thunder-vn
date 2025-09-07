@@ -1,0 +1,19 @@
+<mix-page-container
+  [backButton]="true"
+  [defaultPage]="['products']"
+  [tabs]="tabs()"
+  [pageTitle]="data()?.title || ''"
+  [rightToolbarTpl]="tbTpl"
+>
+  <ng-template #tbTpl>
+    <div class="grow flex">
+      <status-select
+        class="ms-auto"
+        [selectedStatus]="data()?.status"
+        (selectedStatusChange)="onStatusChange($event)"
+      ></status-select>
+    </div>
+  </ng-template>
+
+  <router-outlet></router-outlet>
+</mix-page-container>

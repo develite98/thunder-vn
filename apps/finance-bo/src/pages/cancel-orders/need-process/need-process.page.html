@@ -1,0 +1,49 @@
+<mix-table
+  [searchBarTpl]="searchbar"
+  [data]="store.dataEntities() || []"
+  [paging]="store.pagingInfo()"
+  [loading]="store.isLoading()"
+  (goPrevious)="store.goPreviousPage()"
+  (goNext)="store.goNextPage()"
+  (rowClick)="onRowClick($event)"
+  [searchTextPlaceHolder]="'finance.searchById'"
+>
+  <ng-template #searchbar>
+    <mix-date-range-picker
+      (valueChange)="onDateChange($event)"
+      class="block w-72"
+    ></mix-date-range-picker>
+  </ng-template>
+
+  <div mixTableColumn [header]="'ID'" [key]="'systemName'">
+    <ng-template mixColumnCell let-row>
+      <mix-copy-text [text]="row.data.id"></mix-copy-text>
+    </ng-template>
+  </div>
+
+  <div mixTableColumn [header]="'finance.requestBy'" [key]="'displayName'">
+    <ng-template mixColumnCell let-row>
+      <div>{{ row.data.data.userName }}</div>
+    </ng-template>
+  </div>
+
+  <div mixTableColumn [header]="'finance.store'" [key]="'email'">
+    <ng-template mixColumnCell let-row>
+      @let branch = branchStore.dataEntityMap()[row.data.branchId];
+
+      {{ branch?.name || 'N/A' }}
+    </ng-template>
+  </div>
+
+  <div
+    mixTableColumn
+    [header]="'common.label.createdAt'"
+    [key]="'createdDateTime'"
+  >
+    <ng-template mixColumnCell let-row>
+      <span class="text-sm">
+        {{ row.data.createdDateTime | date: 'short' }}
+      </span>
+    </ng-template>
+  </div>
+</mix-table>

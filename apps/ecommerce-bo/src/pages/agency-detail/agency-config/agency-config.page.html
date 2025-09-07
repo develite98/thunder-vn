@@ -1,0 +1,20 @@
+@if (user()) {
+  <mix-form
+    [form]="form"
+    [value]="value"
+    [formConfig]="fields"
+    (onSubmit)="onSubmit($event)"
+  ></mix-form>
+
+  <mix-delete
+    class="mt-6 block"
+    description="common.deleteConfirmation"
+    buttonLabel="common.label.delete"
+    (onDelete)="onDelete()"
+  ></mix-delete>
+} @else {
+  <div class="flex w-52 flex-col gap-4">
+    <div class="skeleton h-32 w-full"></div>
+    <div class="skeleton h-4 w-28"></div>
+  </div>
+}

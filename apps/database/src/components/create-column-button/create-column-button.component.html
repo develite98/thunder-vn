@@ -1,0 +1,37 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<mix-button
+  color="primary"
+  [tp]="tpl"
+  [tpDelay]="0"
+  [tpVariation]="'popper'"
+  [tpPlacement]="'bottom-end'"
+>
+  {{ 'database.column.createButtonLabel' | transloco }}
+</mix-button>
+
+<ng-template #tpl let-hide>
+  <ul
+    #element
+    tabindex="0"
+    class="mt-2 p-2 shadow-sm menu dropdown-content z-1 bg-base-100 rounded-box w-64"
+  >
+    @for (type of availableColumnTypes; track type) {
+      @let typeDisplay = columnDisplay[type];
+      @let key = `database.${typeDisplay.displayName}`;
+
+      <li class="py-1">
+        <a
+          class="w-full flex items-center justify-between"
+          (click)="hide(); onSelect(type)"
+        >
+          {{ key | transloco }}
+
+          <mix-table-column-type-icon
+            [column]="type"
+          ></mix-table-column-type-icon>
+        </a>
+      </li>
+    }
+  </ul>
+</ng-template>

@@ -1,0 +1,15 @@
+{
+  "pageTitle": "Quản lý truy cập",
+  "pageDescription": "Quản lý danh tính và quyền truy cập của bạn",
+  "tab.userList": "Người dùng",
+  "tab.mainInfo": "Profile detail",
+  "tab.security": "Bảo mật",
+  "tab.settings": "Cài đặt",
+  "tab.roles": "Vai trò",
+  "tab.permissions": "Quyền hạn",
+  "user.create": "Thêm người dùng",
+  "userDetail.inActiveWarning": "Người dùng này hiện đang không hoạt động. Bạn có thể kích hoạt lại họ trong tab cài đặt.",
+  "userDetail.changePasswordWarning": "Người dùng này chưa đặt mật khẩu.",
+  "user.role.title": "Roles",
+  "user.role.description": "Gán vai trò cho người dùng này. Vai trò xác định quyền hạn và truy cập"
+}

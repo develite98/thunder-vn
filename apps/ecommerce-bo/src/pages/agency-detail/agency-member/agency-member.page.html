@@ -1,0 +1,55 @@
+<mix-table
+  [toolbarTpl]="toolar"
+  [data]="memberStore.dataEntities() || []"
+  [loading]="memberStore.isLoading()"
+  [paging]="memberStore.pagingInfo()"
+  (goPrevious)="memberStore.goPreviousPage()"
+  (goNext)="memberStore.goNextPage()"
+  [contextMenu]="contextMenu"
+>
+  <ng-template #toolar>
+    <mix-button
+      (click)="onCreateMember()"
+      [prefixIcon]="'plus'"
+      [color]="'primary'"
+    >
+      {{ 'ecommerce.agencyMember.add' | transloco }}
+    </mix-button>
+  </ng-template>
+
+  <div mixTableColumn [header]="'common.username'" [key]="'displayName'">
+    <ng-template mixColumnCell let-row>
+      <span class="font-medium">{{ row.data.username }}</span>
+    </ng-template>
+  </div>
+
+  <div mixTableColumn [header]="'common.fullName'" [key]="'email'">
+    <ng-template mixColumnCell let-row>
+      {{ row.data.full_name }}
+    </ng-template>
+  </div>
+
+  <div mixTableColumn [header]="'common.role'" [key]="'email'">
+    <ng-template mixColumnCell let-row>
+      {{ row.data.role }}
+    </ng-template>
+  </div>
+
+  <div mixTableColumn [header]="'common.phoneNumber'" [key]="'phoneNumber'">
+    <ng-template mixColumnCell let-row>
+      {{ row.data.phone_number }}
+    </ng-template>
+  </div>
+
+  <div
+    mixTableColumn
+    [header]="'common.created_date'"
+    [key]="'createdDateTime'"
+  >
+    <ng-template mixColumnCell let-row>
+      <span class="text-sm">
+        {{ row.data.created_date | date: 'short' }}
+      </span>
+    </ng-template>
+  </div>
+</mix-table>

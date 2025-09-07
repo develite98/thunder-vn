@@ -1,0 +1,7 @@
+<div class="max-w-[500px] mx-auto">
+  @if (needChooseTenant()) {
+    <app-mix-tenant></app-mix-tenant>
+  } @else {
+    <router-outlet></router-outlet>
+  }
+</div>

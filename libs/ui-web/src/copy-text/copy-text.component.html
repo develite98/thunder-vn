@@ -1,0 +1,21 @@
+@if (text(); as text) {
+  <div
+    class="tooltip"
+    [attr.data-tip]="
+      (copied() ? 'common.tooltip.copied' : 'common.tooltip.copy') | transloco
+    "
+  >
+    <span
+      class="bg-base-300 max-w-[180px] px-2 py-1 rounded flex items-center gap-2 w-fit text-base-content/60 text-sm cursor-pointer overflow-hidden"
+      (click)="$event.preventDefault(); $event.stopPropagation()"
+      [cdkCopyToClipboard]="text"
+      (cdkCopyToClipboardCopied)="markCopy()"
+    >
+      <div class="grow overflow-hidden whitespace-nowrap text-ellipsis text-xs">
+        {{ text }}
+      </div>
+
+      <mix-icon class="opacity-60" icon="copy"></mix-icon>
+    </span>
+  </div>
+}

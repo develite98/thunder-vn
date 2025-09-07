@@ -1,0 +1,41 @@
+<div class="w-full gap-4">
+  <mix-table
+    [toolbarTpl]="toolar"
+    [data]="store.dataEntities() || []"
+    [paging]="store.pagingInfo()"
+    [loading]="store.isLoading()"
+    (goPrevious)="store.goPreviousPage()"
+    (goNext)="store.goNextPage()"
+    (refresh)="event.refreshed(store.query())"
+  >
+    <ng-template #toolar>
+      <mix-button [prefixIcon]="'plus'" [color]="'primary'">
+        {{ 'iam.user.create' | transloco }}
+      </mix-button>
+    </ng-template>
+
+    <div mixTableColumn [header]="'Key'" [key]="'systemName'">
+      <ng-template mixColumnCell let-row>
+        <mix-copy-text [text]="row.data.id"></mix-copy-text>
+      </ng-template>
+    </div>
+
+    <div mixTableColumn [header]="'Display Name'" [key]="'displayName'">
+      <ng-template mixColumnCell let-row>
+        {{ row.data.name }}
+      </ng-template>
+    </div>
+
+    <div mixTableColumn [header]="'Name'" [key]="'normalizedName'">
+      <ng-template mixColumnCell let-row>
+        {{ row.data.normalizedName }}
+      </ng-template>
+    </div>
+
+    <div mixTableColumn [header]="'Permission'" [key]="'permission'">
+      <ng-template mixColumnCell let-row>
+        Found {{ row.data.permissions?.length }} permission
+      </ng-template>
+    </div>
+  </mix-table>
+</div>

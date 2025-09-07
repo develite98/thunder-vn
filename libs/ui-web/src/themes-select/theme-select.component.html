@@ -1,0 +1,37 @@
+<button
+  type="button"
+  class="btn btn-sm btn-outline border-base-content/10"
+  tabindex="0"
+  role="button"
+  [tp]="tpl"
+  [tpDelay]="0"
+  [tpVariation]="'popper'"
+  [tpTrigger]="'mouseenter'"
+  [tpPlacement]="'bottom-start'"
+  [tpHideOnClick]="false"
+>
+  <mix-icon icon="sun-moon" />
+</button>
+
+<ng-template #tpl let-hide>
+  <ul
+    #element
+    tabindex="0"
+    class="menu bg-base-100 border border-base-content/10 rounded-box z-1 w-52 p-2 shadow-sm"
+  >
+    @for (theme of themes(); track trackByTheme($index, theme)) {
+      <li (click)="onThemeSelect(theme, hide)">
+        <button type="button" class="w-full flex items-center">
+          <div [attr.data-theme]="theme.value" class="flex me-4">
+            <div class="w-2 h-4 bg-primary"></div>
+            <div class="w-2 h-4 bg-secondary"></div>
+            <div class="w-2 h-4 bg-accent"></div>
+            <div class="w-2 h-4 bg-neutral"></div>
+          </div>
+
+          {{ theme.name }}
+        </button>
+      </li>
+    }
+  </ul>
+</ng-template>

@@ -1,0 +1,48 @@
+<mix-dialog-wrapper [titleTpl]="titleTpl">
+  <ng-template #titleTpl>
+    <div>
+      <div class="text-lg font-semibold">
+        {{ 'bms.branch.table.createNew' | transloco }}
+      </div>
+      <div class="text-base opacity-80">
+        of area <span class="font-bold text-primary">{{ area.name }}</span>
+      </div>
+    </div>
+  </ng-template>
+  <div dialog-body [formGroup]="form">
+    <mix-form-field
+      [required]="true"
+      [autoFocus]="true"
+      [name]="'bms.branch.table.label.name'"
+    >
+      <input
+        #autofocus
+        formControlName="name"
+        class="input input-bordered"
+        [placeholder]="'common.input.placeholder' | transloco"
+      />
+    </mix-form-field>
+
+    <mix-form-field class="mt-6" [name]="'bms.branch.table.label.capacity'">
+      <input
+        formControlName="capacity"
+        type="number"
+        class="input input-bordered"
+        [placeholder]="'common.input.placeholder' | transloco"
+      />
+    </mix-form-field>
+  </div>
+
+  <div dialog-footer class="flex items-center justify-end gap-2">
+    <mix-button (click)="dialogRef.close()">
+      {{ 'common.cancel' | transloco }}
+    </mix-button>
+    <mix-button
+      [loading]="isLoading()"
+      [color]="'primary'"
+      (click)="onSubmit()"
+    >
+      {{ 'common.create' | transloco }}
+    </mix-button>
+  </div>
+</mix-dialog-wrapper>

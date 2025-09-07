@@ -1,0 +1,48 @@
+<div class="px-4 pb-4 flex flex-col gap-4">
+  <div class="bg-base-100 rounded-2xl overflow-hidden">
+    <div
+      class="border-b p-4 pb-2 text-sm border-base-content/10 text-center opacity-60"
+    >
+      {{ data?.title || 'common.title' | transloco }}
+    </div>
+    <div class="p-4 text-center">
+      {{ data?.message || 'common.description' | transloco }}
+    </div>
+
+    @for (
+      button of normalButtons;
+      track button;
+      let last = $last;
+      let first = $first
+    ) {
+      @if (first) {
+        <div class="w-full h-[1px] border-b border-base-content/10"></div>
+      }
+
+      <button
+        class="btn btn-xl btn-ghost w-full font-bold"
+        [class.text-primary]="button.role === 'primary'"
+        [class.text-secondary]="button.role === 'secondary'"
+        [class.text-error]="button.role === 'error'"
+        [class.text-warning]="button.role === 'warning'"
+        [class.text-success]="button.role === 'success'"
+        (click)="button.action(); dialogRef.close(true)"
+      >
+        {{ button.label || 'common.ok' | transloco }}
+      </button>
+
+      @if (!last) {
+        <div class="w-full h-[1px] border-b border-base-content/10"></div>
+      }
+    }
+  </div>
+
+  @if (destructiveButton) {
+    <button
+      class="btn btn-xl w-full rounded-2xl font-bold"
+      (click)="destructiveButton.action(); dialogRef.close(true)"
+    >
+      {{ destructiveButton.label || 'common.cancel' | transloco }}
+    </button>
+  }
+</div>

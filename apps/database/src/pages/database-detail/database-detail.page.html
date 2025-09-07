@@ -1,0 +1,23 @@
+<ng-template #breadcrumb>
+  <mix-breadcrumbs>
+    <div name="Home" icon="home" mixBreadcrumbItem></div>
+    <div name="Database" mixBreadcrumbItem></div>
+    <div
+      [name]="data()?.displayName || ''"
+      mixBreadcrumbItem
+      [active]="true"
+    ></div>
+  </mix-breadcrumbs>
+</ng-template>
+
+<mix-page-container
+  [backButton]="true"
+  [pageTitle]="data()?.displayName || ''"
+  [pageDescription]="'Database'"
+  [loading]="dbStore.isLoading()"
+  [tabs]="tabs()"
+>
+  <div class="w-full gap-4">
+    <router-outlet></router-outlet>
+  </div>
+</mix-page-container>

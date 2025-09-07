@@ -1,0 +1,52 @@
+<div
+  [tp]="selectTemplate"
+  [tpDelay]="0"
+  [tpVariation]="'popper'"
+  [tpPlacement]="'bottom-start'"
+  [tpUseHostWidth]="true"
+  [tpAppendTo]="'parent'"
+  [tpInteractive]="true"
+  [tpOffset]="[0, 2]"
+>
+  @let selectedItem = selectedItem$();
+  @if (templateRef && cva.value) {
+    <ng-container
+      *ngTemplateOutlet="templateRef; context: { $implicit: selectedItem }"
+    ></ng-container>
+  } @else {
+    <span class="input input-bordered flex items-center justify-between">
+      <span
+        [class.opacity-40]="
+          selectedItem === null ||
+          selectedItem === undefined ||
+          selectedItem.value === ''
+        "
+      >
+        {{ selectedItem?.displayName || placeHolder }}
+      </span>
+      <mix-icon icon="chevron-down"></mix-icon>
+    </span>
+  }
+</div>
+
+<ng-template #selectTemplate let-hide>
+  <ul
+    class="menu bg-base-100 border border-base-content/10 z-1 w-full p-2 rounded !animate-none !transition-none"
+  >
+    @for (item of displayItems(); track $index) {
+      <li
+        class="w-full"
+        (click)="cva.value = item.value; hide()"
+        [class.text-primary]="cva.value === item.value"
+      >
+        <a class="w-full flex items-center justify-between text-sm">
+          {{ item.displayName }}
+
+          @if (cva.value === item.value) {
+            <mix-icon class="float-end text-primary" icon="check"></mix-icon>
+          }
+        </a>
+      </li>
+    }
+  </ul>
+</ng-template>

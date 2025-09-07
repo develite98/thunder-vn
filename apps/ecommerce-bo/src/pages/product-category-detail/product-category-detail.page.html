@@ -1,0 +1,18 @@
+<ng-template #breadcrumb>
+  <mix-breadcrumbs>
+    <div
+      [name]="'ecommerce.product.tab.productCategory' | transloco"
+      mixBreadcrumbItem
+      [active]="true"
+    ></div>
+  </mix-breadcrumbs>
+</ng-template>
+
+<mix-page-container
+  [tabs]="tabs()"
+  [pageTitle]="data()?.title || ''"
+  [backButton]="true"
+  [defaultPage]="['products', 'category']"
+>
+  <router-outlet></router-outlet>
+</mix-page-container>

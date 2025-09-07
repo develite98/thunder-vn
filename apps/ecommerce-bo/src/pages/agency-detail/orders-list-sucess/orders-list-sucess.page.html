@@ -1,0 +1,73 @@
+<div class="w-full gap-4">
+  <mix-table
+    [data]="store.dataEntities() || []"
+    [paging]="store.pagingInfo()"
+    [loading]="store.isLoading()"
+    (goPrevious)="store.goPreviousPage()"
+    (goNext)="store.goNextPage()"
+    (rowClick)="goDetail($event.id)"
+  >
+    <div mixTableColumn [header]="'ID'" [key]="'id'">
+      <ng-template mixColumnCell let-row>
+        <mix-copy-text [text]="row.data.id"></mix-copy-text>
+      </ng-template>
+    </div>
+
+    <div
+      mixTableColumn
+      [header]="'ecommerce.customerInfo'"
+      [key]="'customer_name'"
+    >
+      <ng-template mixColumnCell let-row>
+        <div class="font-medium">
+          <div>{{ row.data.customer_name }}</div>
+          <div class="font-medium">{{ row.data.phone_number }}</div>
+        </div>
+      </ng-template>
+    </div>
+
+    <div mixTableColumn [header]="'ecommerce.agency'" [key]="'phone_number'">
+      <ng-template mixColumnCell let-row>
+        {{
+          getAgencyName(row.data.agency_id, agencyStore.dataEntities()) || 'N/A'
+        }}
+      </ng-template>
+    </div>
+
+    <div mixTableColumn [header]="'ecommerce.totalPrice'" [key]="'totalPrice'">
+      <ng-template mixColumnCell let-row>
+        <div class="font-bold">{{ calculatePrice(row.data) | number }}đ</div>
+      </ng-template>
+    </div>
+
+    <div [header]="'Trạng thái'" key="'status'" mixTableColumn>
+      <ng-template let-row mixColumnCell>
+        @if (row.data.order_status === 'completed') {
+          <div class="bg-success/60 rounded px-2 py-1 w-fit">
+            {{ getLabel(row.data.order_status) }}
+          </div>
+        } @else if (row.data.order_status === 'cancelled') {
+          <div class="bg-success/60 rounded px-2 py-1 w-fit">
+            {{ getLabel(row.data.order_status) }}
+          </div>
+        } @else {
+          <div class="bg-warning/60 rounded px-2 py-1 w-fit">
+            {{ getLabel(row.data.order_status) }}
+          </div>
+        }
+      </ng-template>
+    </div>
+
+    <div
+      mixTableColumn
+      [header]="'common.created_date'"
+      [key]="'createdDateTime'"
+    >
+      <ng-template mixColumnCell let-row>
+        <span class="text-sm">
+          {{ row.data.created_date | date: 'short' }}
+        </span>
+      </ng-template>
+    </div>
+  </mix-table>
+</div>

@@ -1,0 +1,77 @@
+<mix-dialog-wrapper [title]="'common.imageUpload'">
+  <div class="w-full" dialog-body>
+    @if (!showCropper) {
+      <div
+        class="border-2 border-dashed border-gray-300 rounded-xl p-10 text-center cursor-pointer hover:bg-gray-100 w-full flex flex-col items-center justify-center"
+        (click)="fileInput.click()"
+        (drop)="dropHandler($event)"
+        (dragover)="dragOverHandler($event)"
+      >
+        <mix-icon class="mb-4" [size]="32" icon="images"></mix-icon>
+
+        <span class="text-base-content/60">Click or drag image to upload</span>
+        <p class="text-base-content/60 mb-2">Max allowed 5mb</p>
+
+        <input
+          #fileInput
+          type="file"
+          accept="image/*"
+          class="hidden"
+          (change)="fileChangeEvent($event)"
+        />
+      </div>
+    } @else {
+      <div class="mb-4">
+        <div class="h-[400px] w-full">
+          <image-cropper
+            class="w-auto h-full mx-auto"
+            [imageChangedEvent]="imageChangedEvent"
+            [maintainAspectRatio]="maintainAspectRatio"
+            [aspectRatio]="realAspectRatio"
+            format="png"
+            (imageCropped)="imageCropped($event)"
+          ></image-cropper>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        @for (ratio of aspectRatios; track ratio) {
+          <button
+            class="btn btn-sm"
+            (click)="selectedAspectRatio = ratio.value"
+            [class.btn-primary]="selectedAspectRatio === ratio.value"
+          >
+            {{ ratio.label }}
+          </button>
+        }
+      </div>
+
+      @let cropImageInfo = croppedImageInfo();
+      @if (cropImageInfo) {
+        <div class="text-xs text-base-content/60 mt-2">
+          Width: {{ cropImageInfo.width }}px / Height:
+          {{ cropImageInfo.height }}px,
+        </div>
+      }
+    }
+  </div>
+
+  <div class="w-full flex items-center gap-2" dialog-footer>
+    @if (showCropper) {
+      <mix-button
+        (click)="uploadCroppedImage()"
+        [loading]="isLoading()"
+        class="ms-auto"
+        color="primary"
+        >Crop & Upload</mix-button
+      >
+      |
+      <mix-button
+        (click)="uploadOriginImage()"
+        [loading]="isLoading()"
+        color="primary"
+        >Upload Origin</mix-button
+      >
+    }
+  </div>
+</mix-dialog-wrapper>

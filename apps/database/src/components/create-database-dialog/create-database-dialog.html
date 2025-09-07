@@ -1,0 +1,32 @@
+<mix-dialog-wrapper [title]="'Create database'">
+  <div dialog-body class="w-full text-sm">
+    <fieldset class="fieldse w-full">
+      <legend class="fieldset-legend !p-0">Name *</legend>
+      <input
+        type="text"
+        class="input w-full mt-3 placeholder-gray-400"
+        placeholder="Your new db name"
+      />
+      <p class="label mt-2 text-xs">
+        You can edit db title later on from settings
+      </p>
+    </fieldset>
+
+    <fieldset class="fieldse w-full mt-8">
+      <legend class="fieldset-legend !p-0">Connection string</legend>
+      <textarea
+        type="text"
+        class="textarea w-full mt-3 placeholder-gray-400"
+        placeholder="127.0.0.1:5432, username, password, dbname"
+      ></textarea>
+      <p class="label mt-2 text-xs">
+        You can provide db connection info later on from settings
+      </p>
+    </fieldset>
+  </div>
+  <div dialog-footer class="w-full flex justify-end gap-2">
+    <mix-button [type]="'ghost'"> Cancel </mix-button>
+
+    <mix-button [color]="'primary'" [prefixIcon]="'plus'"> Create </mix-button>
+  </div>
+</mix-dialog-wrapper>

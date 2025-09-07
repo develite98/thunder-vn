@@ -1,0 +1,5 @@
+.ngneat-dialog-content {
+  width: 38rem !important;
+  border-radius: 1rem !important;
+  background: var(--color-base-100) !important;
+}

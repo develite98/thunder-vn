@@ -1,0 +1,22 @@
+<div data-theme="red">
+  <mix-public-header></mix-public-header>
+  <mix-breadcrumb [items]="breadcrumbs()"></mix-breadcrumb>
+
+  <div class="flex w-full flex-col mb-16 mt-12 container mx-auto p-4 md:p-0">
+    <div class="divider divider-start">
+      <div
+        class="text-base md:text-xl font-bold uppercase ps-6 border-l-6 border-primary"
+      >
+        {{ data()?.seo_title }}
+      </div>
+    </div>
+
+    <div class="mt-6 prose w-full" [innerHTML]="data()?.description"></div>
+  </div>
+
+  <div class="container mx-auto mt-4">
+    <ecom-pinned-blogs></ecom-pinned-blogs>
+  </div>
+
+  <mix-public-footer></mix-public-footer>
+</div>

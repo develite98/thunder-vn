@@ -1,0 +1,30 @@
+<div
+  class="w-full rounded border-base-content/10 border bg-base-100 max-h-[400px] text-editor-container flex flex-col"
+>
+  @if (editor) {
+    <div class="flex flex-wrap gap-2 p-2 border-b border-base-content/10">
+      <!-- Bold -->
+      <mix-editor-headings [editor]="editor"></mix-editor-headings>
+      <mix-editor-bold [editor]="editor"></mix-editor-bold>
+      <mix-editor-italic [editor]="editor"></mix-editor-italic>
+      <mix-editor-underline [editor]="editor"></mix-editor-underline>
+      <mix-editor-blockquote [editor]="editor"></mix-editor-blockquote>
+      <mix-editor-code [editor]="editor"></mix-editor-code>
+      <mix-editor-aligns [editor]="editor"></mix-editor-aligns>
+      <mix-editor-image
+        [editor]="editor"
+        [fileUploadFn]="fileUploadFn"
+        [base64FileUploadFn]="base64FileUploadFn"
+      ></mix-editor-image>
+      <mix-editor-embed-tool [editor]="editor"></mix-editor-embed-tool>
+
+      <mix-editor-redo [editor]="editor"></mix-editor-redo>
+      <mix-editor-undo [editor]="editor"></mix-editor-undo>
+    </div>
+  }
+
+  <div
+    class="w-full grow overflow-auto text-editor-main"
+    #editorContainer
+  ></div>
+</div>

@@ -1,0 +1,38 @@
+export interface ITicket {
+  id: number;
+  created_date_time: string;
+  last_modified: string | null;
+  mix_tenant_id: number;
+  created_by: string;
+  modified_by: string | null;
+  priority: number;
+  status: string;
+  is_deleted: boolean;
+  is_blocked: boolean;
+  is_closed?: boolean;
+  is_archived: boolean | null;
+  is_resolved?: boolean;
+  resolve_description?: string;
+  reporter: string | null;
+  priority_matrix: number | null;
+  ticket_type_id: number;
+  block_description?: string;
+  due_date: string | null;
+  subject: string;
+  description: string;
+  external_data: string | null;
+  assignee: string | null;
+  ticket_priority: string;
+  expected_due_date: string | null;
+  ticket_severity: string;
+  ticket_status_id: number;
+  master_ticket_id: number | null;
+  ticket_category_id: number;
+  start_date: string | null;
+  finish_date: string | null;
+  watchers: string[] | null;
+  market: string[];
+  tags: string[];
+  check_list: string | null;
+  project_id: number | null;
+}

@@ -1,0 +1,19 @@
+@reference tailwindcss/base;
+
+.menu-level-1 {
+  transition: 0.2s ease;
+  width: 66px;
+}
+
+.menu-level-1.--active {
+  width: 12.5rem;
+}
+
+.menu-level-2 {
+  transition: 0.2s ease;
+  width: 0px;
+}
+
+.menu-level-2.--active {
+  width: 12.5rem;
+}

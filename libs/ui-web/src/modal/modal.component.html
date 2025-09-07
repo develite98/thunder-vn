@@ -1,0 +1,16 @@
+<div class="bg-base-100 rounded-lg">
+  <div class="text-2xl font-medium mb-4 text-center pt-8">
+    {{ dialogRef.data.title }}
+  </div>
+  <div class="text-center mb-6 p-4">{{ dialogRef.data.message }}</div>
+  <div
+    class="flex items-cemter gap-8 p-8 border-t border-base-content/20 border-dashed"
+  >
+    <button class="btn btn-ghost grow" (click)="dialogRef.close()">
+      {{ dialogRef.data.cancelLabel || 'common.cancel' | transloco }}
+    </button>
+    <button class="btn btn-primary grow" (click)="ok()">
+      {{ dialogRef.data.okLabel || 'common.ok' | transloco }}
+    </button>
+  </div>
+</div>

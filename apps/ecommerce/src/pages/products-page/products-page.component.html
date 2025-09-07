@@ -1,0 +1,163 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div data-theme="red">
+  <mix-public-header></mix-public-header>
+  <mix-breadcrumb [items]="breadcrumb"></mix-breadcrumb>
+
+  <div class="container px-4 md:px-0 mx-auto py-12 font-sans">
+    <div class="grid grid-cols-12 gap-6">
+      <div class="col-span-12 md:col-span-3">
+        <div class="font-bold text-primary uppercase mb-4">Từ khoá</div>
+        @if (searchText()) {
+          <div class="badge bg-base-300" (click)="handleChangeSearch('')">
+            {{ searchText() }}
+
+            <mix-icon icon="x"></mix-icon>
+          </div>
+        } @else {
+          <div class="text-xs text-base-content/60">
+            Không có từ khoá được tìm kiếm
+          </div>
+        }
+        <div class="font-bold text-primary mb-4 mt-6">DANH MỤC SẢN PHẨM</div>
+
+        @let select = selectedCategory();
+        @for (cat of categoryStore.dataEntities(); track cat.id) {
+          <div
+            (click)="
+              selectedCategory.set(
+                select && select.id === cat.id ? undefined : cat
+              )
+            "
+            tabindex="0"
+            class="flex items-center cursor-pointer justify-between w-full mb-4 text-sm text-base-content/60"
+            [class.font-bold]="select && select?.id === cat.id"
+          >
+            {{ cat.title }}
+
+            <div
+              class="px-2 py-[px] rounded-full border border-base-content/10"
+            >
+              {{ cat.product_slugs.split(',').length }}
+            </div>
+          </div>
+        }
+
+        <div class="font-bold text-primary mb-4 mt-8 uppercase">Khoảng giá</div>
+
+        <div class="w-full max-w-xs">
+          <input
+            type="range"
+            min="0"
+            max="5000000"
+            [ngModel]="priceFilter()"
+            (ngModelChange)="priceFilter.set($event)"
+            class="range"
+            step="50000"
+          />
+        </div>
+
+        <div class="mt-4 flex">
+          Giá: 0 đ -
+          <app-currency
+            class="ms-2"
+            [value]="priceFilter()"
+            [currency]="'đ'"
+          ></app-currency>
+        </div>
+      </div>
+
+      <div class="col-span-12 md:col-span-8 ps-0 md:ps-8">
+        <div class="font-medium mb-4 text-lg mt-4 md:mt-0">
+          Tìm thấy {{ displayProducts().length || 0 }} sản phẩm
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          @if (productStore.isLoading()) {
+            <div>
+              <div class="flex w-52 flex-col gap-4">
+                <div class="flex items-center gap-4">
+                  <div class="skeleton h-16 w-16 shrink-0 rounded-full"></div>
+                  <div class="flex flex-col gap-4">
+                    <div class="skeleton h-4 w-20"></div>
+                    <div class="skeleton h-4 w-28"></div>
+                  </div>
+                </div>
+                <div class="skeleton h-32 w-full"></div>
+              </div>
+            </div>
+          } @else {
+            @for (item of displayProducts(); track item.id) {
+              <div
+                (click)="goToProductDetail(item.id)"
+                class="h-full card bg-base-100 border border-base-content/10 shadow-lg overflow-hidden hover:shadow-xl flex flex-col hover:scale-105 transition-all duration-300 cursor-pointer"
+              >
+                <figure>
+                  <img
+                    alt="{{ item.title }}"
+                    [src]="
+                      item.thumbnail || 'assets/images/image_placeholder.jpg'
+                    "
+                    class="h-[120px] md:h-[200px] w-full object-contain"
+                  />
+                </figure>
+                <div class="p-4 flex flex-col mt-2 grow">
+                  <div class="mb-2 md:mb-4 font-medium text-sm md:text-base">
+                    {{ item.title }}
+                  </div>
+
+                  @let items = getProductPrices(item);
+                  @if (items.length > 0) {
+                    <div class="flex flex-wrap items-center gap-2 mb-2 md:mb-4">
+                      @for (item of items; track $index) {
+                        <div
+                          class="badge badge-xs md:badge-sm badge-soft badge-primary whitespace-nowrap"
+                        >
+                          {{ item }}
+                        </div>
+                      }
+                    </div>
+                  }
+
+                  <div class="flex mt-2 items-center justify-between mt-auto">
+                    <div class="font-bold text-sm md:text-base text-primary">
+                      @if (item.price) {
+                        <app-currency [value]="item.price"></app-currency>
+                      } @else {
+                        Liên Hệ
+                      }
+                    </div>
+                    <button
+                      (click)="
+                        $event.preventDefault();
+                        $event.stopPropagation();
+                        addToCart(item)
+                      "
+                      class="btn rounded-full btn-square btn-xs md:btn-sm !shadow-lg mb-1 btn-primary p-1 md:p-2"
+                      aria-label="Thêm vào giỏ hàng"
+                    >
+                      <svg
+                        class="icon icon-plus"
+                        viewBox="0 0 93.562 93.562"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M87.952,41.17l-36.386,0.11V5.61c0-3.108-2.502-5.61-5.61-5.61c-3.107,0-5.61,2.502-5.61,5.61l0.11,35.561H5.61
+                  c-3.108,0-5.61,2.502-5.61,5.61c0,3.107,2.502,5.609,5.61,5.609h34.791v35.562c0,3.106,2.502,5.61,5.61,5.61
+                  c3.108,0,5.61-2.504,5.61-5.61V52.391h36.331c3.108,0,5.61-2.504,5.61-5.61C93.562,43.672,91.032,41.17,87.952,41.17z"
+                          fill="currentColor"
+                        ></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            }
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <mix-public-footer></mix-public-footer>
+</div>

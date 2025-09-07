@@ -1,0 +1,27 @@
+{
+  "name": "mix-ui-mobile",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ui-mobile/src",
+  "prefix": "mix",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/libs/ui-mobile"],
+      "options": {
+        "jestConfig": "libs/ui-mobile/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/mix-ui-mobile/**/*.ts",
+          "libs/mix-ui-mobile/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

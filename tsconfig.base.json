@@ -1,0 +1,94 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@mixcore/app-config": ["libs/core/src/app-config/index.ts"],
+      "@mixcore/app/database": ["apps/database/src/index.ts"],
+      "@mixcore/app/ecommerce-bo": ["apps/ecommerce-bo/src/index.ts"],
+      "@mixcore/app/ecommerce": ["apps/ecommerce/src/index.ts"],
+      "@mixcore/app/dashboard": ["apps/system-dashboard/src/index.ts"],
+      "@mixcore/app/iam": ["apps/iam/src/index.ts"],
+      "@mixcore/app/finance": ["apps/finance-bo/src/index.ts"],
+      "@mixcore/app/ticket-m": ["apps/ticket-m/src/index.ts"],
+      "@mixcore/app/ticket": ["apps/ticket/src/index.ts"],
+      "@mixcore/app/aias": ["apps/aias/src/index.ts"],
+      "@mixcore/app/bms": ["apps/bms-bo/src/index.ts"],
+      "@mixcore/app/sys": ["apps/system-setting/src/index.ts"],
+
+      "@mixcore/base": ["libs/core/src/base/index.ts"],
+      "@mixcore/cache": ["libs/core/src/cache/index.ts"],
+      "@mixcore/router": ["libs/core/src/router/index.ts"],
+      "@mixcore/helper": ["libs/core/src/helper/index.ts"],
+      "@mixcore/firebase": ["libs/core/src/firebase/index.ts"],
+      "@mixcore/modules/ai-world": ["libs/modules/src/ai-world/index.ts"],
+      "@mixcore/modules/identify": ["libs/modules/src/identify/index.ts"],
+      "@mixcore/modules/profile": ["libs/modules/src/profile/index.ts"],
+      "@mixcore/permissions": ["libs/core/src/permissions/index.ts"],
+      "@mixcore/sdk-client-ng": ["libs/core/src/sdk-client/index.ts"],
+      "@mixcore/signal": ["libs/core/src/signal/index.ts"],
+      "@mixcore/types": ["libs/core/src/types/index.ts"],
+
+      "@mixcore/shared-domain": ["libs/domain/src/index.ts"],
+
+      "@mixcore/ui/breadcrumbs": ["libs/ui-web/src/breadcrumbs/index.ts"],
+      "@mixcore/ui/buttons": ["libs/ui-web/src/buttons/index.ts"],
+      "@mixcore/ui/currency": ["libs/ui-web/src/currency/index.ts"],
+      "@mixcore/ui/uploader": ["libs/ui-web/src/uploader/index.ts"],
+      "@mixcore/ui/key-value-editor": [
+        "libs/ui-web/src/key-value-editor/index.ts"
+      ],
+      "@mixcore/ui/status-indicator": [
+        "libs/ui-web/src/status-indicator/index.ts"
+      ],
+      "@mixcore/ui/copy-text": ["libs/ui-web/src/copy-text/index.ts"],
+      "@mixcore/ui/culture-select": [
+        "libs/ui-web/src/cultures-select/index.ts"
+      ],
+      "@mixcore/ui/dialog": ["libs/ui-web/src/dialog/index.ts"],
+      "@mixcore/ui/rich-text-editor": [
+        "libs/ui-web/src/rich-text-editor/index.ts"
+      ],
+      "@mixcore/ui/icons": ["libs/ui-web/src/icons/index.ts"],
+      "@mixcore/ui/modal": ["libs/ui-web/src/modal/index.ts"],
+      "@mixcore/ui/coming-soon": ["libs/ui-web/src/coming-soon/index.ts"],
+      "@mixcore/ui/delete": ["libs/ui-web/src/delete/index.ts"],
+      "@mixcore/ui/date-picker": ["libs/ui-web/src/date-picker/index.ts"],
+      "@mixcore/ui/forms": ["libs/ui-web/src/forms/index.ts"],
+      "@mixcore/ui/page-container": ["libs/ui-web/src/page-container/index.ts"],
+      "@mixcore/ui/table": ["libs/ui-web/src/table/index.ts"],
+      "@mixcore/ui/tabs": ["libs/ui-web/src/tabs/index.ts"],
+      "@mixcore/ui/themes-select": ["libs/ui-web/src/themes-select/index.ts"],
+      "@mixcore/ui/tile": ["libs/ui-web/src/tile/index.ts"],
+      "@mixcore/ui/input": ["libs/ui-web/src/input/index.ts"],
+      "@mixcore/ui/alert": ["libs/ui-web/src/alert/index.ts"],
+      "@mixcore/ui/tenant": ["libs/ui-web/src/tenant-select/index.ts"],
+      "@mixcore/ui/toast": ["libs/ui-web/src/toast/src/index.ts"],
+      "@mixcore/ui/select": ["libs/ui-web/src/select/index.ts"],
+      "@mixcore/ui/toggle": ["libs/ui-web/src/toggle/index.ts"],
+      "@mixcore/ui/code-editor": ["libs/ui-web/src/code-editor/index.ts"],
+
+      "@mixcore/ui-mobile/bottom-sheet": [
+        "libs/ui-mobile/src/bottom-sheet/index.ts"
+      ],
+
+      "@mixcore/ui-mobile/layout": ["libs/ui-mobile/src/layout/index.ts"],
+      "@mixcore/ui-mobile/modal": ["libs/ui-mobile/src/modal/index.ts"],
+      "@mixcore/ui-mobile/select": ["libs/ui-mobile/src/select/index.ts"],
+      "@mixcore/ui-mobile/calendar": ["libs/ui-mobile/src/calendar/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

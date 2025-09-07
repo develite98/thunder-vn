@@ -1,0 +1,41 @@
+{
+  "name": "ticket",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "prefix": "app",
+  "sourceRoot": "apps/ticket/src",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "continuous": true,
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "ticket:build:production"
+        },
+        "development": {
+          "buildTarget": "ticket:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "ticket:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "serve-static": {
+      "continuous": true,
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "ticket:build",
+        "staticFilePath": "dist/apps/ticket/browser",
+        "spa": true
+      }
+    }
+  }
+}

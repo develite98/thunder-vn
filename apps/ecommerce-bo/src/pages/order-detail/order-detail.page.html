@@ -1,0 +1,123 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<mix-page-container
+  [backButton]="true"
+  [defaultPage]="['orders']"
+  [pageTitle]="'Đơn hàng ' + '#' + data()?.id + ''"
+  [tabs]="tabs()"
+>
+  <mix-tile>
+    <ul class="steps w-1/2 mx-auto">
+      <li
+        class="step step-primary cursor-pointer hover:opacity-60"
+        [class.step-primary]="isProcessing() || isCompleted()"
+        (click)="changeOrderStatus('new')"
+      >
+        Đang xử lý
+      </li>
+
+      <li
+        class="step cursor-pointer hover:opacity-60"
+        [class.step-primary]="isCompleted()"
+        (click)="changeOrderStatus('completed')"
+      >
+        Hoàn tất
+      </li>
+    </ul>
+  </mix-tile>
+
+  <mix-tile class="block mt-4">
+    <h2 class="text-xl font-bold mb-4 w-full flex">
+      Đại lý phụ trách:
+
+      <div class="font-normal ms-2">
+        {{ getAgencyName(data()?.agency_id!, agencyStore.dataEntities()) }}
+      </div>
+    </h2>
+  </mix-tile>
+
+  <mix-tile class="block mt-4">
+    <h2 class="text-xl font-bold mb-4">Thông tin đơn hàng:</h2>
+
+    <div class="w-full grid grid-cols-3">
+      <div class="col-span-1 font-semibold mb-4">ID:</div>
+      <div class="col-span-2 mb-4">#{{ data()?.id }}</div>
+
+      <div class="col-span-1 font-semibold mb-4">Tên khách hàng:</div>
+      <div class="col-span-2 mb-4">{{ data()?.customer_name }}</div>
+
+      <div class="col-span-1 font-semibold mb-4">Email khách hàng:</div>
+      <div class="col-span-2 mb-4">{{ data()?.email }}</div>
+
+      <div class="col-span-1 font-semibold mb-4">Số điện thoại:</div>
+      <div class="col-span-2 mb-4">{{ data()?.phone_number }}</div>
+
+      <div class="col-span-1 font-semibold mb-4">Địa chỉ:</div>
+      <div class="col-span-2 mb-4">{{ data()?.address }}</div>
+
+      <div class="col-span-1 font-semibold mb-4">Ngày tạo:</div>
+      <div class="col-span-2 mb-4 flex items-center gap-4">
+        {{ data()?.created_date || 'N/A' }}
+        @if (isPastThreshold(data()?.created_date!)) {
+          <button
+            class="btn btn-warning btn-sm w-fit"
+            (click)="onNotifyAgency()"
+          >
+            <mix-icon icon="bell"></mix-icon>
+            {{ 'ecommerce.notifyAgency' | transloco }}
+          </button>
+        }
+      </div>
+    </div>
+  </mix-tile>
+
+  <mix-tile class="block mt-4">
+    <h2 class="text-xl font-bold mb-4">Chi tiết đơn hàng:</h2>
+
+    <ul
+      role="list"
+      class="-my-6 divide-y divide-gray-200 max-h-[50vh] overflow-auto"
+    >
+      @for (item of data()?.order_items?.data || []; track item.id) {
+        <li class="flex py-6">
+          <div
+            class="size-24 shrink-0 overflow-hidden rounded-md border border-gray-200"
+          >
+            <img alt="" [src]="item.thumbnail" class="size-full object-cover" />
+          </div>
+
+          <div class="ml-4 flex flex-1 flex-col">
+            <div>
+              <div
+                class="flex justify-between text-base font-medium text-gray-900"
+              >
+                <h3>
+                  <a href="#">{{ item.title }}</a>
+                </h3>
+                <p class="ml-4">{{ item.price | number }}đ</p>
+              </div>
+            </div>
+            <div class="flex flex-1 items-end justify-between text-sm">
+              <p class="text-gray-500">x{{ item.quantity }}</p>
+            </div>
+          </div>
+        </li>
+      } @empty {
+        <li class="flex py-6">Bạn chưa có đơn hàng nào,</li>
+      }
+    </ul>
+
+    <div class="text-xl font-bold mb-4 flex justify-between items-center mt-12">
+      Tổng đơn:
+
+      <div>{{ totalPrice() | number }}đ</div>
+    </div>
+  </mix-tile>
+
+  <mix-delete
+    class="block mt-4"
+    [title]="'Huỷ đơn'"
+    [description]="'Bạn có chắc muốn huỷ đơn'"
+    [buttonLabel]="'Xác nhận huỷ đơn'"
+  ></mix-delete>
+</mix-page-container>

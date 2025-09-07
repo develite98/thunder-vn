@@ -1,0 +1,347 @@
+<div class="h-full w-full overflow-auto flex flex-col gap-2 pb-2 mix-table">
+  @let pageRange = range();
+  @let pageInfo = paging();
+  @let filterOptions = filters();
+
+  @if (!hideToolbar()) {
+    <div class="w-full flex items-center justify-between py-1 gap-2">
+      <div class="grow flex items-center gap-2">
+        <label
+          class="input !outline-none rounded border-base-content/10 max-w-64 flex items-center gap-2 text-base-content/60"
+        >
+          <input
+            type="text"
+            class="grow"
+            [(ngModel)]="searchText"
+            [placeholder]="searchTextPlaceHolder() | transloco"
+          />
+
+          <kbd>
+            <mix-icon icon="search" />
+          </kbd>
+        </label>
+
+        @if (filterOptions.length) {
+          <mix-table-filter
+            (onFilterChange)="handleFilterChange($event)"
+            [filterValue]="filterValue()"
+            [filters]="filterOptions"
+          />
+        }
+
+        @if (searchBarTpl(); as searchBarTpl) {
+          <div class="grow">
+            <ng-container [ngTemplateOutlet]="searchBarTpl" />
+          </div>
+        }
+
+        <div role="tablist" class="tabs tabs-box ms-auto">
+          <button
+            role="tab"
+            type="button"
+            class="tab"
+            (click)="viewMode.set('table')"
+            [class.tab-active]="isTableView()"
+          >
+            <mix-icon icon="table" />
+          </button>
+
+          <button
+            role="tab"
+            type="button"
+            class="tab"
+            (click)="viewMode.set('card')"
+            [class.tab-active]="!isTableView()"
+          >
+            <mix-icon icon="list" />
+          </button>
+        </div>
+      </div>
+
+      @if (toolbarTpl(); as toolbarTpl) {
+        <div class="ms-auto">
+          <ng-container [ngTemplateOutlet]="toolbarTpl" />
+        </div>
+      }
+    </div>
+  }
+
+  <div class="flex items-center p-2 justify-between">
+    <div class="text-sm">
+      @if (loading()) {
+        <span class="loading loading-spinner loading-md me-2"></span>
+        Loading...
+      } @else {
+        {{
+          'common.resultCount'
+            | transloco: { count: pageInfo.total || dataLength() }
+        }}
+      }
+    </div>
+
+    <div class="text-sm flex items-center">
+      <div class="flex items-center gap-2">
+        <div
+          class="py-2 px-3 hover:bg-base-content/5 cursor-pointer rounded"
+          [tp]="tpl"
+          [tpDelay]="0"
+          [tpVariation]="'popper'"
+          [tpTrigger]="'mouseenter'"
+          [tpPlacement]="'bottom-start'"
+          [tpHideOnClick]="false"
+        >
+          {{ pageRange.start }} - {{ pageRange.end }} of {{ pageInfo.total }}
+        </div>
+
+        <ng-template #tpl let-hide>
+          <ul
+            class="menu bg-base-100 border border-base-content/10 rounded-box z-1 w-52 p-2 shadow-sm !animate-none !transition-none"
+          >
+            <li (click)="hide(); onGoToPage(0)">
+              <button type="button" class="w-full flex items-center">
+                Go first Page
+              </button>
+            </li>
+            <li (click)="hide(); onGoToPage((pageInfo.totalPage || 1) - 1)">
+              <button type="button" class="w-full flex items-center">
+                Go last Page
+              </button>
+            </li>
+          </ul>
+        </ng-template>
+
+        <button
+          type="button"
+          class="btn btn-ghost btn-xs btn-square"
+          [disabled]="!pageInfo.canGoPrevious"
+          (click)="onGoPrevious()"
+        >
+          <mix-icon icon="chevron-left" />
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-ghost btn-xs btn-square"
+          (click)="onGoNext()"
+          [disabled]="!pageInfo.canGoNext"
+        >
+          <mix-icon icon="chevron-right" />
+        </button>
+      </div>
+
+      <div class="divider divider-horizontal"></div>
+
+      <button
+        type="button"
+        class="btn btn-ghost btn-xs btn-square"
+        [disabled]="loading()"
+        (click)="onRefresh()"
+      >
+        <mix-icon icon="rotate-ccw" />
+      </button>
+    </div>
+  </div>
+
+  @if (isTableView()) {
+    @if (table; as table) {
+      <div
+        class="bg-base-100 rounded-2xl grow overflow-auto border border-base-content/5"
+        [style.maxHeight]="'50vh'"
+      >
+        <table class="table table-pin-rows table-pin-cols">
+          <thead>
+            @for (
+              headerGroup of table.getHeaderGroups();
+              track headerGroup.id
+            ) {
+              <tr>
+                @for (
+                  header of headerGroup.headers;
+                  track trackByHeaderId($index, header);
+                  let last = $last
+                ) {
+                  <th
+                    class="sticky top-0 bg-base-100 uppercase font-bold text-base-content/60 z-2"
+                    [class.sticky-end]="last && hasContextMenu()"
+                  >
+                    @if (!header.isPlaceholder) {
+                      @if (
+                        header.column.columnDef.id === 'select' ||
+                        header.column.columnDef.id === 'action'
+                      ) {
+                        <ng-container
+                          *flexRender="
+                            header.column.columnDef.header;
+                            props: header.getContext();
+                            let header
+                          "
+                        >
+                          <span>{{ header | transloco }}</span>
+                        </ng-container>
+                      } @else {
+                        @if (enableSorting() && header.column.getCanSort()) {
+                          <mix-table-sort
+                            [header]="header"
+                            [headerText]="getHeaderText(header)"
+                            [sortDirection]="
+                              sortingStateDict()[
+                                header.column.columnDef.id || ''
+                              ]
+                            "
+                          />
+                        } @else {
+                          <ng-container
+                            *flexRender="
+                              header.column.columnDef.header;
+                              props: header.getContext();
+                              let header
+                            "
+                          >
+                            <span>{{ header | transloco }}</span>
+                          </ng-container>
+                        }
+                      }
+                    }
+                  </th>
+                }
+              </tr>
+            }
+          </thead>
+          <tbody>
+            @for (
+              row of table.getRowModel().rows;
+              track trackByRowId($index, row)
+            ) {
+              <tr
+                class="hover:bg-base-200 cursor-pointer"
+                (click)="onRowClick(row.original)"
+              >
+                @for (
+                  cell of row.getVisibleCells();
+                  track trackByCellId($index, cell)
+                ) {
+                  @let rowDataProps = getRowData(cell);
+                  @let actionColW = cell.column.getSize() + 'px';
+
+                  @if (cell.column.columnDef.id === 'select') {
+                    <th
+                      (click)="$event.stopPropagation()"
+                      class="py-5 border-base-content/10"
+                      [style.width]="actionColW"
+                    >
+                      <ng-container
+                        *flexRender="
+                          cell.column.columnDef.cell;
+                          props: rowDataProps;
+                          let cell
+                        "
+                      >
+                        {{ cell }}
+                      </ng-container>
+                    </th>
+                  } @else if (cell.column.columnDef.id === 'action') {
+                    <td
+                      (click)="
+                        $event.preventDefault(); $event.stopPropagation()
+                      "
+                      [style.width]="actionColW"
+                      class="sticky-end"
+                    >
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-square btn-ghost"
+                        [tp]="tpl"
+                        [tpDelay]="0"
+                        [id]="'context-menu-' + row.id"
+                        [tpVariation]="'popper'"
+                        [tpPlacement]="'bottom-end'"
+                      >
+                        <mix-icon icon="ellipsis-vertical" />
+                      </button>
+                    </td>
+
+                    <ng-template #tpl let-hide>
+                      <ul
+                        #element
+                        class="menu bg-base-100 border border-base-content/10 rounded-box z-1 w-52 p-2 shadow-sm"
+                      >
+                        @for (menu of contextMenu(); track menu) {
+                          <li (click)="hide(); menu.action(rowDataProps.data)">
+                            <a>
+                              @let className = `me-2  ${menu.iconClass}`;
+
+                              <mix-icon
+                                [class]="className"
+                                [icon]="menu.icon"
+                              />
+                              {{ menu.label | transloco }}
+                            </a>
+                          </li>
+                        }
+                      </ul>
+                    </ng-template>
+                  } @else {
+                    <td class="py-5">
+                      <ng-container
+                        *flexRender="
+                          cell.column.columnDef.cell;
+                          props: rowDataProps;
+                          let cell
+                        "
+                      >
+                        {{ cell }}
+                      </ng-container>
+                    </td>
+                  }
+                }
+              </tr>
+            }
+
+            @if (!dataLength()) {
+              <tr>
+                <td
+                  class="text-center text-base-content/60 py-8"
+                  [attr.colspan]="table.getVisibleLeafColumns().length"
+                >
+                  <img class="w-56 mx-auto" src="/images/no-data.png" />
+                  <span class="mx-auto opacity-40">No data found</span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  } @else {
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      @for (
+        row of table?.getRowModel()?.rows;
+        track trackByRowId($index, row)
+      ) {
+        <mix-tile
+          (click)="onRowClick(row.original)"
+          className="h-full cursor-pointer"
+        >
+          @for (
+            cell of row.getVisibleCells();
+            track trackByCellId($index, cell)
+          ) {
+            @let rowDataProps = getRowData(cell);
+
+            @if (!pinnedCols()[$any(cell.column.columnDef.id)]) {
+              <ng-container
+                *flexRender="
+                  cell.column.columnDef.cell;
+                  props: rowDataProps;
+                  let cell
+                "
+              >
+                {{ cell }}
+              </ng-container>
+            }
+          }
+        </mix-tile>
+      }
+    </div>
+  }
+</div>

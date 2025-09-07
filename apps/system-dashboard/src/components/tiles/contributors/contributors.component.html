@@ -1,0 +1,20 @@
+<mix-tile>
+  <div class="stat-title flex items-center gap-2 uppercase font-bold">
+    <mix-icon icon="pickaxe"></mix-icon>
+    Contributors
+  </div>
+  <div class="stat-value">
+    12
+    <div class="stat-desc font-medium">users contribute to project</div>
+  </div>
+
+  <div class="flex flex-wrap gap-2">
+    @for (data of contributorStore.dataEntities(); track $index) {
+      <div class="avatar">
+        <div class="w-10 rounded">
+          <img [src]="data.avatar_url" [alt]="data.login" />
+        </div>
+      </div>
+    }
+  </div>
+</mix-tile>

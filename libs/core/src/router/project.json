@@ -1,0 +1,18 @@
+{
+  "name": "@mixcore/signal",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/core/src/signal",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/core/src/signal/**/*.ts",
+          "libs/core/src/signal/**/*.html"
+        ]
+      }
+    }
+  }
+}

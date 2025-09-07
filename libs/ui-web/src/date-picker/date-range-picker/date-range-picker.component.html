@@ -1,0 +1,51 @@
+<button
+  class="w-full input flex items-center gap-2 justify-between"
+  [tp]="tpl"
+  [tpDelay]="0"
+  [tpVariation]="'popper'"
+  [tpPlacement]="'bottom-start'"
+>
+  @if (cva.value) {
+    <div>
+      {{ cva.value.from | date: 'dd/MM/yyyy' }} -
+      {{ cva.value.to | date: 'dd/MM/yyyy' }}
+    </div>
+
+    <mix-icon
+      icon="circle-x"
+      class="ms-auto cursor-pointer"
+      (click)="
+        $event.preventDefault(); $event.stopPropagation(); cva.value = null
+      "
+    ></mix-icon>
+  } @else {
+    <div class="text-base-content/60">{{ placeHolder() | transloco }}</div>
+  }
+
+  <mix-icon icon="calendar"></mix-icon>
+</button>
+
+<ng-template #tpl let-hide>
+  @let value = formatDate(cva.value);
+  <div class="card dropdown-content">
+    <calendar-range
+      [value]="value"
+      (change)="onChange($event); hide()"
+      months="2"
+      class="cally bg-base-100 border border-base-300 shadow-lg rounded-box"
+    >
+      <button class="btn btn-square" slot="previous">
+        <mix-icon icon="chevron-left"></mix-icon>
+      </button>
+
+      <button class="btn btn-square" slot="next">
+        <mix-icon icon="chevron-right"></mix-icon>
+      </button>
+
+      <div class="flex gap-2 items-start">
+        <calendar-month></calendar-month>
+        <calendar-month offset="1"></calendar-month>
+      </div>
+    </calendar-range>
+  </div>
+</ng-template>

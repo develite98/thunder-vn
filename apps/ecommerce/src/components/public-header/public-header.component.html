@@ -1,0 +1,220 @@
+<!-- eslint-disable @angular-eslint/template/label-has-associated-control -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div class="w-full" #header>
+  <div
+    class="container mx-auto flex items-center gap-3 py-2 md:py-4 px-4 md:px-0 md:justify-start"
+  >
+    <img
+      alt=""
+      (click)="router.navigateByUrl('/')"
+      src="/logos/app-logo.png"
+      class="w-32 md:w-44 md:scale-105 cursor-pointer me-6"
+      alt=""
+    />
+
+    <app-animated-input
+      class="hidden md:flex"
+      (onSearch)="onSearch($event)"
+    ></app-animated-input>
+
+    <div class="hidden md:flex items-center gap-2 ms-auto">
+      <mix-icon
+        icon="phone-call"
+        [size]="32"
+        [strokeWidth]="1.5"
+        class="me-1"
+      />
+
+      <div class="media-body flex flex-col d-none">
+        <span class="text-xs">Giao tận nơi</span>
+        <a
+          class="font-weight-bold d-block text-sm"
+          href="tel:{{ storeConfig()?.phone_number }}"
+          title="{{ storeConfig()?.phone_number }}"
+        >
+          {{ storeConfig()?.phone_number }}
+        </a>
+      </div>
+    </div>
+
+    <label
+      (click)="onShowCart()"
+      class="btn btn-outline text-base-content relative px-3 ms-auto md:ms-0"
+    >
+      <mix-icon icon="shopping-cart" />
+      <span class="hidden md:inline-block"> Giỏ hàng </span>
+
+      @if (cartStore.count(); as count) {
+        <span
+          class="absolute top-[-6px] right-[-6px] badge badge-primary badge-sm text-white"
+        >
+          {{ count }}
+        </span>
+      }
+    </label>
+
+    <label
+      (click)="router.navigate(['/agency'])"
+      class="btn btn-outline text-base-content relative px-3"
+    >
+      <mix-icon icon="store" />
+      <span class="hidden md:inline-block"> Đại lý</span>
+    </label>
+  </div>
+
+  @if (isSticky()) {
+    <div class="fixed top-0 left-0 w-full shadow z-20 bg-base-100">
+      <div
+        class="container mx-auto flex items-center gap-8 py-2 md:py-4 px-4 md:px-0 justify-between md:justify-start"
+      >
+        <img
+          (click)="router.navigateByUrl('/')"
+          src="/logos/app-logo.png"
+          class="w-32 md:w-44 md:scale-105 cursor-pointer"
+          alt=""
+        />
+
+        <app-animated-input
+          class="hidden md:flex"
+          (onSearch)="onSearch($event)"
+        ></app-animated-input>
+
+        <div class="hidden md:flex items-center gap-2 ms-auto">
+          <mix-icon
+            icon="phone-call"
+            [size]="32"
+            [strokeWidth]="1.5"
+            class="me-1"
+          />
+          <div class="media-body flex flex-col d-none">
+            <span class="text-xs">Giao tận nơi</span>
+            <a
+              class="font-weight-bold d-block text-sm"
+              href="tel:{{ storeConfig()?.phone_number }}"
+              title="{{ storeConfig()?.phone_number }}"
+            >
+              {{ storeConfig()?.phone_number }}
+            </a>
+          </div>
+        </div>
+
+        <label
+          (click)="onShowCart()"
+          class="btn btn-outline text-base-content relative"
+        >
+          <mix-icon icon="shopping-cart" />
+          <span class="hidden md:inline-block"> Giỏ hàng </span>
+          @if (cartStore.count(); as count) {
+            <span
+              class="absolute top-[-6px] right-[-6px] badge badge-primary badge-sm text-white"
+            >
+              {{ count }}
+            </span>
+          }
+        </label>
+      </div>
+    </div>
+  }
+</div>
+
+<div class="hidden md:block pt-4 bg-primary w-full">
+  <div class="mx-auto container flex">
+    <div
+      class="px-4 font-bold w-[258px] py-2 rounded-t-lg text-sm text-base-content bg-base-100 flex gap-4 items-center"
+    >
+      <div class="w-[20px] h-[20px] mr-2 p-0 flex flex-col justify-between">
+        <span class="bg-primary w-full h-[4px]"></span>
+        <span class="bg-primary w-3/4 h-[4px]"></span>
+        <span class="bg-primary w-full h-[4px]"></span>
+      </div>
+
+      <div>Danh mục sản phẩm</div>
+    </div>
+
+    <div class="flex items-center gap-6 text-white ms-8 pb-2">
+      <a
+        class="flex items-center cursor-pointer hover:opacity-60"
+        [routerLink]="['/products']"
+      >
+        <mix-icon
+          icon="store"
+          class="me-2"
+          [strokeWidth]="1.5"
+          [size]="22"
+        ></mix-icon>
+        Cửa hàng
+      </a>
+
+      <a
+        [routerLink]="'/contact'"
+        class="flex items-center cursor-pointer hover:opacity-60"
+      >
+        <mix-icon
+          icon="map-pin"
+          class="me-2"
+          [strokeWidth]="1.5"
+          [size]="22"
+        ></mix-icon>
+        Liên hệ
+      </a>
+
+      <a
+        class="flex items-center cursor-pointer hover:opacity-60"
+        [routerLink]="['/p', 'chinh-sach-doi-tra']"
+      >
+        <mix-icon
+          icon="scale"
+          class="me-2"
+          [strokeWidth]="1.5"
+          [size]="22"
+        ></mix-icon>
+        Chính sách đổi trả
+      </a>
+
+      <a
+        class="flex items-center cursor-pointer hover:opacity-60"
+        [routerLink]="'/blogs'"
+      >
+        <mix-icon
+          icon="newspaper"
+          class="me-2"
+          [strokeWidth]="1.5"
+          [size]="22"
+        ></mix-icon>
+        Tin tức
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="fab bottom-16 right-2">
+  <div class="relative">
+    <div
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 btn btn-sm btn-circle btn-primary animate-ping"
+    ></div>
+    <div
+      tabindex="0"
+      role="button"
+      class="relative z-2 btn btn-lg btn-circle btn-primary"
+    >
+      <mix-icon icon="phone" [size]="24"></mix-icon>
+    </div>
+  </div>
+
+  @for (item of snStore.dataEntities(); track $index) {
+    <div>
+      {{ item.display_name }}
+      <button
+        class="btn btn-lg btn-circle"
+        (click)="onSocialNetworkClick(item.link)"
+      >
+        <img
+          [src]="item.icon"
+          class="w-6 h-6 rounded-full"
+          alt="{{ item.display_name }}"
+        />
+      </button>
+    </div>
+  }
+</div>

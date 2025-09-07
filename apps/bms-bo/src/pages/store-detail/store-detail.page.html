@@ -1,0 +1,13 @@
+@let state = dataState();
+@let store = data();
+
+<mix-page-container
+  [backButton]="true"
+  [defaultPage]="['stores']"
+  [loading]="state?.isLoading"
+  [pageTitle]="store?.name || ''"
+  [pageDescription]="'Manage your stores here.'"
+  [tabs]="tabs()"
+>
+  <router-outlet></router-outlet>
+</mix-page-container>

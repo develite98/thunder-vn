@@ -1,0 +1,13 @@
+<div
+  class="fixed top-0 left-0 w-screen h-screen hero-background rotate-180"
+></div>
+<div class="fixed top-0 left-0 w-screen h-screen chess-background"></div>
+<div class="fixed top-0 left-0 w-screen h-screen mesh-background"></div>
+
+@if (client.client) {
+  @if (needChooseTenant()) {
+    <app-mix-tenant></app-mix-tenant>
+  } @else {
+    <router-outlet></router-outlet>
+  }
+}

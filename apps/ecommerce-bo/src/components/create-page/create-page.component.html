@@ -1,0 +1,45 @@
+<mix-dialog-wrapper [title]="'ecommerce.page.create'">
+  <div dialog-body [formGroup]="form">
+    <mix-form-field
+      [name]="'ecommerce.page.titleLabel'"
+      [required]="true"
+      class="mb-6"
+      [description]="'ecommerce.page.titleDescription'"
+    >
+      <input
+        formControlName="title"
+        class="input w-full"
+        type="text"
+        [placeholder]="'ecommerce.page.titlePlaceholder' | transloco"
+      />
+    </mix-form-field>
+
+    <mix-form-field
+      [name]="'ecommerce.page.seoUrlLabel'"
+      [required]="true"
+      class="mb-6"
+      [description]="'ecommerce.page.seoUrlDescription'"
+    >
+      <input
+        formControlName="seo_url"
+        class="input w-full"
+        type="text"
+        [placeholder]="'ecommerce.page.seoUrlPlaceholder' | transloco"
+      />
+    </mix-form-field>
+  </div>
+
+  <div dialog-footer class="flex items-center justify-end gap-2">
+    <mix-button (click)="dialogRef.close()" [disabled]="isLoading()">
+      {{ 'common.cancel' | transloco }}
+    </mix-button>
+
+    <mix-button
+      [color]="'primary'"
+      (click)="onSumbit()"
+      [loading]="isLoading()"
+    >
+      {{ 'common.create' | transloco }}
+    </mix-button>
+  </div>
+</mix-dialog-wrapper>

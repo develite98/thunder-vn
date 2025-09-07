@@ -1,0 +1,41 @@
+{
+  "name": "system-dashboard",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "prefix": "app",
+  "sourceRoot": "apps/system-dashboard/src",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "continuous": true,
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "system-dashboard:build:production"
+        },
+        "development": {
+          "buildTarget": "system-dashboard:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "system-dashboard:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "serve-static": {
+      "continuous": true,
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "system-dashboard:build",
+        "staticFilePath": "dist/apps/system-dashboard/browser",
+        "spa": true
+      }
+    }
+  }
+}

@@ -1,0 +1,72 @@
+<mix-dialog-wrapper [title]="'ecommerce.agencyMember.add'">
+  <div dialog-body [formGroup]="form">
+    <mix-form-field
+      [name]="'ecommerce.input.userNameLabel'"
+      [required]="true"
+      class="mb-6"
+      [description]="'ecommerce.input.userNameDescription'"
+    >
+      <input
+        formControlName="username"
+        class="input w-full"
+        type="text"
+        placeholder="Enter value here"
+      />
+    </mix-form-field>
+
+    <mix-form-field
+      [name]="'ecommerce.input.fullNameLabel'"
+      [required]="true"
+      class="mb-4"
+      [description]="'ecommerce.input.fullNameDescription'"
+    >
+      <input
+        formControlName="full_name"
+        class="input w-full"
+        type="text"
+        placeholder="Enter value here"
+      />
+    </mix-form-field>
+
+    <mix-form-field
+      [name]="'ecommerce.input.phoneLabel'"
+      [required]="true"
+      class="mb-6"
+      [description]="'ecommerce.input.phoneDescription'"
+    >
+      <input
+        formControlName="phone_number"
+        class="input w-full"
+        type="text"
+        placeholder="Enter value here"
+      />
+    </mix-form-field>
+
+    <mix-form-field
+      [name]="'ecommerce.input.role'"
+      [required]="true"
+      class="mb-6"
+      [description]="'ecommerce.input.roleDescription'"
+    >
+      <textarea
+        formControlName="role"
+        class="textarea w-full"
+        type="text"
+        placeholder="Enter value here"
+      ></textarea>
+    </mix-form-field>
+  </div>
+
+  <div dialog-footer class="flex items-center justify-end gap-2">
+    <mix-button (click)="dialogRef.close()" [disabled]="isLoading()">
+      {{ 'common.cancel' | transloco }}
+    </mix-button>
+    <mix-button
+      [color]="'primary'"
+      (click)="onSumbit()"
+      [loading]="isLoading()"
+    >
+      {{ 'common.create' | transloco }}
+    </mix-button>
+  </div>
+</mix-dialog-wrapper>

@@ -1,0 +1,123 @@
+<div class="w-full flex flex-col gap-4">
+  @let pageRange = range();
+  @let pageInfo = agencyOrderStore.pagingInfo();
+
+  <div class="flex w-full items-center justify-between gap-2">
+    <div class="divider divider-start grow">
+      <div
+        class="text-lg md:text-2xl font-bold uppercase ps-4 md:ps-6 border-l-6 border-primary"
+      >
+        Đơn Hàng
+      </div>
+    </div>
+
+    <form class="filter">
+      <input
+        (click)="filterForm.setValue('')"
+        class="btn btn-square"
+        type="reset"
+        value="×"
+      />
+      <input
+        [formControl]="filterForm"
+        class="btn"
+        type="radio"
+        name="frameworks"
+        value="new"
+        aria-label="Chưa xử lí"
+      />
+      <input
+        [formControl]="filterForm"
+        class="btn"
+        type="radio"
+        name="frameworks"
+        value="completed"
+        aria-label="Đã xử lí"
+      />
+    </form>
+  </div>
+
+  <div class="flex items-center justify-between">
+    <div class="text-sm">
+      @if (agencyOrderStore.isLoading()) {
+        <span class="loading loading-spinner loading-md me-2"></span>
+        Loading...
+      } @else {
+        {{
+          'common.resultCount'
+            | transloco
+              : {
+                  count:
+                    pageInfo.total || agencyOrderStore.dataEntities().length,
+                }
+        }}
+      }
+    </div>
+
+    <div class="text-sm flex items-center">
+      <div class="flex items-center gap-2">
+        <div class="py-2 px-3 hover:bg-base-content/5 cursor-pointer rounded">
+          {{ pageRange.start }} - {{ pageRange.end }} of {{ pageInfo.total }}
+        </div>
+
+        <button
+          type="button"
+          class="btn btn-ghost btn-xs btn-square"
+          [disabled]="!pageInfo.canGoPrevious"
+          (click)="agencyOrderStore.goPreviousPage()"
+        >
+          <mix-icon icon="chevron-left" />
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-ghost btn-xs btn-square"
+          (click)="agencyOrderStore.goNextPage()"
+          [disabled]="!pageInfo.canGoNext"
+        >
+          <mix-icon icon="chevron-right" />
+        </button>
+      </div>
+
+      <div class="divider divider-horizontal"></div>
+
+      <button
+        type="button"
+        class="btn btn-ghost btn-xs btn-square"
+        [disabled]="agencyOrderStore.isLoading()"
+        (click)="agencyOrderStore.refresh().subscribe()"
+      >
+        <mix-icon icon="rotate-ccw" />
+      </button>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    @for (order of agencyOrderStore.dataEntities(); track $index) {
+      <div
+        [routerLink]="'/agency/orders/' + order.id"
+        class="card cursor-pointer hover:scale-105 w-full bg-base-100 border border-base-content/10 shadow-sm"
+      >
+        <div class="card-body">
+          @if (order.order_status === 'new') {
+            <span class="badge badge-xs badge-warning">Chưa xử lí</span>
+          } @else if (order.order_status === 'completed') {
+            <span class="badge badge-xs badge-success">Đã xử lí</span>
+          } @else {
+            <span class="badge badge-xs badge-error">Đã huỷ</span>
+          }
+
+          <div class="flex justify-between">
+            <span class="text-base md:text-xl"
+              ><app-currency [value]="calculateTotal(order)"></app-currency
+            ></span>
+          </div>
+          <div>- {{ order.customer_name }}</div>
+          <div>- {{ order.phone_number }}</div>
+
+          <div>- {{ order.address }}</div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

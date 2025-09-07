@@ -1,0 +1,135 @@
+@keyframes wave-path-dash {
+  0% {
+    stroke-dashoffset: 1040px;
+    opacity: 1;
+  }
+
+  25% {
+    stroke-dashoffset: 40px;
+  }
+
+  to {
+    stroke-dashoffset: 40px;
+  }
+}
+
+.tw-th {
+  stroke: #42629e;
+}
+
+.tw-ou {
+  opacity: 0.25;
+}
+
+.tw-wh {
+  stroke: #ff8f1f;
+}
+
+.tw-uh {
+  stroke: #a51fff;
+}
+
+.tw-sh {
+  stroke: #0bdb6c;
+}
+
+.tw-vh {
+  stroke: #ff351f;
+}
+
+.tw-ic {
+  animation: wave-path-dash 30s linear infinite;
+}
+
+.tw-vc {
+  animation-delay: 24s;
+}
+
+.tw-tc {
+  animation-delay: 12s;
+}
+
+.tw-uc {
+  animation-delay: 18s;
+}
+
+.tw-fd {
+  animation-delay: 6s;
+}
+
+.runner {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  offset-rotate: 0deg;
+  animation: move 12s linear infinite;
+}
+
+@keyframes move {
+  to {
+    offset-distance: -100%;
+  }
+}
+
+@keyframes ping {
+  75%,
+  to {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+}
+
+.pinging {
+  animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.dashbox {
+  position: relative;
+  width: var(--w, 300px);
+  height: var(--h, 150px);
+  border-radius: var(--radius, 10px);
+  background: transparent;
+  --inset: calc(var(--stroke, 2) * 1px);
+}
+
+.dashbox__content {
+  position: relative;
+  z-index: 1;
+  border-radius: inherit;
+  width: 100%;
+  height: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.dashbox__svg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.dashbox__svg rect {
+  fill: none;
+  stroke: var(--color, #1f6eff);
+  stroke-width: calc(var(--stroke, 2) * 1px);
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: calc(var(--dash, 8) * 1px) calc(var(--gap, 8) * 1px);
+  stroke-linecap: butt;
+  transform: translate(var(--inset), var(--inset));
+  width: calc(100% - var(--inset) * 2);
+  height: calc(100% - var(--inset) * 2);
+  rx: calc(var(--radius, 10) * 1px);
+
+  animation: dash-run var(--speed, 6s) linear infinite;
+}
+
+@keyframes dash-run {
+  to {
+    stroke-dashoffset: 1000;
+  }
+}

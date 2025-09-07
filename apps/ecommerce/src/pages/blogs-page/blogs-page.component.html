@@ -1,0 +1,104 @@
+<div data-theme="red">
+  @let pageRange = range();
+  @let pageInfo = store.pagingInfo();
+
+  <mix-public-header></mix-public-header>
+  <mix-breadcrumb [items]="breadcrumb"></mix-breadcrumb>
+
+  <div class="container mx-auto py-12">
+    <div class="flex w-full flex-col mb-6">
+      <div class="divider divider-start">
+        <div
+          class="text-lg md:text-2xl font-bold uppercase ps-6 border-l-6 border-primary"
+        >
+          Danh sách bài viết
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between w-full mb-6">
+      <div class="text-sm">
+        @if (store.isLoading()) {
+          <span class="loading loading-spinner loading-md me-2"></span>
+          Loading...
+        } @else {
+          {{
+            'common.resultCount'
+              | transloco
+                : {
+                    count: pageInfo.total || store.dataEntities().length,
+                  }
+          }}
+        }
+      </div>
+
+      <div class="text-sm flex items-center">
+        <div class="flex items-center gap-2">
+          <div class="py-2 px-3 hover:bg-base-content/5 cursor-pointer rounded">
+            {{ pageRange.start }} - {{ pageRange.end }} of {{ pageInfo.total }}
+          </div>
+
+          <button
+            type="button"
+            class="btn btn-ghost btn-xs btn-square"
+            [disabled]="!pageInfo.canGoPrevious"
+            (click)="store.goPreviousPage()"
+          >
+            <mix-icon icon="chevron-left" />
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-ghost btn-xs btn-square"
+            (click)="store.goNextPage()"
+            [disabled]="!pageInfo.canGoNext"
+          >
+            <mix-icon icon="chevron-right" />
+          </button>
+        </div>
+
+        <div class="divider divider-horizontal"></div>
+
+        <button
+          type="button"
+          class="btn btn-ghost btn-xs btn-square"
+          [disabled]="store.isLoading()"
+          (click)="store.refresh().subscribe()"
+        >
+          <mix-icon icon="rotate-ccw" />
+        </button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-8">
+      @for (blog of store.dataEntities() || []; track blog.id) {
+        <div [routerLink]="'/b/' + blog.id" class="blog-card flex flex-col">
+          <figure class="w-full">
+            <img
+              alt="{{ blog.title }}"
+              class="w-full h-[180px] md:h-[200px] object-cover"
+              [src]="getSrc(blog.thumbnail)"
+            />
+          </figure>
+          <div class="card-body p-2 md:p-4 grow flex flex-col">
+            <h2 class="card-title line-clamp-2">
+              {{ blog.title }}
+            </h2>
+            <p class="line-clamp-2 text-xs">{{ blog.excerpt }}</p>
+            <div class="card-actions items-center justify-between">
+              <div class="text-xs text-base-content/60">
+                {{ blog.created_date_time | date: 'medium' }}
+              </div>
+
+              <div class="badge badge-outline text-primary cursor-pointer">
+                Xem thêm
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <mix-public-footer></mix-public-footer>
+</div>

@@ -1,0 +1,28 @@
+<mix-tile>
+  <div class="grid grid-cols-1 md:grid-cols-12 form-item-container">
+    <div class="col-span-12 md:col-span-5">
+      <div class="text-2xl font-bold">
+        {{ 'iam.user.role.title' | transloco }}
+      </div>
+
+      <div class="w-3/4 mt-4 text-base-content/60">
+        {{ 'iam.user.role.description' | transloco }}
+      </div>
+    </div>
+
+    <div class="col-span-12 md:col-span-7">
+      @let dict = userRoleDict();
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+        @for (role of roleStore.dataEntities(); track $index) {
+          <mix-toggle
+            [needConfirm]="true"
+            [value]="dict[role.id]"
+            (valueChange)="onUserRoleChange(role.id, role.name, $event)"
+          >
+            {{ role.name }}
+          </mix-toggle>
+        }
+      </div>
+    </div>
+  </div>
+</mix-tile>

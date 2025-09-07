@@ -1,0 +1,65 @@
+<div class="w-screen h-screen p-4 md:p-12">
+  <div
+    class="w-full h-full bg-base-100 rounded-lg shadow p-4 flex flex-col items-center relative"
+  >
+    <div class="w-fit md:w-[620px] mb-[6vh] pt-12 ps-2">
+      <div class="flex gap-2">
+        <app-cultures-select></app-cultures-select>
+        <theme-select></theme-select>
+      </div>
+      <img
+        [src]="appSetting.appSetting?.appLogoUrl"
+        class="w-52 mt-4"
+        alt="App logo"
+      />
+    </div>
+
+    <div class="w-fit md:w-[620px]">
+      <div class="text-2xl mb-2 font-title ps-2">
+        {{ 'auth.login.heading' | transloco }}
+      </div>
+
+      <div class="text-sm text-base-content/60 ps-2">
+        {{
+          'common.tenant.description'
+            | transloco: { appName: appSetting.appSetting?.appName }
+        }}
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-12">
+        @for (tenant of tenantStore.availableTenants; track tenant.id) {
+          <mix-tile (click)="onChooseTenant(tenant)">
+            <div class="font-semibold">{{ tenant.name }}</div>
+
+            <div
+              class="mt-4 flex items-center gap-2 text-sm px-2 py-1 bg-base-200 rounded-full w-fit"
+            >
+              <mix-icon icon="code-xml"></mix-icon>
+              {{ tenant.domain }}
+            </div>
+          </mix-tile>
+        }
+
+        <mix-tile (click)="addNewTenant()">
+          <div class="w-full flex items-center justify-center py-4 gap-2">
+            <mix-icon icon="plus"></mix-icon>
+            Add new
+          </div>
+        </mix-tile>
+      </div>
+    </div>
+
+    <div class="w-full absolute bottom-0 left-0 p-4 flex">
+      <a class="opacity-60 text-sm">{{
+        appSetting.appSetting?.appCopyright
+      }}</a>
+      <div class="divider divider-horizontal"></div>
+      <a class="opacity-60 text-sm">Document</a>
+      <div class="divider divider-horizontal"></div>
+      <a class="opacity-60 text-sm">Terms & Conditions</a>
+
+      <a class="opacity-60 text-sm ms-auto"
+        >App version: {{ appSetting.appSetting?.appVersion }}</a
+      >
+    </div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+{
+  "appName": "Kế toán",
+  "invoice.pageTitle": "Hoá đơn điện tử",
+  "invoice.tab.all": "Tất cả",
+  "invoice.tab.inprogress": "Cần xử lý",
+  "requestBy": "Yêu cầu bởi",
+  "store": "Cửa hàng",
+  "voidBill.pageTitle": "Huỷ hoá đơn",
+  "voidBill.pageDescription": "Huỷ một hoá đơn đã được phát hành",
+  "searchById": "Tìm kiếm theo ID"
+}

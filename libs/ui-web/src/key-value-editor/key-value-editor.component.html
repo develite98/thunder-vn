@@ -1,0 +1,32 @@
+<div class="w-full flex flex-col gap-2" [formGroup]="form">
+  <div formArrayName="items" cdkDropList (cdkDropListDropped)="drop($event)">
+    @for (entry of items.controls; track entry.value; let index = $index) {
+      <div [formGroupName]="index" class="flex items-center gap-2 mb-2" cdkDrag>
+        <mix-icon icon="grip-vertical" cdkDragHandle></mix-icon>
+
+        <input
+          formControlName="key"
+          class="input grow"
+          [placeholder]="keyPlaceholder() | transloco"
+        />
+        <input
+          formControlName="value"
+          class="input grow"
+          [placeholder]="valuePlaceholder() | transloco"
+        />
+
+        <button class="btn btn-square" (click)="removeItem(index)">
+          <mix-icon class="text-error" icon="trash"></mix-icon>
+        </button>
+      </div>
+    }
+  </div>
+
+  <a
+    class="text-primary cursor-pointer hover:opacity-60 w-fit flex items-center"
+    (click)="addItem()"
+  >
+    <mix-icon icon="plus" class="me-2"></mix-icon>
+    {{ addButtonLabel() | transloco }}
+  </a>
+</div>

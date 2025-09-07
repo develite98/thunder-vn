@@ -1,0 +1,245 @@
+<mix-page-container
+  [backButton]="true"
+  [defaultPage]="['void-bill']"
+  [pageTitleTpl]="pageTitleTp"
+  [rightToolbarTpl]="toolbarTpl"
+  [pageDescription]="
+    `Last updated: ${(request()?.lastModified | date: 'medium')}`
+  "
+>
+  @let rq = request();
+  @let reason = rq?.data?.reason;
+  @let ord = order();
+
+  <ng-template #pageTitleTp>
+    <div class="flex items-center gap-2 text-lg">
+      Void Bill - Order:
+      <mix-copy-text [text]="ord?.checkNoCode || ''"></mix-copy-text>
+    </div>
+  </ng-template>
+
+  <ng-template #toolbarTpl>
+    @if (ord && isProcessed()) {
+      <div class="flex grow items-center justify-end gap-2 text-sm">
+        @if (ord?.isDeleted) {
+          <div
+            class="px-2 py-1 border border-base-content/10 rounded flex gap-2 items-center"
+          >
+            <div class="inline-grid *:[grid-area:1/1]">
+              <div class="status status-success animate-ping"></div>
+              <div class="status status-success"></div>
+            </div>
+            Approved
+          </div>
+        } @else {
+          <div
+            class="px-2 py-1 border border-base-content/10 rounded flex gap-2 items-center"
+          >
+            <div class="inline-grid *:[grid-area:1/1]">
+              <div class="status status-error animate-ping"></div>
+              <div class="status status-error"></div>
+            </div>
+            Rejected
+          </div>
+        }
+      </div>
+    }
+  </ng-template>
+  <div class="w-full -mt-[5rem] relative z-10">
+    <mix-tile class="w-full relative">
+      <div class="grid grid-cols-12 gap-12">
+        <div class="col-span-6">
+          <div class="font-title mb-4 text-lg">Void Bill</div>
+          <p
+            class="text-sm mt-1 !leading-5 tracking-wide ps-4 border-l-4 border-error/50"
+            [innerHTML]="notification()"
+          >
+            "
+          </p>
+        </div>
+        <div class="col-span-6 text-sm flex flex-col gap-2">
+          <div>
+            <span class="font-bold">Brand: </span>
+            <span>{{ branch()?.brandName }}</span>
+          </div>
+          <div>
+            <span class="font-bold">Store: </span>
+            <span>{{ branch()?.name }}</span>
+          </div>
+          <div>
+            <span class="font-bold"> Date request: </span>
+            {{ rq?.createdDateTime | date: 'long' }}
+          </div>
+
+          <div>
+            <span class="font-bold"> Request by: </span>
+            {{ rq?.data?.userName || 'N/A' }}
+          </div>
+
+          <div>
+            <span class="font-bold"> Reason: </span>
+            {{ reason?.displayName }} - {{ reason?.details || 'N/A' }}
+          </div>
+        </div>
+      </div>
+      @if (rq && !isProcessed()) {
+        <div class="divider w-full !my-!"></div>
+        <div class="flex items-center justify-end gap-4">
+          <input
+            [formControl]="form"
+            class="input max-w-72"
+            placeholder="Type 'CONFIRM' to continues process"
+          />
+          <mix-button [color]="'error'" (click)="submit('reject')"
+            >Reject</mix-button
+          >
+
+          <mix-button [color]="'success'" (click)="submit('approve')"
+            >Approve</mix-button
+          >
+        </div>
+      } @else {}
+    </mix-tile>
+  </div>
+
+  <div class="mt-8">
+    <div
+      class="font-title text-2xl uppercase tracking-wide text-base-content/60"
+    >
+      Order infomation
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 mt-6">
+      <div
+        class="col-span-1 md:col-span-5 text-sm flex flex-col gap-4 pe-0 md:pe-12"
+      >
+        <div class="flex justify-between">
+          <span class="font-bold"> Check no: </span>
+          <mix-copy-text [text]="ord?.checkNoCode || ''"></mix-copy-text>
+        </div>
+
+        <div class="flex justify-between">
+          <span class="font-bold"> Sale type: </span>
+          {{ ord?.saleType }}
+        </div>
+
+        <div class="flex justify-between">
+          <span class="font-bold"> Guest count: </span>
+          {{ ord?.totalGuest }}
+        </div>
+
+        <div class="flex justify-between">
+          <span class="font-bold"> Nations: </span>
+          {{ ord?.nationalities?.join(', ') || 'N/A' }}
+        </div>
+
+        <div class="flex justify-between">
+          <span class="font-bold"> Start at: </span>
+          {{ ord?.createdDateTime | date: 'medium' }}
+        </div>
+
+        <div class="flex justify-between">
+          <span class="font-bold"> End at: </span>
+          {{ ord?.endTime | date: 'medium' }}
+        </div>
+      </div>
+      <div class="col-span-1 md:col-span-7">
+        <div class="grow flex flex-col overflow-auto">
+          <div class="flex flex-col gap-2 mt-auto pb-1">
+            <div
+              class="bg-base-100 rounded-lg flex flex-col gap-3 p-4 font-medium border border-base-content/10"
+            >
+              <div class="flex justify-between value font-inter !font-bold">
+                <div>Gross Total</div>
+                <div class="flex gap-3 items-center">
+                  <mix-currency
+                    [value]="ord?.totalGrossValue || 0"
+                    [currency]="ord?.currency"
+                  ></mix-currency>
+                </div>
+              </div>
+              @if (ord?.discounts?.length) {
+                @for (discount of ord?.discounts || []; track $index) {
+                  <div class="flex items-center justify-between">
+                    <button class="badge bg-base-200">
+                      <span class="text-sm font-medium">{{
+                        discount.title
+                      }}</span>
+                    </button>
+                    <div class="text-red-500 font-bold font-inter">
+                      -
+                      <mix-currency
+                        [value]="discount?.actualDiscountValue || 0"
+                        [currency]="discount?.currency"
+                      ></mix-currency>
+                    </div>
+                  </div>
+                }
+              }
+
+              <div
+                class="flex justify-between value font-inter !font-bold mt-2"
+              >
+                <div>Sub Total</div>
+                <div class="flex gap-3 items-center">
+                  <div>
+                    <mix-currency
+                      [value]="ord?.finalTotalGrossValue || 0"
+                      [currency]="ord?.currency"
+                    ></mix-currency>
+                  </div>
+                </div>
+              </div>
+              <div class="flex justify-between value font-inter !font-bold">
+                <div class="capitalize">Additional Value</div>
+                <div class="flex gap-3 items-center">
+                  <mix-currency
+                    [value]="ord?.finalTotalTaxValue || 0"
+                    [currency]="ord?.currency"
+                  ></mix-currency>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <div
+                class="flex items-center justify-between bg-base-100 rounded-lg p-4 border border-base-content/10 text-2xl font-bold grow"
+              >
+                <div>Total</div>
+
+                <span>
+                  <mix-currency
+                    [value]="ord?.finalTotalValue || 0"
+                    [currency]="ord?.currency"
+                  ></mix-currency
+                ></span>
+              </div>
+            </div>
+            <div
+              class="text-sm font-title ms-2 tracking-wide text-base-content/60 mt-2"
+            >
+              Payment via:
+            </div>
+            @for (payment of ord?.payment?.details || []; track $index) {
+              <div
+                class="bg-base-100 rounded-lg flex flex-col gap-3 p-4 font-medium border border-base-content/10"
+              >
+                <div class="flex justify-between value font-inter !font-bold">
+                  <div>
+                    <div>{{ payment.paymentMethod }}</div>
+                  </div>
+                  <div class="flex gap-3 items-center">
+                    <mix-currency
+                      [value]="payment?.value || 0"
+                      [currency]="ord?.currency"
+                    ></mix-currency>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mix-page-container>

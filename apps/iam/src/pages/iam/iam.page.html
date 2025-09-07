@@ -1,0 +1,14 @@
+<ng-template #breadcrumb>
+  <mix-breadcrumbs>
+    <div name="Home" icon="home" mixBreadcrumbItem></div>
+    <div name="IAM" mixBreadcrumbItem [active]="true"></div>
+  </mix-breadcrumbs>
+</ng-template>
+
+<mix-page-container
+  [pageTitle]="'iam.pageTitle'"
+  [tabs]="tabs"
+  [pageDescription]="'iam.pageDescription'"
+>
+  <router-outlet></router-outlet>
+</mix-page-container>

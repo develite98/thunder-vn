@@ -1,0 +1,113 @@
+@let messages = chatStore.messages();
+@let aiMessage = chatStore.currentStreamingMessage();
+
+<div
+  class="grow w-full overflow-auto transition-all flex flex-col-reverse gap-6 no-scrollbar"
+  [class.pb-12]="messages.length"
+>
+  @if (messages.length || aiMessage) {
+    @if (aiMessage?.state === 'initial') {
+      <div class="chat chat-start flex items-center gap-4 transition-all">
+        <div class="status status-lg status-success animate-bounce"></div>
+        Hi, I received your request, working on it...
+      </div>
+    } @else {
+      <div
+        class="chat chat-start flex items-start gap-4 prose prose-sm md:prose-base"
+      >
+        <markdown [data]="aiMessage?.response || ''"> </markdown>
+      </div>
+    }
+
+    @for (message of messages; track message.id) {
+      @if (message.fromAi) {
+        <div class="flex items-center gap-2">
+          <button class="btn btn-sm btn-square">
+            <mix-icon icon="thumbs-up"></mix-icon>
+          </button>
+
+          <button class="btn btn-sm btn-square">
+            <mix-icon icon="thumbs-down"></mix-icon>
+          </button>
+
+          <button class="btn btn-sm btn-square">
+            <mix-icon icon="rotate-ccw"></mix-icon>
+          </button>
+        </div>
+        <div
+          class="chat chat-start flex items-start gap-4 prose prose-sm md:prose-base"
+        >
+          <markdown [data]="message?.response || ''"> </markdown>
+        </div>
+      } @else {
+        <div class="chat chat-end">
+          <div class="chat-header">
+            <time class="text-xs opacity-50">12:46</time>
+          </div>
+          <div class="chat-bubble">{{ message.response }}</div>
+        </div>
+      }
+    }
+  } @else {
+    <div class="h-full w-full flex flex-col items-start justify-start">
+      <div
+        class="chat-message__banner p-4 w-full flex items-center border border-base-content/5 rounded-2xl gap-6"
+      >
+        <img src="/images/ai-robot.webp" class="w-32" alt="AI Assistant" />
+        <div>
+          <h2 class="font-medium text-xl">
+            Hi,
+            {{
+              'aias.welcomeMessage' | transloco: { appName: appConfig?.appName }
+            }}
+          </h2>
+
+          <h2 class="text-sm mt-4 opacity-80 w-3/4">
+            {{ 'aias.welcomeDescription' | transloco }}
+          </h2>
+        </div>
+      </div>
+
+      <ul class="menu rounded-box w-full mt-8">
+        @for (group of mcpToolStore.data(); track $index) {
+          <li class="menu-title !text-xs mt-6">{{ group.displayName }}</li>
+          @for (tool of group.tools; track $index) {
+            <li>
+              <a class="flex items-center">
+                @if (tool.icon) {
+                  <div class="rounded-lg p-2 bg-secondary/15 me-2">
+                    <mix-icon [icon]="tool.icon"></mix-icon>
+                  </div>
+                }
+                {{ tool.displayName }}
+
+                @if (tool.isNew) {
+                  <span
+                    class="badge badge-soft badge-info badge-sm ms-2 !justify-self-start"
+                    >New</span
+                  >
+                }
+              </a>
+            </li>
+          }
+        }
+      </ul>
+      <!-- <div class="flex flex-col gap-4">
+        <img
+          src="/images/ai-robot.webp"
+          class="w-44 mx-auto"
+          alt="AI Assistant"
+        />
+        <h2 class="font-medium text-2xl">
+          {{
+            'aias.welcomeMessage' | transloco: { appName: appConfig?.appName }
+          }}
+        </h2>
+
+        <h2 class="text-base text-center">
+          {{ 'aias.welcomeDescription' | transloco }}
+        </h2>
+      </div> -->
+    </div>
+  }
+</div>

@@ -1,0 +1,14 @@
+{
+  "appName": "Trợ lý AI",
+  "welcomeMessage": "Chào mừng bạn đến với trợ lý AI {{ appName }}",
+  "welcomeDescription": "Cho tôi biết bạn muốn build gì và tôi sẽ giúp bạn tạo ra nó từng bước một.",
+  "menu.newChat": "Trò chuyện mới",
+  "menu.searchChat": "Tìm kiếm",
+  "menu.clearChat": "Xóa trò chuyện",
+  "menu.exportChat": "Xuất trò chuyện",
+  "menu.settings": "Cài đặt",
+  "menu.about": "Giới thiệu",
+  "input.placeholder": "Hỏi tôi bất cứ điều gì...",
+  "input.send": "Gửi",
+  "input.sending": "Đang gửi..."
+}

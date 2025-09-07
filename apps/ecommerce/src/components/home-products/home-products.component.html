@@ -1,0 +1,23 @@
+<div class="py-14 md:py-28">
+  <div class="px-4 md:px-0 mx-auto container">
+    @for (cat of store.dataEntities(); track cat.id) {
+      <div class="flex w-full flex-col mb-8 md:mb-12">
+        <div class="divider divider-start">
+          <div
+            class="text-lg md:text-2xl font-bold uppercase ps-6 border-l-6 border-primary"
+          >
+            {{ cat.title }}
+          </div>
+        </div>
+      </div>
+
+      <mix-product-by-category [category]="cat"></mix-product-by-category>
+
+      <div class="flex justify-center py-4 md:py-8" [routerLink]="'/products'">
+        <button class="btn rounded-full btn-primary btn-outline md:btn-base">
+          Xem tất cả
+        </button>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,60 @@
+.mix-table th:first-of-type::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 100%;
+  display: block;
+  inline-size: 1.25rem;
+  background: linear-gradient(to right, #0000000d, #0000);
+}
+
+.mix-table th:first-of-type {
+  z-index: 3;
+  width: 20px;
+}
+
+.mix-table thead th:first-of-type {
+  z-index: 4;
+}
+
+.mix-table th:nth-of-type(2) {
+  padding-left: 2rem;
+}
+
+.mix-table td:first-of-type {
+  padding-left: 2rem;
+}
+
+.mix-table td.sticky-end::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 100%;
+  display: block;
+  inline-size: 1.25rem;
+  background: linear-gradient(to left, #0000000d, #0000);
+  left: -1.25rem;
+}
+
+.mix-table td.sticky-end {
+  position: sticky;
+  right: 0;
+  background: var(--color-base-100);
+}
+
+.mix-table th.sticky-end::before {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 100%;
+  display: block;
+  inline-size: 1.25rem;
+  background: linear-gradient(to left, #0000000d, #0000);
+  left: -1.25rem;
+}
+
+.mix-table th.sticky-end {
+  position: sticky;
+  right: 0;
+  background: var(--color-base-100);
+}

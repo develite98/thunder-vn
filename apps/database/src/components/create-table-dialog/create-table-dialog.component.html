@@ -1,0 +1,40 @@
+<mix-dialog-wrapper [title]="'database.label.createTable' | transloco">
+  <div dialog-body [formGroup]="form">
+    <mix-form-field
+      class="w-full"
+      [required]="true"
+      [autoFocus]="true"
+      [name]="'database.table.label.displayName'"
+      [description]="'database.table.label.displayNameDescription'"
+    >
+      <input
+        #autofocus
+        formControlName="displayName"
+        class="input input-bordered"
+        [placeholder]="'common.input.placeholder' | transloco"
+      />
+    </mix-form-field>
+
+    <mix-form-field
+      class="w-full mt-6"
+      [required]="true"
+      [name]="'database.table.label.systemName'"
+      [description]="'database.table.label.systemNameDescription'"
+    >
+      <input
+        formControlName="systemName"
+        class="input input-bordered"
+        [placeholder]="'common.input.placeholder' | transloco"
+      />
+    </mix-form-field>
+  </div>
+  <div dialog-footer class="flex items-center justify-end gap-4">
+    <mix-button type="ghost" (click)="dialogRef.close()">{{
+      'common.cancel' | transloco
+    }}</mix-button>
+
+    <mix-button color="primary" (click)="onSubmit()" [loading]="isLoading()">{{
+      'common.create' | transloco
+    }}</mix-button>
+  </div>
+</mix-dialog-wrapper>

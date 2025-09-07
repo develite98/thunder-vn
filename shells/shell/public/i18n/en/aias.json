@@ -1,0 +1,14 @@
+{
+  "appName": "AI Assistant",
+  "welcomeMessage": "Welcome to {{ appName }} AI Assistant",
+  "welcomeDescription": "Describe what you want to build and I'll help you create it step by step.",
+  "menu.newChat": "New Chat",
+  "menu.searchChat": "Search",
+  "menu.clearChat": "Clear Chat",
+  "menu.exportChat": "Export Chat",
+  "menu.settings": "Settings",
+  "menu.about": "About",
+  "input.placeholder": "Ask me anything...",
+  "input.send": "Send",
+  "input.sending": "Sending..."
+}

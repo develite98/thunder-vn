@@ -1,0 +1,136 @@
+<div class="w-screen h-screen p-4 md:p-12">
+  <div
+    class="w-full h-full bg-base-100 rounded-lg shadow p-4 flex flex-col items-center relative"
+  >
+    <div class="w-fit md:w-[400px] mb-[10vh] pt-12">
+      <div class="flex gap-2">
+        <app-cultures-select></app-cultures-select>
+        <theme-select></theme-select>
+        <tenant-select></tenant-select>
+      </div>
+      <img
+        [src]="appSetting.appSetting?.appLogoUrl"
+        class="w-52 mt-4"
+        alt="App logo"
+      />
+    </div>
+
+    <div class="w-fit md:w-[400px]">
+      <div class="text-2xl mb-2 font-title">
+        {{ 'auth.login.heading' | transloco }}
+      </div>
+
+      <div class="text-sm text-base-content/60">
+        {{
+          'auth.login.description'
+            | transloco: { appName: appSetting.appSetting?.appName }
+        }}
+      </div>
+
+      <div class="pt-6 w-full" [formGroup]="loginForm">
+        <fieldset class="fieldset w-full">
+          <label class="input w-full">
+            <mix-icon icon="mail" class="me-2"></mix-icon>
+            <input
+              name="username"
+              id="username"
+              formControlName="username"
+              [placeholder]="'auth.login.username' | transloco"
+            />
+          </label>
+        </fieldset>
+
+        <fieldset class="fieldset w-full">
+          <label class="input w-full">
+            <mix-icon icon="key-round" class="me-2"></mix-icon>
+            <input
+              (keyup.enter)="onLogin()"
+              formControlName="password"
+              type="password"
+              [placeholder]="'auth.login.password' | transloco"
+            />
+          </label>
+        </fieldset>
+
+        <label class="label text-xs mt-4">
+          <input
+            formControlName="rememberMe"
+            type="checkbox"
+            checked="checked"
+            class="toggle toggle-xs"
+          />
+          {{ 'common.login.rememberMe' | transloco }}
+        </label>
+
+        @if (showError()) {
+          <div
+            class="rounded px-2 py-1 mt-2 bg-error text-error-content text-xs"
+          >
+            {{ 'common.error.1' | transloco }}
+          </div>
+        }
+
+        <mix-button
+          (click)="onLogin()"
+          class="w-full btn-primary mt-6 justify-between"
+          [postfixIcon]="'log-in'"
+          [loading]="isLoading()"
+          >Get's go</mix-button
+        >
+      </div>
+
+      @let googleConfig = googleLogin();
+      @if (googleConfig?.Enable) {
+        <div class="divider">or</div>
+
+        <button
+          class="btn bg-base-100 border-base-content/10 w-full"
+          (click)="onGoogleLogin()"
+        >
+          <svg
+            aria-label="Google logo"
+            width="16"
+            height="16"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+          >
+            <g>
+              <path d="m0 0H512V512H0" fill="#fff"></path>
+              <path
+                fill="#34a853"
+                d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"
+              ></path>
+              <path
+                fill="#4285f4"
+                d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"
+              ></path>
+              <path
+                fill="#fbbc02"
+                d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"
+              ></path>
+              <path
+                fill="#ea4335"
+                d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"
+              ></path>
+            </g>
+          </svg>
+          {{ 'auth.login.google' | transloco }}
+        </button>
+      }
+    </div>
+
+    <div class="w-full absolute bottom-0 left-0 p-4 flex">
+      <a class="opacity-60 text-sm">{{
+        appSetting.appSetting?.appCopyright
+      }}</a>
+      <div class="divider divider-horizontal"></div>
+      <a class="opacity-60 text-sm">Document</a>
+      <div class="divider divider-horizontal"></div>
+      <a class="opacity-60 text-sm">Terms & Conditions</a>
+
+      <a class="opacity-60 text-sm ms-auto"
+        >App version: {{ appSetting.appSetting?.appVersion }}</a
+      >
+    </div>
+  </div>
+</div>

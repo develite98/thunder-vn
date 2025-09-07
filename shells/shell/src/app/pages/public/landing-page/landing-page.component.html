@@ -1,0 +1,599 @@
+<div class="w-full overflow-hidden">
+  <app-nav-bar></app-nav-bar>
+
+  <div class="h-[100dvh] bg-base-100 relative">
+    <div class="w-[20rem] absolute top-2 -left-2 h-[45vh]" #box2>
+      <div class="runner bg-secondary" #runner2></div>
+      <div class="w-full h-full relative">
+        <div
+          class="dashbox absolute top-0 right-0 !stroke-secondary"
+          style="
+            --w: 100%; /* width  */
+            --h: 100%; /* height */
+            --stroke: 1.5; /* px     */
+            --radius: 32; /* px     */
+            --dash: 2; /* px     */
+            --gap: 2; /* px     */
+            --speed: 90s; /* animation duration */
+          "
+        >
+          <svg
+            class="dashbox__svg w-full h-full"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <rect
+              x="1"
+              y="1"
+              width="98"
+              height="98"
+              rx="0"
+              pathLength="240"
+              class="!stroke-secondary/60"
+            />
+          </svg>
+        </div>
+
+        <div
+          class="w-60 absolute top-28 -right-[7.5rem] rounded-lg border border-secondary/80 h-[120px] flex items-center justify-center bg-base-100"
+        >
+          <div
+            class="w-full h-full relative flex flex-col items-center justify-center p-4"
+          >
+            <div
+              class="w-8 h-8 rounded-full bg-secondary/10 mb-2 border border-secondary/15 flex items-center justify-center"
+            >
+              <mix-icon icon="database" class="text-secondary" />
+            </div>
+            <p class="text-center text-secondary font-bold">
+              Smart Data Processing
+            </p>
+
+            <div
+              class="rounded-lg p-4 pe-8 shadow-lg absolute bottom-6 left-6 bg-base-100 -translate-x-full translate-y-full"
+            >
+              <div class="flex gap-4 flex-wrap items-center mb-4">
+                <img
+                  src="/logos/brands/sql-server.svg"
+                  alt="sql server"
+                  class="w-6"
+                />
+
+                <img
+                  src="/logos/brands/postgresql.svg"
+                  alt="postggresql"
+                  class="w-6"
+                />
+
+                <img src="/logos/brands/redis.svg" alt="redis" class="w-6" />
+
+                <img
+                  src="/logos/brands/mongodb.svg"
+                  alt="mongodb"
+                  class="w-6 h-6"
+                />
+              </div>
+
+              <div class="text-secondary font-bold text-sm">3+ Databases..</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-[20rem] absolute top-2 -right-[2rem] h-[45vh]" #box1>
+      <div class="runner bg-info" #runner1></div>
+      <div class="w-full h-full relative">
+        <div
+          class="dashbox absolute top-0 right-0 !stroke-secondary"
+          style="
+            --w: 100%; /* width  */
+            --h: 100%; /* height */
+            --stroke: 1.5; /* px     */
+            --radius: 32; /* px     */
+            --dash: 2; /* px     */
+            --gap: 2; /* px     */
+            --speed: 90s; /* animation duration */
+          "
+        >
+          <svg
+            class="dashbox__svg w-full h-full"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <rect
+              x="1"
+              y="1"
+              width="98"
+              height="98"
+              rx="0"
+              pathLength="240"
+              class="!stroke-info/60"
+            />
+          </svg>
+        </div>
+
+        <div
+          class="w-60 absolute top-28 -left-[7.5rem] rounded-lg border border-info/80 h-[120px] flex items-center justify-center bg-base-100"
+        >
+          <div
+            class="w-full h-full relative flex flex-col items-center justify-center p-4"
+          >
+            <div
+              class="w-8 h-8 rounded-full bg-info/10 mb-2 border border-info/15 flex items-center justify-center"
+            >
+              <mix-icon icon="layout-template" class="text-info" />
+            </div>
+
+            <p class="text-center text-info font-bold">
+              Better User Experience
+            </p>
+
+            <div
+              class="rounded-lg p-4 pe-8 shadow-lg absolute top-6 right-14 bg-base-100 translate-x-full -translate-y-full"
+            >
+              <div class="flex gap-4 items-center mb-4">
+                <img
+                  src="/logos/frameworks/svelte.png"
+                  alt="sql server"
+                  class="w-6"
+                />
+
+                <img
+                  src="/logos/frameworks/angular.svg"
+                  alt="postggresql"
+                  class="w-6"
+                />
+
+                <img
+                  src="/logos/frameworks/nestjs.svg"
+                  alt="redis"
+                  class="w-6"
+                />
+
+                <img
+                  src="/logos/frameworks/vue.svg"
+                  alt="mongodb"
+                  class="w-6 h-6"
+                />
+              </div>
+
+              <div class="font-bold text-sm whitespace-nowrap">
+                Framework agnostic..
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container flex items-center justify-center pt-24 mx-auto">
+      <div class="w-[40rem] flex flex-col items-center justify-center">
+        <div
+          class="badge badge-soft bg-orange-500/10 border-orange-500/50 mx-auto mb-4"
+        >
+          Featured fully
+          <span class="font-bold text-orange-500">Opensource</span>
+        </div>
+        <h1
+          class="my-6 text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary text-center"
+        >
+          Let's build something amazing!
+        </h1>
+        <p class="text-lg text-base-content/60 text-center mt-6">
+          AI-driven automation to handle repetitive tasks, streamline
+          operations, and help your tea focus on what truly matters
+        </p>
+      </div>
+    </div>
+
+    <div class="flex justify-between">
+      <div class="grow w-[10vw] pe-30">
+        <div class="w-full h-[400px] relative" #box3>
+          <div
+            class="dashbox absolute top-0 right-0 !stroke-primary"
+            style="
+              --w: 100%; /* width  */
+              --h: 100%; /* height */
+              --stroke: 1.5; /* px     */
+              --radius: 32; /* px     */
+              --dash: 2; /* px     */
+              --gap: 2; /* px     */
+              --speed: 90s; /* animation duration */
+            "
+          >
+            <svg
+              class="dashbox__svg w-full h-full"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <rect
+                x="1"
+                y="1"
+                width="98"
+                height="98"
+                rx="0"
+                pathLength="240"
+                class="!stroke-primary/60"
+              />
+            </svg>
+          </div>
+
+          <div class="runner bg-primary" #runner3></div>
+          <div
+            class="w-60 absolute top-28 -right-[7.5rem] rounded-lg border border-primary/80 h-[120px] flex items-center justify-center bg-base-100"
+          >
+            <div
+              class="w-full h-full relative flex flex-col items-center justify-center p-4"
+            >
+              <div
+                class="w-8 h-8 rounded-full bg-primary/10 mb-2 border border-primary/15 flex items-center justify-center"
+              >
+                <mix-icon icon="factory" class="text-primary" />
+              </div>
+
+              <p class="text-center text-primary font-bold">Smart Decisions</p>
+
+              <div
+                class="rounded-lg p-4 pe-8 shadow-lg absolute bottom-6 left-6 bg-base-100 -translate-x-full translate-y-full"
+              >
+                <div class="flex gap-4 flex-wrap items-center mb-4">
+                  <img
+                    src="/logos/brands/gemini.svg"
+                    alt="OpenAi"
+                    class="w-6"
+                  />
+
+                  <img
+                    src="/logos/brands/deepseek.svg"
+                    alt="deepseek"
+                    class="w-6"
+                  />
+
+                  <img src="/logos/brands/groq.svg" alt="groq" class="w-6" />
+
+                  <img
+                    src="/logos/brands/claude-ai-icon.svg"
+                    alt="claude"
+                    class="w-6"
+                  />
+                </div>
+
+                <div class="text-primary font-bold text-sm">
+                  Unlimit AI models
+                </div>
+                <div class="text-xs">Choose your best model</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-20 grow">
+        <div class="flex flex-col items-center mt-8 gap-4 relative">
+          <div class="inline-grid *:[grid-area:1/1]">
+            <div
+              class="rounded-full bg-gradient-to-r from-primary to-secondary text-white w-[4rem] h-[4rem] relative z-20 mt-6 flex items-center justify-center shadow-lg pinging"
+            ></div>
+            <div
+              class="rounded-full bg-gradient-to-r from-primary to-secondary text-white w-[4rem] h-[4rem] relative z-20 mt-6 flex items-center justify-center shadow-lg"
+            >
+              <mix-icon icon="brain" [size]="28"></mix-icon>
+            </div>
+          </div>
+
+          <div
+            class="flex items-center relative mt-0.5 laptop:mt-0 pointer-events-none mb-6"
+          >
+            <div class="relative">
+              <div
+                class="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center"
+              >
+                <div class="w-4 h-4 bg-white rounded-sm"></div>
+              </div>
+            </div>
+            <div class="ml-3 text-2xl font-bold tracking-tight">
+              mixcore<span class="text-primary">.</span>ai
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 mt-4 relative z-99">
+            <button class="btn btn-primary">
+              Get started <mix-icon icon="move-right" />
+            </button>
+            <button class="btn btn-outline">
+              How it's work <mix-icon icon="move-down" />
+            </button>
+          </div>
+
+          <div class="absolute w-full top-0 right-0">
+            <svg
+              class="w-full"
+              height="120"
+              viewBox="0 0 800 120"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 0.446461C80.5216 -0.195918 108.168 -0.526251 147.375 5.89365C178.797 11.0385 221.721 36.8259 228.294 40.7167C235.622 45.0546 253.828 50.1236 275.709 54.4121C277.092 54.6833 278.434 55.0366 279.742 55.4529C287.302 57.859 300.674 61.4982 306.43 61.6246C317.553 61.6246 327.841 52.8702 339.798 52.8702C350.921 52.8702 362.6 64.7373 372.054 64.5427C380.769 64.5427 387.798 57.6124 400.847 53.7651C404.868 52.5792 409.436 52.2846 413.382 53.5873C423.142 56.8081 432.629 64.703 441.293 64.5427C450.4 64.5427 460.952 56.7392 471.527 54.2098C474.796 53.4277 478.345 53.674 481.632 54.4195C492.992 56.9953 499.21 61.0916 509.141 61.2355C518.485 61.3705 519.43 57.3447 537.782 54.0374C562.252 49.8602 560.028 50.8329 572.263 45.5803C594.508 35.2695 595.898 30.1889 627.32 15.8153C656.239 2.58643 708.793 -0.96436 800 0.446461"
+                stroke-width="2"
+                class="tw-th tw-ou tw-oi"
+              ></path>
+              <path
+                class="tw-ic"
+                d="M0 0.446461C80.5216 -0.195918 108.168 -0.526251 147.375 5.89365C178.797 11.0385 221.721 36.8259 228.294 40.7167C235.622 45.0546 253.828 50.1236 275.709 54.4121C277.092 54.6833 278.434 55.0366 279.742 55.4529C287.302 57.859 300.674 61.4982 306.43 61.6246C317.553 61.6246 327.841 52.8702 339.798 52.8702C350.921 52.8702 362.6 64.7373 372.054 64.5427C380.769 64.5427 387.798 57.6124 400.847 53.7651C404.868 52.5792 409.436 52.2846 413.382 53.5873C423.142 56.8081 432.629 64.703 441.293 64.5427C450.4 64.5427 460.952 56.7392 471.527 54.2098C474.796 53.4277 478.345 53.674 481.632 54.4195C492.992 56.9953 499.21 61.0916 509.141 61.2355C518.485 61.3705 519.43 57.3447 537.782 54.0374C562.252 49.8602 560.028 50.8329 572.263 45.5803C594.508 35.2695 595.898 30.1889 627.32 15.8153C656.239 2.58643 708.793 -0.96436 800 0.446461"
+                tw-eq="2"
+                stroke="#1f6eff"
+                fill="none"
+                stroke-dasharray="40 1000"
+                stroke-dashoffset="1080"
+              ></path>
+              <path
+                d="M0 29.7422C83.6402 29.7422 145.05 29.6712 179.785 36.7671C195.068 39.8893 215.362 47.5001 235.36 51.5976C248.626 54.3158 262.313 55.2017 270.649 56.7628C279.978 58.5101 280.375 60.3038 290.656 61.0558C303.994 62.0315 313.895 54.226 324.835 54.226C335.95 54.226 347.898 65.0889 357.346 64.8938C366.058 64.8938 373.505 58.2829 386.663 54.5137C390.7 53.3569 395.265 53.0447 399.193 54.3751C408.724 57.6035 417.62 65.4445 426.259 65.2841C435.353 65.2841 445.272 56.7441 455.66 54.0005C458.891 53.1466 462.461 53.3944 465.713 54.2101C477.487 57.1644 485.218 62.8628 495.172 63.0072C504.509 63.143 512.956 55.3969 535.186 56.3726C574.922 56.3726 582.146 50.8873 595.207 46.524C623.828 36.9623 634.793 35.3508 658.562 32.8644C697.742 28.7665 719.138 29.9374 800 29.9374"
+                stroke-width="2"
+                class="tw-wh tw-ou tw-oi"
+              ></path>
+              <path
+                class="tw-ic tw-vc"
+                d="M0 29.7422C83.6402 29.7422 145.05 29.6712 179.785 36.7671C195.068 39.8893 215.362 47.5001 235.36 51.5976C248.626 54.3158 262.313 55.2017 270.649 56.7628C279.978 58.5101 280.375 60.3038 290.656 61.0558C303.994 62.0315 313.895 54.226 324.835 54.226C335.95 54.226 347.898 65.0889 357.346 64.8938C366.058 64.8938 373.505 58.2829 386.663 54.5137C390.7 53.3569 395.265 53.0447 399.193 54.3751C408.724 57.6035 417.62 65.4445 426.259 65.2841C435.353 65.2841 445.272 56.7441 455.66 54.0005C458.891 53.1466 462.461 53.3944 465.713 54.2101C477.487 57.1644 485.218 62.8628 495.172 63.0072C504.509 63.143 512.956 55.3969 535.186 56.3726C574.922 56.3726 582.146 50.8873 595.207 46.524C623.828 36.9623 634.793 35.3508 658.562 32.8644C697.742 28.7665 719.138 29.9374 800 29.9374"
+                tw-eq="2"
+                stroke="#ff8f1f"
+                fill="none"
+                stroke-dasharray="40 1000"
+                stroke-dashoffset="1080"
+              ></path>
+              <path
+                d="M0 58.8921C81.9445 59.0198 163.612 58.7904 211.389 58.7904C225.543 59.2526 234.916 59.363 242.428 59.3228C265.279 59.2 288.128 56.0561 310.838 57.8171C313.355 58.0123 316.201 58.326 319.445 58.7904C326.667 59.8251 342.222 61.8458 348.611 60.9638C359.722 59.4297 366.111 53.2297 378.056 53.2297C389.166 53.2297 402.777 64.7347 412.222 64.543C420.919 64.543 427.094 57.5817 439.885 53.7493C443.884 52.5509 448.423 52.287 452.457 53.4252C462.409 56.2321 472.455 62.9756 481.111 62.8172C490.44 62.8172 501.287 57.276 512.119 55.5909C514.92 55.1548 517.832 55.3155 520.653 55.6826C537.218 57.8367 539.266 59.0248 549.722 59.174C559.055 59.3074 575.833 58.5987 586.389 58.5987C619.167 58.5987 605.833 58.5987 624.445 58.5987C654.167 58.5987 654.995 59.0462 689.444 59.0462C731.945 59.0462 708.055 58.3429 800 58.5987"
+                stroke-width="2"
+                class="tw-uh tw-ou tw-oi"
+              ></path>
+              <path
+                class="tw-ic tw-tc"
+                d="M0 58.8921C81.9445 59.0198 163.612 58.7904 211.389 58.7904C225.543 59.2526 234.916 59.363 242.428 59.3228C265.279 59.2 288.128 56.0561 310.838 57.8171C313.355 58.0123 316.201 58.326 319.445 58.7904C326.667 59.8251 342.222 61.8458 348.611 60.9638C359.722 59.4297 366.111 53.2297 378.056 53.2297C389.166 53.2297 402.777 64.7347 412.222 64.543C420.919 64.543 427.094 57.5817 439.885 53.7493C443.884 52.5509 448.423 52.287 452.457 53.4252C462.409 56.2321 472.455 62.9756 481.111 62.8172C490.44 62.8172 501.287 57.276 512.119 55.5909C514.92 55.1548 517.832 55.3155 520.653 55.6826C537.218 57.8367 539.266 59.0248 549.722 59.174C559.055 59.3074 575.833 58.5987 586.389 58.5987C619.167 58.5987 605.833 58.5987 624.445 58.5987C654.167 58.5987 654.995 59.0462 689.444 59.0462C731.945 59.0462 708.055 58.3429 800 58.5987"
+                tw-eq="2"
+                stroke="#a51fff"
+                fill="none"
+                stroke-dasharray="40 1000"
+                stroke-dashoffset="1080"
+              ></path>
+              <path
+                d="M0 88.0457C81.6666 88.0457 153.889 88.0457 172.222 82.5636C193.333 78.452 218.056 70.8163 226.667 67.4879C241.111 62.9848 236.666 64.0557 266.111 59.7484C274.444 58.7671 290.556 57.8688 296.945 58.7694C308.055 60.3357 308.611 62.881 320 63.0768C328.889 63.0768 342.222 52.5042 351.667 52.7C360.373 52.7 367.394 59.6767 380.43 63.5494C384.447 64.7426 389 65.0359 392.972 63.7699C402.714 60.6647 412.184 53.1287 420.833 53.2901C429.924 53.2901 439.839 61.8581 450.223 64.6113C453.454 65.4677 457.034 65.2348 460.25 64.3518C471.804 61.1808 478.666 54.6097 488.611 54.4648C492.483 54.408 498.259 56.1506 504.127 58.0552C517.155 62.2826 531.744 61.4729 546.084 61.6389C567.172 61.8829 576.388 65.8421 586.944 68.2711C612.355 75.9566 620.278 81.4688 655.833 84.8094C698.611 88.8289 710.556 87.85 800 88.2416"
+                stroke-width="2"
+                class="tw-sh tw-ou tw-oi"
+              ></path>
+              <path
+                class="tw-ic tw-uc"
+                d="M0 88.0457C81.6666 88.0457 153.889 88.0457 172.222 82.5636C193.333 78.452 218.056 70.8163 226.667 67.4879C241.111 62.9848 236.666 64.0557 266.111 59.7484C274.444 58.7671 290.556 57.8688 296.945 58.7694C308.055 60.3357 308.611 62.881 320 63.0768C328.889 63.0768 342.222 52.5042 351.667 52.7C360.373 52.7 367.394 59.6767 380.43 63.5494C384.447 64.7426 389 65.0359 392.972 63.7699C402.714 60.6647 412.184 53.1287 420.833 53.2901C429.924 53.2901 439.839 61.8581 450.223 64.6113C453.454 65.4677 457.034 65.2348 460.25 64.3518C471.804 61.1808 478.666 54.6097 488.611 54.4648C492.483 54.408 498.259 56.1506 504.127 58.0552C517.155 62.2826 531.744 61.4729 546.084 61.6389C567.172 61.8829 576.388 65.8421 586.944 68.2711C612.355 75.9566 620.278 81.4688 655.833 84.8094C698.611 88.8289 710.556 87.85 800 88.2416"
+                tw-eq="2"
+                stroke="#0bdb6c"
+                fill="none"
+                stroke-dasharray="40 1000"
+                stroke-dashoffset="1080"
+              ></path>
+              <path
+                d="M0 117.04C80.8333 117.04 106.111 118.304 149.444 110.849C181.389 104.27 188.611 100.787 220.833 79.5037C243.889 66.153 252.778 65.3791 272.222 62.8637C283.147 61.4505 289.444 55.409 298.889 55.6025C307.551 55.6025 312.46 59.6669 324.811 62.7666C328.913 63.7956 333.444 64.1164 337.42 62.8711C347.086 59.8434 356.359 52.5408 365 52.6998C374.115 52.6998 385.303 61.5372 396.057 64.3222C399.293 65.1601 402.88 64.9515 406.057 64.0111C417.625 60.5864 424.492 52.8434 434.444 52.6998C441.572 52.5973 446.724 57.3915 456.927 61.1282C463.961 63.7039 472.341 64.34 479.348 61.7295C486.641 59.0129 494.304 55.0105 501.944 55.409C512.598 55.9644 519.607 58.0505 525.454 60.0284C530.13 61.6099 535.053 62.7832 540.11 63.6199C553.34 65.809 559.678 67.1661 574.444 72.9251C598.611 82.3515 601.389 90.5325 633.333 103.883C669.999 119.749 738.056 116.847 800 116.847"
+                stroke-width="2"
+                class="tw-vh tw-ou tw-oi"
+              ></path>
+              <path
+                class="tw-ic tw-fd"
+                d="M0 117.04C80.8333 117.04 106.111 118.304 149.444 110.849C181.389 104.27 188.611 100.787 220.833 79.5037C243.889 66.153 252.778 65.3791 272.222 62.8637C283.147 61.4505 289.444 55.409 298.889 55.6025C307.551 55.6025 312.46 59.6669 324.811 62.7666C328.913 63.7956 333.444 64.1164 337.42 62.8711C347.086 59.8434 356.359 52.5408 365 52.6998C374.115 52.6998 385.303 61.5372 396.057 64.3222C399.293 65.1601 402.88 64.9515 406.057 64.0111C417.625 60.5864 424.492 52.8434 434.444 52.6998C441.572 52.5973 446.724 57.3915 456.927 61.1282C463.961 63.7039 472.341 64.34 479.348 61.7295C486.641 59.0129 494.304 55.0105 501.944 55.409C512.598 55.9644 519.607 58.0505 525.454 60.0284C530.13 61.6099 535.053 62.7832 540.11 63.6199C553.34 65.809 559.678 67.1661 574.444 72.9251C598.611 82.3515 601.389 90.5325 633.333 103.883C669.999 119.749 738.056 116.847 800 116.847"
+                tw-eq="2"
+                stroke="#ff351f"
+                fill="none"
+                stroke-dasharray="40 1000"
+                stroke-dashoffset="1080"
+              ></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="grow w-[10vw] ps-30">
+        <div class="w-full h-[400px] relative" #box4>
+          <div
+            class="dashbox absolute top-0 right-0 !stroke-success"
+            style="
+              --w: 100%; /* width  */
+              --h: 100%; /* height */
+              --stroke: 1.5; /* px     */
+              --radius: 32; /* px     */
+              --dash: 2; /* px     */
+              --gap: 2; /* px     */
+              --speed: 90s; /* animation duration */
+            "
+          >
+            <svg
+              class="dashbox__svg w-full h-full"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <rect
+                x="1"
+                y="1"
+                width="98"
+                height="98"
+                rx="0"
+                pathLength="240"
+                class="!stroke-success/60"
+              />
+            </svg>
+          </div>
+
+          <div class="runner bg-success" #runner4></div>
+
+          <div
+            class="w-60 absolute top-28 -left-[7.5rem] rounded-lg border border-success/80 h-[120px] flex items-center justify-center bg-base-100"
+          >
+            <div
+              class="w-full h-full relative flex flex-col justify-center items-center p-4"
+            >
+              <div
+                class="w-8 h-8 rounded-full bg-success/10 mb-2 border border-success/15 flex items-center justify-center"
+              >
+                <mix-icon icon="wrench" class="text-success" />
+              </div>
+
+              <p class="text-center text-success font-bold">
+                AI-Driven Task Execution
+              </p>
+
+              <div
+                class="rounded-lg p-2 shadow-lg absolute -top-8 -right-4 bg-base-100 translate-x-full z-20"
+              >
+                <div class="pt-4 px-3">
+                  <div class="text-secondary/80 font-bold text-sm">
+                    Browse MCP tools
+                  </div>
+                </div>
+
+                <ul class="menu rounded-box w-full !px-0">
+                  @for (group of data; track $index) {
+                    <li class="menu-title !text-xs">
+                      {{ group.displayName }}
+                    </li>
+                    @for (tool of group.tools; track $index) {
+                      <li>
+                        <a class="flex items-center">
+                          @if (tool.icon) {
+                            <div class="rounded-lg p-2 bg-secondary/15 me-2">
+                              <mix-icon [icon]="tool.icon"></mix-icon>
+                            </div>
+                          }
+                          {{ tool.displayName }}
+                        </a>
+                      </li>
+                    }
+                  }
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="absolute bottom-0 left-1/2 -translate-x-1/2 z-0 w-[33rem] h-64 bg-gradient-to-t from-primary/20 via-secondary/10 to-transparent rounded-full blur-3xl"
+    ></div>
+  </div>
+
+  <!-- Second container -->
+  <div
+    class="flex min-h-[50vh] w-full flex-col items-center justify-start xl:flex-row xl:items-start xl:justify-between"
+  >
+    <div class="xl:min-w-1/2 xl:w-1/2 overflow-hidden">
+      <div
+        class="flex min-h-[calc(100vh-4rem)] items-center justify-center px-2 py-10 text-center xl:justify-start xl:ps-10 xl:pe-0 xl:text-start"
+      >
+        <div>
+          <div
+            class="flex animate-[reveal-top-slow_0.5s] flex-col items-center gap-6 xl:flex-row"
+          >
+            <div class="tooltip tooltip-accent" data-tip="copy">
+              <button
+                class="btn btn-sm cursor-copy rounded-full font-mono font-light"
+              >
+                <pre><code>pnpm i -D &#64;mixcore/sdk</code></pre>
+              </button>
+            </div>
+            <a
+              href="https://www.youtube.com/watch?v=bYznFmzL820"
+              target="_blank"
+              rel="nofollow"
+              class="group text-base-content/70 hover:text-base-content flex items-center gap-2 rounded-lg pe-2 text-left text-[0.625rem] transition-all duration-300"
+              ><img
+                class="rounded-lg grayscale transition-all duration-500 group-hover:grayscale-0"
+                width="60"
+                height="33"
+                src="https://img.daisyui.com/images/content/v5-video-thumb.webp"
+                alt="daisyUI 5"
+              />
+              Watch <br />Mixcore 3.0 intro</a
+            >
+          </div>
+          <div class="h-4"></div>
+          <h1
+            class="font-title text-center text-[clamp(1.5rem,3.5vw,4rem)] leading-[1.1] [word-break:auto-phrase] xl:w-[115%] xl:text-start [:root[dir=rtl]_&amp;]:leading-[1.35]"
+          >
+            <div class="font-thin [&amp;:first-line]:font-black">
+              Open Source AI Based <br />
+              .NET Core CMS toolkit
+            </div>
+          </h1>
+          <div class="h-4"></div>
+          <p
+            class="text-base-content/70 font-title py-4 font-light [text-wrap:balance] md:text-lg xl:text-2xl"
+          >
+            Create multi-purpose Website, Mobile App.<br />
+            Built on top of latest .NET Core, Angular and AI.<!---->
+          </p>
+          <div class="h-10"></div>
+          <div>
+            <div
+              class="inline-flex w-full animate-[reveal-slow_0.5s] flex-col items-stretch justify-center gap-2 px-4 md:flex-row xl:justify-start xl:px-0"
+            >
+              <a
+                href="/github/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Github"
+                class="btn btn-outline md:btn-lg group shrink-0 rounded-full [@media(min-width:768px)]:px-10"
+              >
+                <svg
+                  aria-label="GitHub logo"
+                  width="16"
+                  height="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="#000"
+                    d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z"
+                  ></path>
+                </svg>
+                Github</a
+              >
+              <a
+                data-sveltekit-preload-data=""
+                href="/docs/install/"
+                class="btn btn-primary md:btn-lg group max-w-86 grow rounded-full px-12"
+                >Get started
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  class="hidden h-6 w-6 transition-transform duration-300 group-hover:translate-x-1 md:inline-block rtl:rotate-180 group-hover:rtl:-translate-x-1"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                  ></path></svg
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="shrink xl:w-1/2 xl:min-w-1/2 h-screen flex items-center justify-center invisible sticky bottom-4 shrink duration-700 xl:visible xl:-end-32 xl:top-16 xl:bottom-auto xl:w-auto xl:transform-none! xl:overflow-x-hidden xl:overflow-y-clip xl:bg-transparent xl:pb-16"
+    >
+      <div
+        class="mockup-browser border border-base-content/20 w-full ms-24 -mt-24"
+        style="
+          --rtl-reverse: 1;
+          transform: rotateX(20deg) rotateZ(calc(-20deg * var(--rtl-reverse)))
+            skewY(calc(8deg * var(--rtl-reverse)));
+        "
+      >
+        <div class="mockup-browser-toolbar">
+          <div class="input">https://mixcore.com</div>
+        </div>
+        <div class="grid place-content-center p-8 py-20">
+          <img src="/images/landing-image-1.jpg" class="w-3/4 mx-auto" alt="" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

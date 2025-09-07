@@ -1,0 +1,34 @@
+<mix-tile>
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+    <div class="flex flex-col gap-2 col-span-1 md:col-span-5">
+      <h3 class="text-lg font-semibold text-error">
+        {{ title() | transloco }}
+      </h3>
+      <p class="text-sm text-base-content/60 w-90">
+        {{ description() | transloco }}
+      </p>
+    </div>
+    <div class="items-center justify-end col-span-1 md:col-span-7">
+      <input
+        [formControl]="form"
+        class="input input-bordered w-full"
+        placeholder="Type something to delete"
+      />
+      <span class="text-sm"
+        >Type "<span class="text-error font-bold">{{
+          confirmRequireText()
+        }}</span
+        >" to handle delete</span
+      >
+
+      <div class="flex mt-4 justify-end">
+        <mix-button
+          [disabled]="!canDelete()"
+          (click)="onDelete.emit()"
+          color="error"
+          >{{ buttonLabel() | transloco }}</mix-button
+        >
+      </div>
+    </div>
+  </div>
+</mix-tile>

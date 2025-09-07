@@ -1,0 +1,55 @@
+@let state = dataState();
+@let product = data();
+
+<!-- Handle loading -->
+@if (state?.isLoading) {
+  <div class="flex w-52 flex-col gap-4">
+    <div class="skeleton h-32 w-full"></div>
+    <div class="skeleton h-4 w-28"></div>
+  </div>
+} @else {
+  <!-- Handle error state -->
+  @if (state?.isError) {
+    <div class="rounded-box mb-6 px-4 py-2 bg-error text-error-content">
+      {{ state?.error || 'Error when try to load content' }}
+    </div>
+  }
+
+  <!-- Handle silent loading state -->
+  @if (state?.isSilentLoading) {
+    <!-- Do something with silent loading -->
+  }
+
+  <mix-inline-alert
+    [type]="'info'"
+    [title]="'Loại bài viết'"
+    [description]="'Tin tức, bài viết nổi bật, bài viết nội bộ...'"
+    class="mb-6 block"
+    [hideToolbar]="true"
+    [mainTemplate]="mainTemplate"
+  >
+    <ng-template #mainTemplate>
+      <mix-select
+        [items]="blogTypes"
+        [value]="product?.blog_type"
+        [valueKey]="'value'"
+        [labelProcess]="labelProcess"
+        (valueChange)="onBlogTypeChange($event)"
+      ></mix-select>
+    </ng-template>
+  </mix-inline-alert>
+
+  <mix-form
+    [form]="form"
+    [value]="product"
+    [formConfig]="fields"
+    (onSubmit)="onSubmit($event)"
+  ></mix-form>
+
+  <mix-delete
+    class="mt-6 block"
+    description="common.deleteConfirmation"
+    buttonLabel="common.delete"
+    (onDelete)="onDelete()"
+  ></mix-delete>
+}

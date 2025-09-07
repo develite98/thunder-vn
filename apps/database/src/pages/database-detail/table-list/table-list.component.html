@@ -1,0 +1,48 @@
+@let tables = data()?.databases || [];
+
+<mix-table
+  [toolbarTpl]="toolar"
+  [data]="tables"
+  [contextMenu]="contextMenu"
+  [loading]="dbStore.isLoading()"
+  (refresh)="dispatch.refreshed(dbStore.query())"
+  (rowClick)="gotoDetail($event.id)"
+>
+  <ng-template #toolar>
+    <mix-button
+      [prefixIcon]="'plus'"
+      [color]="'primary'"
+      (click)="onCreateTable()"
+    >
+      {{ 'database.label.createTable' | transloco }}
+    </mix-button>
+  </ng-template>
+
+  <div mixTableColumn [header]="'Name'" [key]="'displayName'">
+    <ng-template mixColumnCell let-row>
+      <span class="font-medium">{{ row.data.displayName }}</span>
+    </ng-template>
+  </div>
+
+  <div mixTableColumn [header]="'Key'" [key]="'systemName'">
+    <ng-template mixColumnCell let-row>
+      <mix-copy-text [text]="row.data.systemName"></mix-copy-text>
+    </ng-template>
+  </div>
+
+  <div mixTableColumn [header]="'Updated'" [key]="'lastModified'">
+    <ng-template mixColumnCell let-row>
+      <span class="text-sm">
+        {{ row.data.lastModified || row.data.createdDateTime | date: 'short' }}
+      </span>
+    </ng-template>
+  </div>
+
+  <div mixTableColumn [header]="'Created'" [key]="'createdDateTime'">
+    <ng-template mixColumnCell let-row>
+      <span class="text-sm">
+        {{ row.data.createdDateTime | date: 'short' }}
+      </span>
+    </ng-template>
+  </div>
+</mix-table>

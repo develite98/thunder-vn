@@ -1,0 +1,28 @@
+<button
+  class="btn {{ inputClass() }} {{ colorClass() }}"
+  [class.btn-square]="iconButton()"
+  type="button"
+  [disabled]="disabled() || loading()"
+>
+  @if (prefixIcon(); as icon) {
+    <lucide-angular
+      [size]="16"
+      [name]="icon"
+      class="btn-prefix-icon"
+    ></lucide-angular>
+  }
+
+  @if (loading()) {
+    <span class="loading loading-spinner"></span>
+  } @else {
+    <ng-content></ng-content>
+  }
+
+  @if (postfixIcon(); as icon) {
+    <lucide-angular
+      [size]="16"
+      [name]="icon"
+      class="btn-postfix-icon"
+    ></lucide-angular>
+  }
+</button>

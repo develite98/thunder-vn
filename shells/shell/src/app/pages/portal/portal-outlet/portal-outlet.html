@@ -1,0 +1,156 @@
+<div class="w-screen h-screen flex overflow-auto overflow-x-hidden">
+  @if (showLoading()) {
+    <mix-loading class="w-full" />
+  } @else {
+    <div class="grow overflow-auto flex flex-col">
+      <div class="px-4 py-3 flex items-center w-full min-h-[60px]">
+        <img
+          class="ms-2"
+          [src]="appSetting?.appLogoUrl"
+          width="120px"
+          height="auto"
+          alt="App logo"
+        />
+
+        <span
+          class="rounded px-2 rounded-full bg-info/30 text-xs mx-2 font-semibold"
+          >{{ appSetting?.appVersion }}</span
+        >
+
+        <mix-breadcrumbs-outlet class="ms-8"></mix-breadcrumbs-outlet>
+        <app-cultures-select class="ms-auto bg-base-100" />
+        <theme-select class="ms-2 bg-base-100" />
+        <tenant-select class="ms-2 bg-base-100" />
+        <div class="ms-4 opacity-10">/</div>
+        <mix-user-profile-dropdown class="ms-4" />
+      </div>
+
+      <div class="flex w-full grow overflow-auto">
+        <div
+          class="w-auto flex mx-2 mb-4 border rounded-lg border-base-content/10 bg-base-100"
+        >
+          <div
+            class="menu-level-1 py-2 relative z-2"
+            [class.--active]="showLevel1Menu"
+          >
+            <ul class="menu menu-lg w-full h-full overflow-hidden">
+              @for (group of menu; track group) {
+                @for (item of group.items; track item) {
+                  <li *ifRole="item.roles || []">
+                    <a
+                      [commingSoon]="item.isDevelopment"
+                      [routerLink]="item.url"
+                      [routerLinkActive]="'menu-active'"
+                      class="text-sm text-base-content/80 h-[40px] flex items-center rounded-lg"
+                    >
+                      @if (item.icon) {
+                        <mix-icon
+                          [class.opacity-60]="showLevel1Menu"
+                          [icon]="item.icon"
+                        ></mix-icon>
+                      }
+                      @if (showLevel1Menu) {
+                        <span class="ms-2 whitespace-nowrap">{{
+                          item.title | transloco
+                        }}</span>
+                      }
+                    </a>
+                  </li>
+
+                  @if (item.separator) {
+                    <div
+                      class="mt-2 mb-2 w-full max-w-[90px] h-px bg-base-300"
+                      [class.ms-4]="showLevel1Menu"
+                    ></div>
+                  }
+                }
+              }
+
+              <li class="mt-auto">
+                <a
+                  class="text-sm text-base-content/80 h-[40px] flex items-center rounded-lg"
+                >
+                  <mix-icon
+                    [class.opacity-60]="showLevel1Menu"
+                    [icon]="'message-square-warning'"
+                  ></mix-icon>
+
+                  @if (showLevel1Menu) {
+                    <span class="ms-2">{{
+                      'common.label.feedback' | transloco
+                    }}</span>
+                  }
+                </a>
+              </li>
+
+              <li>
+                <a
+                  [routerLink]="['/app/setting']"
+                  [routerLinkActive]="'menu-active'"
+                  class="text-sm text-base-content/80 h-[40px] flex items-center rounded-lg"
+                >
+                  <mix-icon
+                    [class.opacity-60]="showLevel1Menu"
+                    [icon]="'settings'"
+                  ></mix-icon>
+
+                  @if (showLevel1Menu) {
+                    <span class="ms-2">{{
+                      'common.label.setting' | transloco
+                    }}</span>
+                  }
+                </a>
+              </li>
+            </ul>
+
+            <button
+              (click)="showLevel1Menu = !showLevel1Menu"
+              class="absolute -right-[16px] top-1/2 btn btn-square rounded-full btn-sm bg-base-100 !border-l-transparent !border-b-transparent border-r border-t rotate-[45deg]"
+            >
+              <mix-icon
+                class="rotate-[-45deg]"
+                [icon]="showLevel1Menu ? 'chevron-left' : 'chevron-right'"
+              ></mix-icon>
+            </button>
+          </div>
+
+          @let activeMenuLevel2 = activeLevel2Menu();
+          <div
+            class="menu-level-2 border-base-content/10 py-2 relative"
+            [class.--active]="activeMenuLevel2"
+            [class.border-l]="activeMenuLevel2"
+          >
+            <ul class="menu menu-lg w-full overflow-hidden">
+              @for (item of activeLevel2Menu()?.items; track $index) {
+                <li class="w-full" [commingSoon]="item.isDevelopment">
+                  <a
+                    [routerLink]="item.url"
+                    [routerLinkActive]="'menu-active'"
+                    [routerLinkActiveOptions]="{ exact: false }"
+                    class="text-sm w-full text-base-content/80 h-[40px] flex items-center rounded-lg"
+                  >
+                    @if (item.icon) {
+                      <mix-icon [icon]="item.icon"></mix-icon>
+                    }
+                    <span class="ms-2">{{ item.title | transloco }}</span>
+                  </a>
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+
+        <div class="grow flex flex-col overflow-auto">
+          <div class="grow overflow-auto flex flex-col">
+            <router-outlet></router-outlet>
+          </div>
+          <div class="px-4 pb-2 pt-0">
+            <mix-identify-footer class="w-full"></mix-identify-footer>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+    <mix-ai-chat-pannel></mix-ai-chat-pannel>
+  }
+</div>

@@ -1,0 +1,105 @@
+<mix-page-container
+  [pageTitle]="'system-dashboard.appName'"
+  [pageDescription]="'🥰 Welcome back, sir'"
+>
+  <div class="-mt-[5rem] relative z-10 grid grid-cols-1 md:grid-cols-5 gap-6">
+    <div class="col-span-3 flex flex-col gap-6">
+      <mix-tile>
+        <div class="stat-title flex items-center gap-2 uppercase font-bold">
+          <mix-icon icon="folder-clock"></mix-icon>
+          Blogs & News
+        </div>
+
+        <div class="w-full">
+          <div
+            class="px-0 py-3 border-b border-base-content/10 flex justify-between items-center"
+          >
+            <div>🙋 Good news, folks! 4P's v3.0.0 is now released</div>
+            <button class="btn btn-ghost">
+              <mix-icon icon="link"></mix-icon>
+            </button>
+          </div>
+        </div>
+      </mix-tile>
+      <mix-tile>
+        <div class="stat-title flex items-center gap-2 uppercase font-bold">
+          <mix-icon icon="briefcase"></mix-icon>
+          Your Today Tasks
+        </div>
+
+        <div class="w-full">
+          <div
+            class="px-0 py-3 border-b border-base-content/10 flex justify-between items-center"
+          >
+            <div>Release new IT Opps Tool</div>
+            <span class="flex items-center text-sm">
+              <div class="inline-grid *:[grid-area:1/1] me-2">
+                <div class="status status-warning animate-ping"></div>
+                <div class="status status-warning"></div>
+              </div>
+              Near deadline
+            </span>
+          </div>
+          <div
+            class="px-0 py-3 border-b border-base-content/10 flex justify-between items-center"
+          >
+            <div>Release new BO</div>
+            <span class="flex items-center text-sm">
+              <div class="inline-grid *:[grid-area:1/1] me-2">
+                <div class="status status-info animate-ping"></div>
+                <div class="status status-info"></div>
+              </div>
+              In progress
+            </span>
+          </div>
+        </div>
+      </mix-tile>
+      <div class="mt-6">
+        <div
+          class="font-title text-2xl uppercase tracking-wide text-base-content/60"
+        >
+          System Overview
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-6">
+        <mix-tile>
+          <div class="stat-title flex items-center gap-2 uppercase font-bold">
+            <mix-icon icon="database"></mix-icon>
+            Database
+          </div>
+          <div class="stat-value">
+            12
+            <div class="stat-desc font-medium">db found</div>
+          </div>
+        </mix-tile>
+
+        <mix-tile>
+          <div class="stat-title flex items-center gap-2 uppercase font-bold">
+            <mix-icon icon="users"></mix-icon>
+            Users
+          </div>
+          <div class="stat-value">
+            33
+            <div class="stat-desc font-medium">users found</div>
+          </div>
+        </mix-tile>
+
+        <mix-tile>
+          <div class="stat-title flex items-center gap-2 uppercase font-bold">
+            <mix-icon icon="folder"></mix-icon>
+            storage
+          </div>
+          <div class="stat-value">
+            749 MB
+            <div class="stat-desc font-medium">storage usage</div>
+          </div>
+        </mix-tile>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-6 col-span-2">
+      <mix-releases-tile></mix-releases-tile>
+      <mix-contributors-tile></mix-contributors-tile>
+    </div>
+  </div>
+</mix-page-container>

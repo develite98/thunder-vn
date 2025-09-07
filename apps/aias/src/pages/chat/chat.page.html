@@ -1,0 +1,22 @@
+@let aiMessage = chatMessageStore.currentStreamingMessage();
+
+<div
+  class="overflow-auto grid grid-cols-12"
+  style="height: calc(100vh - 124px)"
+  #scrollContainer
+>
+  <div class="overflow-auto col-span-2">
+    <aias-chat-menu></aias-chat-menu>
+  </div>
+  <div
+    class="container !max-w-3xl col-span-8 mx-auto grow overflow-auto flex flex-col"
+  >
+    <mix-ai-chat-message></mix-ai-chat-message>
+    <mix-ai-chat-input
+      [disabled]="!!aiMessage"
+      (onSubmit)="onChatSubmit($event)"
+      (onClearChat)="onClearChat()"
+    ></mix-ai-chat-input>
+  </div>
+  <div class="col-span-2"></div>
+</div>

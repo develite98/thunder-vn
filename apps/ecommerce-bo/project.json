@@ -1,0 +1,41 @@
+{
+  "name": "ecommerce-bo",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "prefix": "app",
+  "sourceRoot": "apps/ecommerce-bo/src",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "continuous": true,
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "ecommerce-bo:build:production"
+        },
+        "development": {
+          "buildTarget": "ecommerce-bo:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "ecommerce-bo:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "serve-static": {
+      "continuous": true,
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "ecommerce-bo:build",
+        "staticFilePath": "dist/apps/ecommerce-bo/browser",
+        "spa": true
+      }
+    }
+  }
+}

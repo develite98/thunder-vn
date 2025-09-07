@@ -1,0 +1,41 @@
+<mix-dialog-wrapper [title]="'Thêm khu vực quản lý'">
+  <div class="w-full flex flex-col gap-4" dialog-body>
+    <div class="w-full grid grid-cols-1 md:grid-cols-1 gap-4">
+      <div class="fieldset">
+        <label for="">Tỉnh / Thành phố:</label>
+        <select
+          class="select"
+          [(ngModel)]="selectedProvinceCode"
+          (change)="onProvinceChange()"
+        >
+          <option [value]="undefined">-- Chọn tỉnh --</option>
+          <option
+            *ngFor="let province of provinces"
+            [value]="province.province"
+          >
+            {{ province.province }}
+          </option>
+        </select>
+      </div>
+
+      <div class="fieldset" *ngIf="wards.length > 0">
+        <label for="">Phường / Xã:</label>
+        <select class="select" [(ngModel)]="selectedWardCode">
+          <option [value]="undefined">-- Chọn phường/xã --</option>
+          <option *ngFor="let ward of wards" [value]="ward.name">
+            {{ ward.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div dialog-footer class="flex items-center justify-end gap-2">
+    <mix-button (click)="ref.close()">
+      {{ 'common.cancel' | transloco }}
+    </mix-button>
+    <mix-button [color]="'primary'" (click)="onSubmit()">
+      {{ 'common.create' | transloco }}
+    </mix-button>
+  </div>
+</mix-dialog-wrapper>

@@ -1,0 +1,121 @@
+<div
+  class="flex w-[100dvw] max-w-[100%] h-[100dvh] flex-col p-4 bg-base-100 md:p-12"
+>
+  <div
+    class="w-full h-full bg-base-100 rounded-lg p-4 flex flex-col items-start md:items-center relative"
+  >
+    <div class="w-fit md:w-[400px] mb-[6vh] pt-4">
+      <div class="flex gap-2">
+        <app-cultures-select></app-cultures-select>
+        <theme-select></theme-select>
+        <tenant-select></tenant-select>
+      </div>
+      <img
+        [src]="appSetting.appSetting?.appLogoUrl"
+        class="w-36 mt-4"
+        alt="App logo"
+      />
+    </div>
+
+    <div class="w-full md:w-[400px]">
+      <div class="text-xl mb-2 font-title">
+        {{ 'auth.login.heading' | transloco }}
+      </div>
+
+      <div class="text-sm text-base-content/60">
+        {{
+          'auth.login.description'
+            | transloco: { appName: appSetting.appSetting?.appName }
+        }}
+      </div>
+
+      <div class="pt-6 w-full" [formGroup]="loginForm">
+        <fieldset class="fieldset w-full">
+          <label class="input w-full">
+            <mix-icon icon="mail" class="me-2"></mix-icon>
+            <input
+              name="username"
+              id="username"
+              formControlName="username"
+              [placeholder]="'auth.login.username' | transloco"
+            />
+          </label>
+        </fieldset>
+
+        <fieldset class="fieldset w-full">
+          <label class="input w-full">
+            <mix-icon icon="key-round" class="me-2"></mix-icon>
+            <input
+              (keyup.enter)="onLogin()"
+              formControlName="password"
+              type="password"
+              [placeholder]="'auth.login.password' | transloco"
+            />
+          </label>
+        </fieldset>
+
+        @if (showError()) {
+          <div
+            class="rounded px-2 py-1 mt-2 bg-error text-error-content text-xs"
+          >
+            {{ 'common.error.1' | transloco }}
+          </div>
+        }
+
+        <mix-button
+          (click)="onLogin()"
+          class="w-full btn-primary mt-6 justify-between"
+          [postfixIcon]="'log-in'"
+          [loading]="isLoading()"
+          >Get's go</mix-button
+        >
+      </div>
+
+      <!-- <div class="divider">or</div>
+
+      <button class="btn bg-base-100 border-base-content/10 w-full">
+        <svg
+          aria-label="Google logo"
+          width="16"
+          height="16"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 512 512"
+        >
+          <g>
+            <path d="m0 0H512V512H0" fill="#fff"></path>
+            <path
+              fill="#34a853"
+              d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"
+            ></path>
+            <path
+              fill="#4285f4"
+              d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"
+            ></path>
+            <path
+              fill="#fbbc02"
+              d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"
+            ></path>
+            <path
+              fill="#ea4335"
+              d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"
+            ></path>
+          </g>
+        </svg>
+        {{ 'auth.login.google' | transloco }}
+      </button> -->
+    </div>
+
+    <div
+      class="w-full absolute bottom-0 left-0 p-4 flex flex-col w text-xs gap-1"
+    >
+      <a class="opacity-60 text-xs">Document</a>
+      <a class="opacity-60 text-xs">Terms & Conditions</a>
+      <a class="opacity-60 text-xs md:ms-auto"
+        >App version: {{ appSetting.appSetting?.appVersion }}</a
+      >
+      <a class="opacity-60 text-xs">{{
+        appSetting.appSetting?.appCopyright
+      }}</a>
+    </div>
+  </div>
+</div>

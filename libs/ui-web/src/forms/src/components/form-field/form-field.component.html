@@ -1,0 +1,18 @@
+<fieldset class="fieldse w-full">
+  <legend class="!p-0 mb-2 text-sm">
+    {{ name() | transloco }}
+
+    @if (required()) {
+      <span class="text-red-500">*</span>
+    }
+  </legend>
+
+  <ng-content></ng-content>
+
+  @if (description(); as description) {
+    <span class="label mt-2 text-xs whitespace-normal flex items-center gap-2">
+      <mix-icon icon="info"></mix-icon>
+      {{ description | transloco }}
+    </span>
+  }
+</fieldset>

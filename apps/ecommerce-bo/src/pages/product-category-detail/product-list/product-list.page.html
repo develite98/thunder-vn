@@ -1,0 +1,49 @@
+<mix-table
+  [data]="productStore.dataEntities() || []"
+  [paging]="productStore.pagingInfo()"
+  [loading]="productStore.isLoading()"
+  (goPrevious)="productStore.goPreviousPage()"
+  (goNext)="productStore.goNextPage()"
+  [contextMenu]="contextMenu"
+  [toolbarTpl]="toolar"
+>
+  <ng-template #toolar>
+    <mix-button
+      [prefixIcon]="'plus'"
+      [color]="'primary'"
+      (click)="onAddProduct()"
+    >
+      {{ 'ecommerce.product.create' | transloco }}
+    </mix-button>
+  </ng-template>
+
+  <div mixTableColumn [header]="'ecommerce.product.name'" [key]="'title'">
+    <ng-template mixColumnCell let-row>
+      {{ row.data.title }}
+    </ng-template>
+  </div>
+
+  <div mixTableColumn [header]="'ecommerce.product.price'" [key]="'totalPrice'">
+    <ng-template mixColumnCell let-row>
+      <mix-currency [value]="row.data.price"></mix-currency>
+    </ng-template>
+  </div>
+
+  <div [header]="'common.status'" key="'status'" mixTableColumn>
+    <ng-template let-row mixColumnCell>
+      <mix-status-indicator [status]="row.data.status"></mix-status-indicator>
+    </ng-template>
+  </div>
+
+  <div
+    mixTableColumn
+    [header]="'common.created_date'"
+    [key]="'createdDateTime'"
+  >
+    <ng-template mixColumnCell let-row>
+      <span class="text-sm">
+        {{ row.data.created_date_time | date: 'short' }}
+      </span>
+    </ng-template>
+  </div>
+</mix-table>

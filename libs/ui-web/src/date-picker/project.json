@@ -1,0 +1,18 @@
+{
+  "name": "@mixcore/ui/date-picker",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ui-controls/src/date-picker",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/ui-controls/src/date-picker/**/*.ts",
+          "libs/ui-controls/src/date-picker/**/*.html"
+        ]
+      }
+    }
+  }
+}

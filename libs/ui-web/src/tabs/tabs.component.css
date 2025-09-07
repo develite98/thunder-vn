@@ -1,0 +1,18 @@
+.mix-tabs.tabs-border .tab:before {
+  width: 60% !important;
+  bottom: -1px !important;
+  left: 2% !important;
+  height: 1px !important;
+}
+
+.mix-tabs.tabs-border .tab {
+  padding-inline-start: 0em;
+  padding-inline-end: 0rem;
+  margin-inline-end: 2.4rem;
+  height: 2.75rem !important;
+  font-weight: medium !important;
+}
+
+.mix-tabs.tabs-border .tab.tab-active:before {
+  border-top: 1px solid !important;
+}

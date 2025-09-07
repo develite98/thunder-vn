@@ -1,0 +1,57 @@
+<mix-dialog-wrapper [title]="'Google Login Configurations'">
+  <div dialog-body [formGroup]="form">
+    <div class="text-sm text-base-content/60 mb-4">
+      To use Google login, you need to configure the OAuth 2.0 credentials in
+      the Google Developer Console.
+      <a
+        class="link link-primary link-hover"
+        href="https://support.google.com/googleapi/answer/6158849"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Visit docs</a
+      >
+    </div>
+
+    <mix-toggle formControlName="enable">Enable</mix-toggle>
+
+    <mix-form-field [name]="'App ID'" [required]="true" class="mb-4 mt-6">
+      <input
+        formControlName="appId"
+        class="input w-full"
+        type="text"
+        [placeholder]="'common.input.placeholder' | transloco"
+      />
+    </mix-form-field>
+
+    <mix-form-field [name]="'App Secrect'" [required]="true" class="mb-4">
+      <input
+        formControlName="appSecret"
+        class="input w-full"
+        type="text"
+        [placeholder]="'common.input.placeholder' | transloco"
+      />
+    </mix-form-field>
+
+    <mix-form-field [name]="'Client config'" class="mb-4">
+      <mix-code-editor
+        [value]="config"
+        (valueChange)="config = $event"
+        class="rounded-lg block overflow-hidden"
+      ></mix-code-editor>
+    </mix-form-field>
+  </div>
+
+  <div dialog-footer class="flex items-center justify-end gap-2">
+    <mix-button [type]="'ghost'" (click)="dialogRef.close()">
+      {{ 'common.cancel' | transloco }}
+    </mix-button>
+
+    <mix-button
+      [loading]="isLoading()"
+      [color]="'primary'"
+      (click)="onSubmit()"
+    >
+      {{ 'common.update' | transloco }}
+    </mix-button>
+  </div>
+</mix-dialog-wrapper>

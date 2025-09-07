@@ -1,0 +1,69 @@
+<mix-dialog-wrapper [title]="'iam.user.create' | transloco">
+  <div dialog-body [formGroup]="form">
+    <mix-form-field
+      [name]="'Username'"
+      [required]="true"
+      class="mb-6"
+      [description]="
+        'A unique identifier chosen by a user to represent themselves in a system or platform.'
+      "
+    >
+      <input
+        formControlName="username"
+        class="input w-full"
+        type="text"
+        placeholder="Enter username"
+      />
+    </mix-form-field>
+
+    <mix-form-field
+      [name]="'Email'"
+      [required]="true"
+      class="mb-6"
+      [description]="
+        '
+      A digital address used to send and receive electronic messages (e.g., user@example.com).'
+      "
+    >
+      <input
+        formControlName="email"
+        class="input w-full"
+        type="text"
+        placeholder="Enter Email"
+      />
+    </mix-form-field>
+
+    <div class="p-4 rounded-lg bg-base-200/50 border border-base-content/10">
+      <mix-form-field [name]="'Password'" [required]="true" class="mb-4">
+        <input
+          type="password"
+          class="input w-full"
+          placeholder="Enter Password"
+          formControlName="password"
+        />
+      </mix-form-field>
+
+      <mix-form-field [name]="'Confirm password'" [required]="true">
+        <input
+          type="password"
+          class="input w-full"
+          placeholder="Enter Password"
+          formControlName="confirmPassword"
+        />
+      </mix-form-field>
+    </div>
+  </div>
+
+  <div dialog-footer class="flex items-center justify-end gap-2">
+    <mix-button (click)="dialogRef.close()" [disabled]="isLoading()">
+      {{ 'common.cancel' | transloco }}
+    </mix-button>
+    <mix-button
+      [color]="'primary'"
+      (click)="onSumbit()"
+      [loading]="isLoading()"
+    >
+      {{ 'iam.user.create' | transloco }}
+    </mix-button>
+  </div>
+</mix-dialog-wrapper>

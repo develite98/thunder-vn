@@ -1,0 +1,71 @@
+<div class="p-4">
+  <div>Confirm modal:</div>
+
+  <button class="btn btn-primary" (click)="openModal()">Open modal</button>
+
+  <div>Auto focus:</div>
+
+  <button class="btn btn-primary" (click)="openModalWithAutoFocus()">
+    Open bottom sheet with auto focus
+  </button>
+
+  <div class="mt-4">Select simple:</div>
+
+  <mix-select-simple
+    [items]="selectItems"
+    [valueKey]="'id'"
+    [labelProcess]="labelProcess"
+  ></mix-select-simple>
+
+  <div class="mt-4">Select with search:</div>
+
+  <mix-select-complex
+    [items]="selectItems"
+    [valueKey]="'id'"
+    [labelProcess]="labelProcess"
+    [searchFn]="searchFn"
+  ></mix-select-complex>
+
+  <div class="mt-4">Select custom ui:</div>
+
+  <mix-select-complex
+    class="w-fit"
+    [items]="selectItems"
+    [valueKey]="'id'"
+    [labelProcess]="labelProcess"
+    [buttonTemplateRef]="buttonCumstom"
+    [optionTemplateRef]="optionCustom"
+  >
+    <ng-template #buttonCumstom let-value>
+      <button class="btn w-fit">
+        @if (value) {
+          <span class="text-base-content"
+            >You are select {{ value.displayName }}</span
+          >
+        } @else {
+          <span class="text-base-content/60">Select an item</span>
+        }
+      </button>
+    </ng-template>
+
+    <ng-template #optionCustom let-value>
+      <div class="w-full py-2 flex justify-between items-center">
+        @switch (value.item.id) {
+          @case (2) {
+            <div>Item id 2</div>
+          }
+          @default {
+            <div>Item id different</div>
+          }
+        }
+
+        @if (value.isSelected) {
+          <mix-icon class="text-primary" icon="check"></mix-icon>
+        }
+      </div>
+    </ng-template>
+  </mix-select-complex>
+
+  <div class="mt-4">Date picker:</div>
+  <mix-date-picker-m></mix-date-picker-m>
+</div>

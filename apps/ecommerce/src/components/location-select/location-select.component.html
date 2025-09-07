@@ -1,0 +1,31 @@
+<div class="w-full flex flex-col gap-4">
+  <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-2">
+    <div class="fieldset w-full">
+      <label for="">Tỉnh / Thành phố:</label>
+      <select
+        class="select w-full"
+        [(ngModel)]="selectedProvinceCode"
+        (change)="onProvinceChange()"
+      >
+        <option [value]="undefined">-- Chọn tỉnh --</option>
+        <option *ngFor="let province of provinces" [value]="province.province">
+          {{ province.province }}
+        </option>
+      </select>
+    </div>
+
+    <div class="fieldset" *ngIf="wards.length > 0">
+      <label for="">Phường / Xã:</label>
+      <select
+        class="select w-full"
+        [(ngModel)]="selectedWardCode"
+        (ngModelChange)="onWardChange()"
+      >
+        <option [value]="undefined">-- Chọn phường/xã --</option>
+        <option *ngFor="let ward of wards" [value]="ward.name">
+          {{ ward.name }}
+        </option>
+      </select>
+    </div>
+  </div>
+</div>

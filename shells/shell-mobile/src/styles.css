@@ -1,0 +1,97 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss';
+@plugin "@tailwindcss/typography";
+@plugin "daisyui" {
+  themes:
+    light --default,
+    dark --prefersdark,
+    night;
+}
+@plugin "daisyui/theme" {
+  name: 'light';
+  default: true;
+  prefersdark: false;
+  color-scheme: 'light';
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(98% 0 0);
+  --color-base-300: oklch(95% 0 0);
+  --color-base-content: oklch(21% 0.006 285.885);
+  --color-primary: oklch(58% 0.158 241.966);
+  --color-primary-content: oklch(93% 0.034 272.788);
+  --color-secondary: oklch(65% 0.241 354.308);
+  --color-secondary-content: oklch(94% 0.028 342.258);
+  --color-accent: oklch(77% 0.152 181.912);
+  --color-accent-content: oklch(98% 0.002 247.839);
+  --color-neutral: oklch(0.95 0 0);
+  --color-neutral-content: oklch(0.25 0 0);
+  --color-info: oklch(74% 0.16 232.661);
+  --color-info-content: oklch(96% 0.003 264.542);
+  --color-success: oklch(76% 0.177 163.223);
+  --color-success-content: oklch(98% 0.003 247.858);
+  --color-warning: oklch(82% 0.189 84.429);
+  --color-warning-content: oklch(41% 0.112 45.904);
+  --color-error: oklch(63% 0.237 25.331);
+  --color-error-content: oklch(100% 0 0);
+}
+
+@plugin "daisyui/theme" {
+  name: 'red';
+  --color-primary: #ff1212;
+}
+
+html,
+body {
+  font-family: Inter, arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-size: 14px;
+}
+
+.input,
+.textarea {
+  @apply placeholder-gray-400 w-full;
+  outline: none !important;
+}
+
+.input.ng-invalid.ng-touched.ng-dirty {
+  @apply border-error;
+}
+
+.tippy-box[data-state='hidden'] {
+  display: none !important;
+}
+
+.ngneat-dialog-content {
+  width: 340px !important;
+  min-width: 340px !important;
+  max-width: 340px !important;
+}
+
+.cupertino-pane-wrapper {
+  z-index: 999;
+  width: 100%;
+
+  .draggable,
+  .destroy-button {
+    z-index: 1000;
+  }
+
+  .pane {
+    padding-top: unset;
+    overflow: hidden;
+
+    &.primary {
+      background-color: (
+        --fallback-p,
+        oklch(var(--p) / var(--tw-bg-opacity, 1))
+      ) !important;
+    }
+  }
+}
+
+.cupertino-pane-wrapper-container {
+  visibility: hidden;
+}
+
+.cupertino-pane-wrapper-container.rendered {
+  visibility: visible;
+}

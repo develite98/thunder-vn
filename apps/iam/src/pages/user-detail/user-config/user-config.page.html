@@ -1,0 +1,65 @@
+@let data = user();
+
+@if (data; as user) {
+  @if (!user.isActived || !user.isChangePassword) {
+    <div class="w-full flex flex-col gap-4 mb-4">
+      @if (!user.isActived) {
+        <div
+          class="badge badge-lg badge-soft badge-error flex justify-start items-center gap-2 whitespace-nowrap w-fit py-4"
+        >
+          <mix-icon icon="triangle-alert"></mix-icon>
+
+          {{ 'iam.userDetail.inActiveWarning' | transloco }}
+        </div>
+      }
+
+      @if (!user.isChangePassword) {
+        <div
+          class="badge badge-lg badge-soft badge-warning flex justify-start items-center gap-2 whitespace-nowrap w-fit py-4"
+        >
+          <mix-icon icon="triangle-alert"></mix-icon>
+
+          {{ 'iam.userDetail.changePasswordWarning' | transloco }}
+        </div>
+      }
+    </div>
+  }
+
+  <mix-tile class="mb-6 block">
+    <div class="grid grid-cols-1 md:grid-cols-12 form-item-container">
+      <div class="col-span-12 md:col-span-5">
+        <div class="avatar">
+          <div class="mask mask-squircle w-24">
+            <img
+              alt="User Avatar"
+              src="https://img.daisyui.com/images/profile/demo/distracted1@192.webp"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="col-span-12 md:col-span-7">
+        <div class="text-sm">
+          Created at: {{ user.createdDateTime | date: 'medium' }}
+        </div>
+
+        <div class="text-sm">
+          Updated at: {{ user.createdDateTime | date: 'medium' }}
+        </div>
+      </div>
+    </div>
+  </mix-tile>
+  <mix-form [form]="form" [value]="user" [formConfig]="fields"></mix-form>
+
+  <mix-delete
+    class="mt-6 block"
+    description="common.deleteConfirmation"
+    buttonLabel="common.label.delete"
+    (onDelete)="onDelete()"
+  ></mix-delete>
+} @else {
+  <div class="flex w-52 flex-col gap-4">
+    <div class="skeleton h-32 w-full"></div>
+    <div class="skeleton h-4 w-28"></div>
+  </div>
+}

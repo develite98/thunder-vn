@@ -1,0 +1,55 @@
+<mix-dialog-wrapper [title]="'common.tenant.create' | transloco">
+  <div dialog-body [formGroup]="form">
+    <mix-form-field
+      [name]="'Display name'"
+      [required]="true"
+      class="mb-6"
+      [description]="
+        'A display name to indicate your wonderfull backend service.'
+      "
+    >
+      <input
+        formControlName="name"
+        class="input w-full"
+        type="text"
+        placeholder="Enter tenant name"
+      />
+    </mix-form-field>
+
+    <mix-form-field
+      [name]="'Domain'"
+      [required]="true"
+      class="mb-6"
+      [description]="
+        '
+     Your backend base domain (e.g., mixcore-studio.com).'
+      "
+    >
+      <input
+        formControlName="domain"
+        class="input w-full"
+        type="text"
+        placeholder="Enter domain url"
+      />
+    </mix-form-field>
+
+    <div
+      class="p-4 rounded-lg bg-base-200/50 border border-base-content/10 text-base-content/60 text-xs"
+    >
+      Please make sure that the domain you enter is valid cors is allowed
+    </div>
+  </div>
+
+  <div dialog-footer class="flex items-center justify-end gap-2">
+    <mix-button (click)="dialogRef.close()" [disabled]="isLoading()">
+      {{ 'common.cancel' | transloco }}
+    </mix-button>
+    <mix-button
+      [color]="'primary'"
+      (click)="onSumbit()"
+      [loading]="isLoading()"
+    >
+      {{ 'common.create' | transloco }}
+    </mix-button>
+  </div>
+</mix-dialog-wrapper>

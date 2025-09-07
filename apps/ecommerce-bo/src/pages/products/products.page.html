@@ -1,0 +1,13 @@
+<ng-template #breadcrumb>
+  <mix-breadcrumbs>
+    <div
+      [name]="'ecommerce.product.pageTitle' | transloco"
+      mixBreadcrumbItem
+      [active]="true"
+    ></div>
+  </mix-breadcrumbs>
+</ng-template>
+
+<mix-page-container [tabs]="tabs" [pageTitle]="'ecommerce.product.pageTitle'">
+  <router-outlet></router-outlet>
+</mix-page-container>

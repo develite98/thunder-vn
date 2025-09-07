@@ -1,0 +1,69 @@
+<div class="w-full rounded-4xl border border-base-content/10 p-4 bg-base-100">
+  @if (files.length) {
+    <div class="px-1 mb-4 flex items-center gap-2 flex-wrap w-full">
+      @for (file of imagePreviews(); track file; let i = $index) {
+        <div
+          class="flex items-center gap-2 w-[58px] h-[58px] rounded-lg bg-base-200 relative"
+        >
+          <img
+            [src]="file"
+            class="w-full h-full object-cover rounded-lg overflow-hidden"
+            alt="Uploaded file"
+          />
+          <button
+            (click)="removeFile(i)"
+            class="btn btn-xs btn-square rounded-full absolute -top-2 -right-2"
+          >
+            <mix-icon icon="trash" [size]="12"></mix-icon>
+          </button>
+        </div>
+      }
+    </div>
+  }
+
+  <div
+    class="w-full grow overflow-auto text-editor-main px-2"
+    tabindex="0"
+    #editorContainer
+  ></div>
+
+  <div class="mt-4 flex items-center gap-2 w-full">
+    <button
+      class="btn btn-sm btn-square btn-ghost rounded-full"
+      (click)="fileInput.click()"
+    >
+      <mix-icon icon="image"></mix-icon>
+    </button>
+
+    <button class="btn btn-sm btn-square btn-ghost rounded-full">
+      <mix-icon icon="paperclip"></mix-icon>
+    </button>
+
+    <button class="btn btn-sm btn-ghost px-2">GPT 4.o</button>
+
+    <button
+      class="btn btn-sm btn-ghost px-2"
+      [tp]="'Delete chat'"
+      (click)="onClearChat.emit()"
+    >
+      <mix-icon icon="trash" class="text-error"></mix-icon>
+    </button>
+
+    <button
+      (click)="submit()"
+      [disabled]="!value"
+      class="btn btn-sm btn-square btn-ghost rounded-full ms-auto"
+    >
+      <mix-icon icon="send-horizontal"></mix-icon>
+    </button>
+  </div>
+
+  <input
+    #fileInput
+    type="file"
+    accept="image/*"
+    class="hidden"
+    multiple="true"
+    (change)="fileChangeEvent($event)"
+  />
+</div>

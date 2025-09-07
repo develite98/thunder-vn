@@ -1,0 +1,67 @@
+<div class="grow overflow-auto">
+  <mix-table
+    [toolbarTpl]="toolar"
+    [data]="store.dataEntities() || []"
+    [paging]="store.pagingInfo()"
+    [loading]="store.isLoading()"
+    (goPrevious)="store.goPreviousPage()"
+    (goNext)="store.goNextPage()"
+    [toolbarTpl]="toolar"
+    [contextMenu]="contextMenu"
+  >
+    <ng-template #toolar>
+      <mix-button
+        [size]="'xs'"
+        [prefixIcon]="'plus'"
+        [color]="'primary'"
+        (click)="addArea()"
+      >
+        {{ 'bms.branch.area.createNew' | transloco }}
+      </mix-button>
+    </ng-template>
+
+    <div mixTableColumn [header]="'common.label.id'" [key]="'id'">
+      <ng-template mixColumnCell let-row>
+        <mix-copy-text [text]="row.data.id" />
+      </ng-template>
+    </div>
+
+    <div
+      mixTableColumn
+      [header]="'common.label.displayName'"
+      [key]="'displayName'"
+    >
+      <ng-template mixColumnCell let-row>
+        {{ row.data.name }}
+      </ng-template>
+    </div>
+
+    <div mixTableColumn [header]="'common.label.createdAt'" [key]="'createdAt'">
+      <ng-template mixColumnCell let-row>
+        {{ row.data.createdAt | date: 'short' }}
+      </ng-template>
+    </div>
+
+    <div mixTableColumn [header]="'common.label.status'" [key]="'status'">
+      <ng-template mixColumnCell let-row>
+        @if (row.data.isAvailable) {
+          <div class="flex items-center gap-3">
+            <div class="inline-grid *:[grid-area:1/1]">
+              <div class="status status-success animate-ping"></div>
+              <div class="status status-success"></div>
+            </div>
+            Active
+          </div>
+        } @else {
+          <div class="flex items-center gap-3">
+            <div class="inline-grid *:[grid-area:1/1]">
+              <div class="status status-error animate-ping"></div>
+              <div class="status status-error"></div>
+            </div>
+            Inactive
+          </div>
+        }
+      </ng-template>
+    </div>
+  </mix-table>
+</div>

@@ -1,0 +1,12 @@
+[submodule "libs/ui-web"]
+	path = libs/ui-web
+	url = https://github.com/Pizza4Ps-Technologies/4ps-fe-ui-web.git
+[submodule "libs/ui-mobile"]
+	path = libs/ui-mobile
+	url = https://github.com/Pizza4Ps-Technologies/4ps-fe-ui-mobile.git
+[submodule "libs/domain"]
+	path = libs/domain
+	url = https://github.com/Pizza4Ps-Technologies/4ps-fe-shared-domain.git
+[submodule "apps/ticket-m"]
+	path = apps/ticket-m
+	url = https://github.com/Pizza4Ps-Technologies/4ps-fe-ticket-m.git

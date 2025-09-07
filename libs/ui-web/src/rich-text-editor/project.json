@@ -1,0 +1,18 @@
+{
+  "name": "@mixcore/ui/rich-text-editor",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ui-controls/src/rich-text-editor",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/ui-controls/src/rich-text-editor/**/*.ts",
+          "libs/ui-controls/src/rich-text-editor/**/*.html"
+        ]
+      }
+    }
+  }
+}

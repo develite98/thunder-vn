@@ -1,0 +1,78 @@
+<div (click)="cva.markAsTouched(); showDialog(selectTemplate)">
+  @if (buttonTemplateRef) {
+    <ng-container
+      *ngTemplateOutlet="
+        buttonTemplateRef;
+        context: { $implicit: cva.value$() }
+      "
+    ></ng-container>
+  } @else {
+    <span class="input input-bordered flex items-center justify-between"
+      >{{ (cva.value | date) || placeHolder }}
+
+      <div class="flex items-center gap-2 ms-auto">
+        @if (cva.value) {
+          <mix-icon
+            icon="circle-x"
+            class="ms-auto cursor-pointer"
+            (click)="
+              $event.preventDefault();
+              $event.stopPropagation();
+              cva.value = null
+            "
+          ></mix-icon>
+        }
+        <mix-icon icon="calendar"></mix-icon>
+      </div>
+    </span>
+  }
+</div>
+
+<ng-template #selectTemplate let-dialog>
+  <div class="px-4 pb-4 flex flex-col gap-4">
+    <div class="p-2 pt-6 bg-base-100 rounded-2xl">
+      <calendar-date
+        class="cally w-full"
+        [value]="selectedItem$()"
+        (change)="onChange($event)"
+      >
+        <svg
+          aria-label="Previous"
+          class="fill-current size-4"
+          slot="previous"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <path fill="currentColor" d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+        </svg>
+        <svg
+          aria-label="Next"
+          class="fill-current size-4"
+          slot="next"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <path fill="currentColor" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
+        </svg>
+
+        <calendar-month></calendar-month>
+      </calendar-date>
+
+      <div class="w-full h-[1px] border-b border-base-content/10"></div>
+
+      <button
+        class="btn btn-lg btn-ghost w-full font-bold text-primary"
+        (click)="onConfirm()"
+      >
+        {{ okLabel || 'common.ok' | transloco }}
+      </button>
+    </div>
+
+    <button
+      class="btn btn-lg w-full rounded-2xl text-error"
+      (click)="onCancel()"
+    >
+      {{ cancelLabel || 'common.cancel' | transloco }}
+    </button>
+  </div>
+</ng-template>

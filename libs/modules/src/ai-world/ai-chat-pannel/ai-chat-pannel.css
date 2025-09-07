@@ -1,0 +1,8 @@
+.al-chat-pannel {
+  width: 10px;
+  transition: all 0.2s ease;
+}
+
+.al-chat-pannel.--expanded {
+  width: 32rem;
+}

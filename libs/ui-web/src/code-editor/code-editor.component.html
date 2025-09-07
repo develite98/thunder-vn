@@ -1,0 +1,11 @@
+@let codeModel = model();
+
+@if (codeModel) {
+  <ngs-code-editor
+    [theme]="theme()"
+    [codeModel]="codeModel"
+    [options]="options"
+    (valueChanged)="onCodeChanged($event)"
+    (loaded)="onEditorInit($event)"
+  ></ngs-code-editor>
+}

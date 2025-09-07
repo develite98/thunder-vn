@@ -1,0 +1,67 @@
+<div class="w-full gap-4">
+  <mix-table
+    [toolbarTpl]="toolar"
+    [data]="store.dataEntities() || []"
+    [paging]="store.pagingInfo()"
+    [loading]="store.isLoading()"
+    [contextMenu]="contextMenu"
+    [(searchText)]="searchText"
+    (goPrevious)="store.goPreviousPage()"
+    (goNext)="store.goNextPage()"
+    (refresh)="event.refreshed({ query: store.query(), refresh: true })"
+  >
+    <ng-template #toolar>
+      <mix-button
+        [prefixIcon]="'plus'"
+        [color]="'primary'"
+        (click)="addMember()"
+      >
+        {{ 'bms.branch.user.create' | transloco }}
+      </mix-button>
+    </ng-template>
+
+    <div
+      mixTableColumn
+      [header]="'common.label.displayName'"
+      [key]="'displayName'"
+    >
+      <ng-template mixColumnCell let-row>
+        <span class="text-primary font-medium">
+          {{ row.data.userData?.displayName }}
+        </span>
+      </ng-template>
+    </div>
+
+    <div mixTableColumn [header]="'common.label.id'" [key]="'staffCode'">
+      <ng-template mixColumnCell let-row>
+        <mix-copy-text [text]="row.data.userData?.staffCode" />
+      </ng-template>
+    </div>
+
+    <div mixTableColumn [header]="'common.label.status'" [key]="'status'">
+      <ng-template mixColumnCell let-row>
+        <span class="text-primary font-medium">
+          @if (row.data.userData?.isAvailable) {
+            <span class="badge badge-soft badge-success">{{
+              'bms.branch.active' | transloco
+            }}</span>
+          } @else {
+            <span class="badge badge-soft badge-error">{{
+              'bms.branch.inactive' | transloco
+            }}</span>
+          }
+        </span>
+      </ng-template>
+    </div>
+
+    <div
+      mixTableColumn
+      [header]="'common.label.updatedAt'"
+      [key]="'lastModified'"
+    >
+      <ng-template mixColumnCell let-row>
+        {{ row.data.userData?.createdAt | date }}
+      </ng-template>
+    </div>
+  </mix-table>
+</div>

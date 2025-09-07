@@ -1,0 +1,65 @@
+<mix-dialog-wrapper [title]="'ecommerce.agency.create'">
+  <div dialog-body [formGroup]="form">
+    <mix-form-field
+      [name]="'ecommerce.input.titleLabel'"
+      [required]="true"
+      class="mb-6"
+      [description]="'ecommerce.input.titleDescription'"
+    >
+      <input
+        formControlName="title"
+        class="input w-full"
+        type="text"
+        placeholder="Enter title"
+      />
+    </mix-form-field>
+
+    <mix-form-field
+      [name]="'ecommerce.input.phoneLabel'"
+      [required]="true"
+      class="mb-6"
+      [description]="'ecommerce.input.phoneDescription'"
+    >
+      <input
+        formControlName="phone"
+        class="input w-full"
+        type="text"
+        placeholder="Enter phone number"
+      />
+    </mix-form-field>
+
+    <mix-form-field
+      [name]="'ecommerce.input.addressLabel'"
+      [required]="true"
+      class="mb-4"
+      [description]="'ecommerce.input.addressDescription'"
+    >
+      <textarea
+        class="textarea w-full"
+        placeholder="Enter address"
+        formControlName="address"
+      >
+      </textarea>
+    </mix-form-field>
+
+    <fieldset class="fieldset border-base-200 rounded-box w-64 border p-4">
+      <label class="label">
+        <input type="checkbox" formControlName="isMain" class="checkbox" />
+        Đặt làm chi nhánh chính
+      </label>
+    </fieldset>
+  </div>
+
+  <div dialog-footer class="flex items-center justify-end gap-2">
+    <mix-button (click)="dialogRef.close()" [disabled]="isLoading()">
+      {{ 'common.cancel' | transloco }}
+    </mix-button>
+    <mix-button
+      [color]="'primary'"
+      (click)="onSumbit()"
+      [loading]="isLoading()"
+    >
+      {{ 'common.create' | transloco }}
+    </mix-button>
+  </div>
+</mix-dialog-wrapper>

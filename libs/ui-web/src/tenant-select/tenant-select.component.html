@@ -1,0 +1,34 @@
+<button
+  class="btn btn-sm btn-outline border-base-content/10"
+  tabindex="0"
+  role="button"
+  [tp]="tpl"
+  [tpDelay]="0"
+  [tpVariation]="'popper'"
+  [tpTrigger]="'mouseenter'"
+  [tpPlacement]="'bottom-start'"
+  [tpHideOnClick]="false"
+>
+  {{ store.selectedTenant()?.name }}
+</button>
+
+<ng-template #tpl let-hide>
+  <ul
+    class="menu bg-base-100 border border-base-content/10 rounded-box z-1 w-52 p-2 shadow-sm !animate-none !transition-none"
+  >
+    @for (tenant of store.availableTenants; track tenant) {
+      <li (click)="hide(); onChooseTenant(tenant)">
+        <a class="w-full flex items-center">
+          <div>
+            <div>
+              {{ tenant.name }}
+            </div>
+            <div class="text-xs text-base-content/60">
+              {{ tenant.domain }}
+            </div>
+          </div>
+        </a>
+      </li>
+    }
+  </ul>
+</ng-template>

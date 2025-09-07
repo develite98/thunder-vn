@@ -1,0 +1,18 @@
+{
+  "name": "@mixcore/ui/code-editor",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ui-controls/src/code-editor",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/ui-controls/src/code-editor/**/*.ts",
+          "libs/ui-controls/src/code-editor/**/*.html"
+        ]
+      }
+    }
+  }
+}

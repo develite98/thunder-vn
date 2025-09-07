@@ -1,0 +1,78 @@
+<div class="grid grid-cols-12">
+  <div class="col-span-1 md:col-span-4">
+    <div class="text-2xl font-bold">Migrations</div>
+    <div>Manage your table migration process</div>
+  </div>
+  <div class="col-span-1 md:col-span-8">
+    <div class="grid grid-cols-12 gap-4 md:gap-6">
+      <div class="col-span-1 md:col-span-6 h-full">
+        <mix-tile className="h-full">
+          <div class="font-bold text-lg">Migrate to single table</div>
+          <div class="w-3/4 text-sm">
+            Before using a database that you have created for the first time, it
+            must be migrated into a single table.
+          </div>
+
+          <button
+            [disabled]="isLoading()"
+            (click)="onMigrate('migrate')"
+            class="link link-primary link-hover w-fit mt-auto"
+          >
+            Process
+          </button>
+        </mix-tile>
+      </div>
+      <div class="col-span-1 md:col-span-6 h-full">
+        <mix-tile className="h-full">
+          <div class="font-bold text-lg">Update table</div>
+          <div class="w-3/4 text-sm">
+            When you wish to make changes to your database or add new columns,
+            run this migration.
+          </div>
+
+          <button
+            [disabled]="isLoading()"
+            (click)="onMigrate('update')"
+            class="link link-primary link-hover w-fit mt-auto"
+          >
+            Process
+          </button>
+        </mix-tile>
+      </div>
+      <div class="col-span-1 md:col-span-6 h-full">
+        <mix-tile className="h-full">
+          <div class="font-bold text-lg">Restore table</div>
+          <div class="w-3/4 text-sm">
+            Depending on when you last backed up the data, the system will
+            restore it.
+          </div>
+
+          <button
+            [disabled]="isLoading()"
+            (click)="onMigrate('restore')"
+            class="link link-primary link-hover w-fit mt-auto"
+          >
+            Process
+          </button>
+        </mix-tile>
+      </div>
+      <div class="col-span-1 md:col-span-6 h-full">
+        <mix-tile className="h-full">
+          <div class="font-bold text-lg">Back-up table</div>
+          <div class="w-3/4 text-sm">
+            When you activate this button, the system will automatically backup
+            your data in case you need it in the future.
+          </div>
+
+          <button
+            [disabled]="isLoading()"
+            (click)="onMigrate('backup')"
+            class="link link-primary link-hover w-fit mt-auto"
+          >
+            Process
+          </button>
+        </mix-tile>
+      </div>
+    </div>
+  </div>
+</div>

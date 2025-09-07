@@ -1,0 +1,12 @@
+@let page = data();
+@let state = dataState();
+
+<mix-page-container
+  [loading]="state?.isLoading"
+  [backButton]="true"
+  [defaultPage]="['pages']"
+  [pageTitle]="page?.title || ''"
+  [tabs]="tabs()"
+>
+  <router-outlet></router-outlet>
+</mix-page-container>

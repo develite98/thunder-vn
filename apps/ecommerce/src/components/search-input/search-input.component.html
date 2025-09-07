@@ -1,0 +1,33 @@
+<div
+  class="join h-[40px] w-full !md:w-[400px] flex items-center rounded-lg px-0"
+>
+  <div
+    class="grow relative px-4 h-full border border-base-content/60 border-r-transparent rounded-l-lg"
+  >
+    <input
+      class="w-full h-full !outline-none"
+      #theInput
+      type="text"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      (input)="onInput()"
+      autocomplete="off"
+      [(ngModel)]="inputValue"
+    />
+
+    @if (!isFocused && (!inputValue || inputValue.length === 0)) {
+      <div
+        class="w-full animated-placeholder absolute top-1/2 -translate-y-1/2 pointer-event-auto user-select-none"
+        (click)="focusInput()"
+        aria-hidden="true"
+      >
+        <span class="text text-xs whitespace-nowrap w-full">{{
+          displayText()
+        }}</span>
+      </div>
+    }
+  </div>
+  <button class="btn btn-outline rounded-r-lg join-item" (click)="submit()">
+    <mix-icon icon="search"></mix-icon>
+  </button>
+</div>

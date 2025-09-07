@@ -1,0 +1,58 @@
+<div
+  class="rounded-2xl bg-base-100 h-full border border-base-content/10 gap-4 hover:border-base-content/15"
+  [class.--zoom]="zoom()"
+>
+  <div class="p-8 grid grid-cols-1 md:grid-cols-12 form-item-container">
+    <div [class]="labelClass()">
+      <div class="content-label font-title text-lg">
+        <span [innerHtml]="props.label | transloco"></span>
+        @if (props.required) {
+          <span class="text-error ms-2 -mt-2">*</span>
+        }
+      </div>
+
+      <div
+        class="text-base-content/60 text-sm mt-2 w-[80%]"
+        [innerHtml]="props.description | transloco"
+      ></div>
+    </div>
+
+    <div [class]="valueClass()">
+      <ng-template #fieldComponent></ng-template>
+      @if (field.formControl?.touched && showError) {
+        <form-validation-message [field]="field" />
+      }
+
+      @if (recommends().length) {
+        <div class="flex gap-2 items-center mt-4">
+          @for (item of recommends(); track trackByRecommend($index, item)) {
+            <button
+              type="button"
+              class="btn btn-sm"
+              (click)="onRecommendClick(item.value)"
+            >
+              {{ item.label }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+  </div>
+  <div
+    class="px-8 py-6 border-t border-base-content/5 flex items-center justify-end form-item-footer"
+  >
+    @if (isEditorType()) {
+      <mix-button type="outline" [iconButton]="true" (click)="onZoomToggle()">
+        <mix-icon icon="fullscreen" />
+      </mix-button>
+    }
+
+    <div class="divider divider-horizontal h-full"></div>
+    <mix-button
+      color="primary"
+      [disabled]="!valueChanged()"
+      (click)="onSubmitHandler()"
+      >{{ 'common.label.update' | transloco }}</mix-button
+    >
+  </div>
+</div>

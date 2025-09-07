@@ -1,0 +1,69 @@
+<mix-dialog-wrapper [title]="'Create member'">
+  <div dialog-body>
+    <mix-form-field
+      class="w-full"
+      [required]="true"
+      [autoFocus]="true"
+      [name]="'bms.storeMember.pzCode'"
+      [description]="'bms.storeMember.pzCodeDescription'"
+    >
+      <div class="join w-full">
+        <input
+          #autofocus
+          [formControl]="username"
+          class="input input-bordered join-item"
+          [placeholder]="'common.input.placeholder' | transloco"
+        />
+        <button class="btn join-item" (click)="onSearch()">Search</button>
+      </div>
+    </mix-form-field>
+
+    @if (isSuccess()) {
+      @let data = userData();
+      @if (data) {
+        <div class="p-4 rounded-lg bg-base-200 mt-6 flex flex-col gap-4">
+          {{ data.full_name }} / {{ data.staff_code }}
+        </div>
+      } @else {
+        <div
+          class="p-4 rounded-lg bg-base-200 mt-6 flex flex-col gap-4"
+          [formGroup]="userDataForm"
+        >
+          <mix-form-field
+            [name]="'bms.storeMember.firstName'"
+            [required]="true"
+            [description]="'bms.storeMember.firstNameDescription'"
+          >
+            <input
+              formControlName="firstName"
+              class="input input-bordered w-full"
+              [placeholder]="'common.input.placeholder' | transloco"
+            />
+          </mix-form-field>
+
+          <mix-form-field
+            [name]="'bms.storeMember.lastName'"
+            [required]="true"
+            [description]="'bms.storeMember.lastNameDescription'"
+          >
+            <input
+              formControlName="lastName"
+              class="input input-bordered w-full"
+              [placeholder]="'common.input.placeholder' | transloco"
+            />
+          </mix-form-field>
+        </div>
+      }
+    }
+  </div>
+
+  <div dialog-footer class="flex items-center justify-end gap-2">
+    <mix-button (click)="dialogRef.close()">
+      {{ 'common.cancel' | transloco }}
+    </mix-button>
+
+    <mix-button [color]="'primary'" (click)="onSubmit()">
+      {{ 'common.create' | transloco }}
+    </mix-button>
+  </div>
+</mix-dialog-wrapper>

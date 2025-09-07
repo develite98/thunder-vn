@@ -1,0 +1,37 @@
+<button
+  id="culture-select"
+  role="button"
+  tabindex="0"
+  class="btn btn-sm btn-outline border-base-content/10"
+  [tp]="tpl"
+  [tpDelay]="0"
+  [tpVariation]="'popper'"
+  [tpTrigger]="'mouseenter'"
+  [tpPlacement]="'bottom-start'"
+  [tpHideOnClick]="false"
+>
+  <span
+    [class]="'rounded-full flag-icon ' + ' ' + selectedCulture()?.icon"
+    style="width: 16px; height: 16px"
+  ></span>
+
+  {{ selectedCulture()?.displayName }}
+</button>
+
+<ng-template #tpl let-hide>
+  <ul
+    tabindex="0"
+    class="menu bg-base-100 border border-base-content/10 rounded-box z-1 w-52 p-2 shadow-sm"
+  >
+    @for (culture of cultures; track culture) {
+      <li>
+        <a (click)="hide(); onLangChanges(culture.id)">
+          <span
+            class="main-toolbar__culture-icon flag-icon {{ culture.icon }} me-4"
+          ></span>
+          {{ culture.displayName }}</a
+        >
+      </li>
+    }
+  </ul>
+</ng-template>

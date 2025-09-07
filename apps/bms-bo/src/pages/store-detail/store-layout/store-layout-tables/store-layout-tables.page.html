@@ -1,0 +1,79 @@
+<div>
+  <mix-table
+    [toolbarTpl]="toolar"
+    [data]="tableStore.dataEntities() || []"
+    [paging]="tableStore.pagingInfo()"
+    [loading]="tableStore.isLoading()"
+    (goPrevious)="tableStore.goPreviousPage()"
+    (goNext)="tableStore.goNextPage()"
+    [toolbarTpl]="toolar"
+    [searchBarTpl]="searchBar"
+    [contextMenu]="contextMenu"
+  >
+    <ng-template #toolar>
+      <mix-button
+        [size]="'xs'"
+        [prefixIcon]="'plus'"
+        [color]="'primary'"
+        (click)="addTable()"
+      >
+        {{ 'bms.branch.table.createNew' | transloco }}
+      </mix-button>
+    </ng-template>
+
+    <ng-template #searchBar>
+      <mix-select
+        class="!w-48 block"
+        [items]="areaStore.dataEntities()"
+        [valueKey]="'id'"
+        [value]="selectedBranchAreaId()"
+        (valueChange)="selectedBranchAreaId.set($event)"
+        [labelProcess]="labelFn"
+      ></mix-select>
+    </ng-template>
+
+    <div mixTableColumn [header]="'common.label.id'" [key]="'id'">
+      <ng-template mixColumnCell let-row>
+        <mix-copy-text [text]="row.data.id" />
+      </ng-template>
+    </div>
+
+    <div
+      mixTableColumn
+      [header]="'common.label.displayName'"
+      [key]="'displayName'"
+    >
+      <ng-template mixColumnCell let-row>
+        {{ row.data.name }}
+      </ng-template>
+    </div>
+
+    <div mixTableColumn [header]="'common.label.createdAt'" [key]="'createdAt'">
+      <ng-template mixColumnCell let-row>
+        {{ row.data.createdAt | date: 'short' }}
+      </ng-template>
+    </div>
+
+    <div mixTableColumn [header]="'common.label.status'" [key]="'status'">
+      <ng-template mixColumnCell let-row>
+        @if (row.data.isAvailable) {
+          <div class="flex items-center gap-3">
+            <div class="inline-grid *:[grid-area:1/1]">
+              <div class="status status-success animate-ping"></div>
+              <div class="status status-success"></div>
+            </div>
+            Active
+          </div>
+        } @else {
+          <div class="flex items-center gap-3">
+            <div class="inline-grid *:[grid-area:1/1]">
+              <div class="status status-error animate-ping"></div>
+              <div class="status status-error"></div>
+            </div>
+            Inactive
+          </div>
+        }
+      </ng-template>
+    </div>
+  </mix-table>
+</div>

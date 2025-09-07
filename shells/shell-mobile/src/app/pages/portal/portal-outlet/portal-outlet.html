@@ -1,0 +1,35 @@
+<div class="flex w-[100dvw] max-w-[100%] h-[100dvh] flex-col bg-base-100">
+  <div class="px-4 py-2 flex items-center h-16 min-h-16">
+    <img class="w-32" [src]="appSetting?.appLogoUrl" alt="App logo" />
+  </div>
+  <div class="flex">
+    <div
+      role="tablist"
+      class="tabs tabs-lg tabs-border w-full border-b border-base-content/10"
+    >
+      @for (menu of appSetting?.sideBarMenu; track $index) {
+        @for (item of menu.items; track item; let index = $index) {
+          <a
+            role="tab"
+            class="tab grow"
+            [commingSoon]="item.isDevelopment"
+            [routerLink]="item.url"
+            [routerLinkActive]="'tab-active'"
+          >
+            @if (item.icon) {
+              <mix-icon
+                class="text-base-content"
+                [size]="22"
+                [icon]="item.icon"
+              ></mix-icon>
+            }
+          </a>
+        }
+      }
+    </div>
+  </div>
+
+  <div class="grow overflow-auto">
+    <router-outlet></router-outlet>
+  </div>
+</div>

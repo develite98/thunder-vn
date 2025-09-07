@@ -1,0 +1,83 @@
+<mix-page-container
+  [pageTitle]="'Stores'"
+  [pageDescription]="'Manage your stores here.'"
+  [tabs]="tabs"
+>
+  <div class="w-full gap-4">
+    <mix-table
+      [toolbarTpl]="toolar"
+      [data]="store.dataEntities() || []"
+      [paging]="store.pagingInfo()"
+      [filters]="filters"
+      [filterValue]="store.query().queries || []"
+      (onFilterChange)="store.filter($event)"
+      [loading]="store.isLoading()"
+      [(searchText)]="searchText"
+      (goPrevious)="store.goPreviousPageRouter()"
+      (rowClick)="goToDetail($event.id)"
+      (goNext)="store.goNextPageRouter()"
+      (goToPage)="store.goToPageRouter($event.pageIndex)"
+      (refresh)="event.refreshed({ query: store.query(), refresh: true })"
+    >
+      <ng-template #toolar>
+        <mix-button
+          (click)="createNew()"
+          [prefixIcon]="'plus'"
+          [color]="'primary'"
+        >
+          {{ 'bms.branch.create' | transloco }}
+        </mix-button>
+      </ng-template>
+
+      <div
+        mixTableColumn
+        [header]="'common.label.displayName'"
+        [key]="'displayName'"
+      >
+        <ng-template mixColumnCell let-row>
+          <span class="text-primary font-medium">
+            {{ row.data.name }}
+          </span>
+        </ng-template>
+      </div>
+
+      <div mixTableColumn [header]="'common.label.status'" [key]="'status'">
+        <ng-template mixColumnCell let-row>
+          <span class="text-primary font-medium">
+            @if (row.data.isAvailable) {
+              <span class="badge badge-soft badge-success">{{
+                'bms.branch.active' | transloco
+              }}</span>
+            } @else {
+              <span class="badge badge-soft badge-error">{{
+                'bms.branch.inactive' | transloco
+              }}</span>
+            }
+          </span>
+        </ng-template>
+      </div>
+
+      <div mixTableColumn [header]="'Code'" [key]="'code'">
+        <ng-template mixColumnCell let-row>
+          <mix-copy-text [text]="row.data.code"></mix-copy-text>
+        </ng-template>
+      </div>
+
+      <div mixTableColumn [header]="'TAX Code'" [key]="'taxCode'">
+        <ng-template mixColumnCell let-row>
+          <mix-copy-text [text]="row.data.taxCode"></mix-copy-text>
+        </ng-template>
+      </div>
+
+      <div
+        mixTableColumn
+        [header]="'common.label.updatedAt'"
+        [key]="'lastModified'"
+      >
+        <ng-template mixColumnCell let-row>
+          {{ row.data.lastModified | date }}
+        </ng-template>
+      </div>
+    </mix-table>
+  </div>
+</mix-page-container>

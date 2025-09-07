@@ -1,0 +1,56 @@
+@switch (status()) {
+  @case (STATUS.Published) {
+    <div class="flex items-center gap-4">
+      <div class="inline-grid *:[grid-area:1/1]">
+        <div class="status status-success animate-ping"></div>
+        <div class="status status-success"></div>
+      </div>
+      <div>{{ 'common.status.published' | transloco }}</div>
+    </div>
+  }
+  @case (STATUS.All) {
+    <div class="flex items-center gap-4">
+      <div class="inline-grid *:[grid-area:1/1]">
+        <div class="status status-info animate-ping"></div>
+        <div class="status status-info"></div>
+      </div>
+      <div>{{ 'common.status.all' | transloco }}</div>
+    </div>
+  }
+  @case (STATUS.Deleted) {
+    <div class="flex items-center gap-4">
+      <div class="inline-grid *:[grid-area:1/1]">
+        <div class="status status-error animate-ping"></div>
+        <div class="status status-error"></div>
+      </div>
+      <div>{{ 'common.status.deleted' | transloco }}</div>
+    </div>
+  }
+  @case (STATUS.Preview) {
+    <div class="flex items-center gap-4">
+      <div class="inline-grid *:[grid-area:1/1]">
+        <div class="status status-warning animate-ping"></div>
+        <div class="status status-warning"></div>
+      </div>
+      <div>{{ 'common.status.preview' | transloco }}</div>
+    </div>
+  }
+  @case (STATUS.Schedule) {
+    <div class="flex items-center gap-4">
+      <div class="inline-grid *:[grid-area:1/1]">
+        <div class="status status-primary animate-ping"></div>
+        <div class="status status-primary"></div>
+      </div>
+      <div>{{ 'common.status.primary' | transloco }}</div>
+    </div>
+  }
+  @default {
+    <div class="flex items-center gap-4">
+      <div class="inline-grid *:[grid-area:1/1]">
+        <div class="status animate-ping"></div>
+        <div class="status"></div>
+      </div>
+      <div>{{ 'common.status.draft' | transloco }}</div>
+    </div>
+  }
+}

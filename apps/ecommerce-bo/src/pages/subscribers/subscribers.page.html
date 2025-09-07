@@ -1,0 +1,53 @@
+<mix-page-container
+  [pageTitle]="'ecommerce.subscriber.pageTitle'"
+  [tabs]="tabs"
+>
+  <div class="w-full gap-4">
+    <mix-table
+      [data]="store.dataEntities() || []"
+      [paging]="store.pagingInfo()"
+      [loading]="store.isLoading()"
+      (goPrevious)="store.goPreviousPage()"
+      (goNext)="store.goNextPage()"
+      [toolbarTpl]="toolar"
+    >
+      <ng-template #toolar> </ng-template>
+
+      <div mixTableColumn [header]="'Tên'" [key]="'image'">
+        <ng-template mixColumnCell let-row>
+          <mix-copy-text [text]="row.data.full_name"></mix-copy-text>
+        </ng-template>
+      </div>
+
+      <div mixTableColumn [header]="'Email'" [key]="'email'">
+        <ng-template mixColumnCell let-row>
+          <mix-copy-text [text]="row.data.email"></mix-copy-text>
+        </ng-template>
+      </div>
+
+      <div mixTableColumn [header]="'Sđt'" [key]="'phone_number'">
+        <ng-template mixColumnCell let-row>
+          <mix-copy-text [text]="row.data.phone_number"></mix-copy-text>
+        </ng-template>
+      </div>
+
+      <div mixTableColumn [header]="'Ghi chú'" [key]="'note'">
+        <ng-template mixColumnCell let-row>
+          <div class="max-w-44 whitespace-normal">
+            {{ row.data.note }}
+          </div>
+        </ng-template>
+      </div>
+
+      <div mixTableColumn [header]="'Trạng thái'" [key]="'status'">
+        <ng-template mixColumnCell let-row>
+          <mix-toggle
+            (valueChange)="onToggleStatus(row.data)"
+            [value]="row.data.status === 'processed'"
+            >Xử lí</mix-toggle
+          >
+        </ng-template>
+      </div>
+    </mix-table>
+  </div>
+</mix-page-container>

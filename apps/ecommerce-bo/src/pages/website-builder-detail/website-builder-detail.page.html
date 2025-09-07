@@ -1,0 +1,39 @@
+@let state = dataState();
+@let item = data();
+
+<mix-page-container
+  [loading]="state?.isLoading"
+  [pageTitle]="item?.description || ''"
+  [pageDescription]="item?.key || ''"
+>
+  <div class="w-full -mt-[5rem] relative z-10 px-4">
+    <!-- Handle loading -->
+    @if (state?.isLoading) {
+      <div class="flex w-52 flex-col gap-4">
+        <div class="skeleton h-32 w-full"></div>
+        <div class="skeleton h-4 w-28"></div>
+      </div>
+    } @else {
+      <!-- Handle error state -->
+      @if (state?.isError) {
+        <div class="rounded-box mb-6 px-4 py-2 bg-error text-error-content">
+          {{ state?.error || 'Error when try to load content' }}
+        </div>
+      }
+
+      <!-- Handle silent loading state -->
+      @if (state?.isSilentLoading) {
+        <!-- Do something with silent loading -->
+      }
+
+      @if (fields(); as field) {
+        <mix-form
+          [form]="form"
+          [value]="item?.value?.data"
+          [formConfig]="field"
+          (onSubmit)="onSubmit($event)"
+        ></mix-form>
+      }
+    }
+  </div>
+</mix-page-container>

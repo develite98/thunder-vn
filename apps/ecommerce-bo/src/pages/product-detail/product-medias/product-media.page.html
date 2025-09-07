@@ -1,0 +1,61 @@
+@let value = data();
+@if (value) {
+  <div class="text-sm mb-8 flex justify-between items-center">
+    <div class="">
+      {{ 'common.resultCount' | transloco: { count: medias.length } }}
+    </div>
+
+    <mix-button
+      [color]="'primary'"
+      (click)="onSubmit(value, true)"
+      [disabled]="!canSave"
+    >
+      <mix-icon icon="save" class="me-2"></mix-icon>
+      Cập nhật
+    </mix-button>
+  </div>
+
+  <div
+    class="w-full grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-4 gap-4"
+    cdkDropList
+    cdkDropListOrientation="mixed"
+    (cdkDropListDropped)="drop($event)"
+  >
+    <div>
+      <mix-tile class="cursor-pointer" (click)="addNewImage()">
+        <div class="w-full flex items-center justify-center py-4 gap-2">
+          <mix-icon icon="images"></mix-icon>
+          {{ 'ecommerce.product.addNewMedia' | transloco }}
+        </div>
+      </mix-tile>
+    </div>
+
+    @for (image of medias || []; track image) {
+      <div
+        cdkDrag
+        class="w-full h-[122px] rounded-box bg-base-200 border border-base-content/10 relative overflow-hidden"
+      >
+        <img
+          lazy="true"
+          class="cursor-pointer h-full w-auto mx-auto"
+          [src]="processImage(image)"
+          alt="Product Media"
+        />
+
+        <mix-button
+          (click)="onDelete(image)"
+          class="absolute top-px right-px btn-sm"
+          type="ghost"
+          [iconButton]="true"
+        >
+          <mix-icon icon="trash" class="text-error"></mix-icon>
+        </mix-button>
+      </div>
+    }
+  </div>
+} @else {
+  <div class="flex w-52 flex-col gap-4">
+    <div class="skeleton h-32 w-full"></div>
+    <div class="skeleton h-4 w-28"></div>
+  </div>
+}

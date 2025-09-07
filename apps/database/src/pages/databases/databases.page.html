@@ -1,0 +1,56 @@
+<ng-template #breadcrumb>
+  <mix-breadcrumbs>
+    <div name="Home" icon="home" mixBreadcrumbItem></div>
+    <div name="Database" mixBreadcrumbItem [active]="true"></div>
+  </mix-breadcrumbs>
+</ng-template>
+
+<mix-page-container
+  [pageTitle]="'database.pageTitle'"
+  [pageDescription]="'database.pageDescription'"
+  [tabs]="tabs"
+>
+  <div class="w-full gap-4">
+    <mix-table
+      [viewMode]="'card'"
+      [toolbarTpl]="toolar"
+      [data]="displayData()"
+      [paging]="databaseStore.pagingInfo()"
+      [(searchText)]="searchText"
+      [loading]="databaseStore.isLoading()"
+      (goPrevious)="databaseStore.goPreviousPage()"
+      (goNext)="databaseStore.goNextPage()"
+      (refresh)="dispatch.refreshed(databaseStore.query())"
+      (rowClick)="rowClick($event)"
+    >
+      <ng-template #toolar>
+        <mix-button
+          [prefixIcon]="'plus'"
+          [color]="'primary'"
+          (click)="onCreateDatabase()"
+        >
+          {{ 'database.createDatabaseButton' | transloco }}
+        </mix-button>
+      </ng-template>
+
+      <div mixTableColumn [header]="'Name'" [key]="'displayName'">
+        <ng-template mixColumnCell let-row>
+          <span class="font-medium">{{ row.data.displayName }}</span>
+        </ng-template>
+      </div>
+      <div mixTableColumn [header]="'Key'" [key]="'systemName'">
+        <ng-template mixColumnCell let-row>
+          <mix-copy-text [text]="row.data.systemName"></mix-copy-text>
+        </ng-template>
+      </div>
+
+      <div mixTableColumn [header]="'Created'" [key]="'createdDateTime'">
+        <ng-template mixColumnCell let-row>
+          <span class="text-sm">
+            {{ row.data.createdDateTime | date: 'short' }}
+          </span>
+        </ng-template>
+      </div>
+    </mix-table>
+  </div>
+</mix-page-container>

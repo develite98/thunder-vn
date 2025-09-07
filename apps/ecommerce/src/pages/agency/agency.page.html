@@ -1,0 +1,140 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div data-theme="red">
+  <mix-public-header></mix-public-header>
+  <mix-breadcrumb [items]="breadcrumbs()"></mix-breadcrumb>
+
+  <div class="flex w-full flex-col md:mt-12 container mx-auto p-4 md:p-0">
+    @let sessionInvalid = authSesstionInvalid();
+
+    @if (sessionInvalid === null) {
+    } @else if (sessionInvalid === true) {
+      <div class="text-center">
+        <h2 class="text-2xl font-bold mb-4">Chào mừng đến với trang đại lý</h2>
+        <p class="mb-6">Vui lòng đăng nhập để tiếp tục.</p>
+
+        <div
+          class="pt-6 w-[360px] max-w-full mx-auto text-start"
+          [formGroup]="loginForm"
+        >
+          <fieldset class="fieldset w-full">
+            <label class="input w-full">
+              <mix-icon icon="mail" class="me-2"></mix-icon>
+              <input
+                name="username"
+                id="username"
+                formControlName="username"
+                [placeholder]="'auth.login.username' | transloco"
+              />
+            </label>
+          </fieldset>
+
+          <fieldset class="fieldset w-full">
+            <label class="input w-full">
+              <mix-icon icon="key-round" class="me-2"></mix-icon>
+              <input
+                formControlName="password"
+                type="password"
+                [placeholder]="'auth.login.password' | transloco"
+              />
+            </label>
+          </fieldset>
+
+          <label class="label text-xs mt-4">
+            <input
+              formControlName="rememberMe"
+              type="checkbox"
+              checked="checked"
+              class="toggle toggle-xs"
+            />
+            {{ 'common.login.rememberMe' | transloco }}
+          </label>
+
+          @if (showError()) {
+            <div
+              class="rounded px-2 py-1 mt-2 bg-error text-error-content text-xs"
+            >
+              {{ 'common.error.1' | transloco }}
+            </div>
+          }
+
+          <mix-button
+            (click)="onLogin()"
+            [loading]="isLoading()"
+            class="w-full btn-primary mt-6 justify-between"
+            [postfixIcon]="'log-in'"
+            >Đăng nhập</mix-button
+          >
+
+          <p class="mt-6">
+            Chưa có tài khoản?. Xin vui lòng liên hệ chúng tôi để
+            <a class="link link-primary link-hover" [routerLink]="['/contact']"
+              >đăng ký trở thành đại lý</a
+            >
+          </p>
+        </div>
+      </div>
+    } @else {
+      @if (agencyMemberStore.isSuccess()) {
+        @if (agencyMemberStore.dataEntities()?.length) {
+          <div class="flex flex-col md:flex-row gap-4 md:gap-12">
+            <div class="flex flex-col gap-4">
+              <ul class="menu bg-base-200 rounded-box w-full md:w-56">
+                <li>
+                  <a
+                    [routerLink]="['/agency', 'orders']"
+                    [routerLinkActive]="'menu-active'"
+                  >
+                    <mix-icon icon="shopping-cart" />
+                    Đơn hàng</a
+                  >
+                </li>
+                <li>
+                  <a
+                    [routerLink]="['/agency', 'news']"
+                    [routerLinkActive]="'menu-active'"
+                    ><mix-icon icon="newspaper" /> Tin tức</a
+                  >
+                </li>
+                <!-- <li>
+                  <a
+                    [routerLink]="['/agency', 'dashboard']"
+                    [routerLinkActive]="'menu-active'"
+                    ><mix-icon icon="layout-dashboard" /> Thống kê</a
+                  >
+                </li> -->
+              </ul>
+
+              <ul class="menu bg-base-200 rounded-box w-full md:w-56">
+                <li (click)="onLogOut()"><a>Đăng xuất</a></li>
+              </ul>
+            </div>
+
+            <div class="mt-4 md:mt-0 grow">
+              <router-outlet></router-outlet>
+            </div>
+          </div>
+        } @else {
+          <div class="text-center">
+            <h2 class="text-2xl font-bold mb-4">
+              Chào mừng đến với trang đại lý
+            </h2>
+            <p class="mb-6">
+              Bạn chưa phải là thành viên đại lý. Vui lòng liên hệ chúng tôi để
+              đăng ký trở thành đại lý
+            </p>
+          </div>
+        }
+      } @else {
+        <div class="flex w-52 flex-col gap-4">
+          <div class="skeleton h-32 w-full"></div>
+          <div class="skeleton h-4 w-28"></div>
+          <div class="skeleton h-4 w-full"></div>
+          <div class="skeleton h-4 w-full"></div>
+        </div>
+      }
+    }
+  </div>
+
+  <mix-public-footer [showStore]="false"></mix-public-footer>
+</div>

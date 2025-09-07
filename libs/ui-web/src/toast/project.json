@@ -1,0 +1,18 @@
+{
+  "name": "@mixcore/ui/toast",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/mix-ui/src/toast",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/mix-ui/src/toast/**/*.ts",
+          "libs/mix-ui/src/toast/**/*.html"
+        ]
+      }
+    }
+  }
+}

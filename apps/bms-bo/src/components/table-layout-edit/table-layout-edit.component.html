@@ -1,0 +1,52 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div class="pt-[14vh] w-full h-full">
+  <div class="container mx-auto">
+    <div class="flex items-center gap-4">
+      <div class="text-2xl font-bold">Layout Edit</div>
+
+      <label class="ms-4">
+        <input type="checkbox" class="toggle toggle-lg" />
+        <span class="ml-2">Map view</span>
+      </label>
+    </div>
+
+    <div
+      class="flex mt-12 items-center gap-4 drag-list"
+      cdkDropList
+      cdkDropListOrientation="horizontal"
+    >
+      @for (area of areaStore.dataEntities() | itemPriority; track $index) {
+        <div
+          cdkDrag
+          (click)="selectedAreaId.set(area.id)"
+          class="drag-box min-w-[120px]"
+        >
+          <div
+            class="w-full bg-base-100 rounded px-4 py-2 border border-base-content/20 font-medium cursor-pointer hover:border-primary"
+            [class.border-primary]="area.id === selectedAreaId()"
+          >
+            {{ area.name }}
+          </div>
+        </div>
+      }
+    </div>
+    <div class="divider"></div>
+
+    <div
+      class="grid grid-cols-9 items-center gap-4 drag-list"
+      cdkDropList
+      cdkDropListOrientation="mixed"
+    >
+      @for (table of tableStore.dataEntities() | itemPriority; track $index) {
+        <div cdkDrag class="w-full h-full font-bold drag-box">
+          <div
+            class="bg-base-100 w-full h-full rounded p-4 border border-base-content/20 flex items-center justify-center cursor-pointer hover:border-primary text-lg text-center"
+          >
+            {{ table.name }}
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

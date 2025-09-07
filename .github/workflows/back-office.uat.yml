@@ -1,0 +1,61 @@
+---
+name: Back-office UAT
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build_and_deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.DEVOPS_LUFFY_TOKEN_CI }}
+          submodules: recursive
+
+      - name: Set Image Name
+        id: set_image
+        run: |
+          COMMIT_HASH=$(git rev-parse --short HEAD)
+          IMAGE_NAME="${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}_bo:${COMMIT_HASH}"
+          echo "Generated image name: $IMAGE_NAME"
+          echo "docker_image=$IMAGE_NAME" >> $GITHUB_OUTPUT
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and Push Container
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./shells/shell/Dockerfile.prod
+          push: true
+          no-cache: true
+          tags: ${{ steps.set_image.outputs.docker_image }}
+
+      - name: Create SSH Private Key
+        run: |
+          eval $(ssh-agent)
+          mkdir -p ~/.ssh/ && touch ~/.ssh/known_hosts
+          ssh-keyscan ${{ secrets.EC2_LUFFY_HOST }} >> ~/.ssh/known_hosts
+          echo "${{ secrets.AWS_PEM_KEY }}" > ~/.ssh/secretkey.pem
+          chmod 400 ~/.ssh/secretkey.pem
+
+      - name: Docker login on EC2
+        run: |
+          ssh -i ~/.ssh/secretkey.pem ${{ secrets.EC2_LUFFY_USERNAME }}@${{ secrets.EC2_LUFFY_HOST }} \
+            "docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}"
+
+      - name: Deploy with docker-compose
+        run: |
+          DOCKER_IMAGE="${{ steps.set_image.outputs.docker_image }}"
+          echo "Deploying with image: $DOCKER_IMAGE"
+          ssh -i ~/.ssh/secretkey.pem ${{ secrets.EC2_LUFFY_USERNAME }}@${{ secrets.EC2_LUFFY_HOST }} \
+            "cd /data/p4ps-deployments/backoffice && \
+             IMAGE_NAME='${DOCKER_IMAGE}' \
+             docker-compose up -d"

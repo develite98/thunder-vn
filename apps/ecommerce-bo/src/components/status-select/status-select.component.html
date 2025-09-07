@@ -1,0 +1,43 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<button
+  [tp]="sttSelect"
+  class="w-fit btn"
+  tpPlacement="bottom"
+  [tpOffset]="[0, -5]"
+  tpVariation="popper"
+>
+  <ng-template #defaultTemplate>
+    @let status = selectedStatus();
+    @if (status) {
+      <mix-status-indicator
+        [status]="status"
+        class="w-full flex items-center justify-start"
+      ></mix-status-indicator>
+    }
+  </ng-template>
+
+  <ng-container
+    *ngTemplateOutlet="
+      contentTemplate() || defaultTemplate;
+      context: { $implicit: selectedStatus() }
+    "
+  ></ng-container>
+</button>
+
+<ng-template #sttSelect let-hide>
+  <ul
+    class="menu bg-base-100 border border-base-content/10 rounded-box z-1 w-52 p-2 shadow-sm"
+  >
+    @for (item of statuses; track item) {
+      <li (click)="selectedStatus.set(item); selectedChange.emit(item); hide()">
+        <a class="w-full flex items-center justify-start">
+          <mix-status-indicator
+            [status]="item"
+            class="w-full flex items-center justify-start"
+          ></mix-status-indicator>
+        </a>
+      </li>
+    }
+  </ul>
+</ng-template>

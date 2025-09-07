@@ -1,0 +1,108 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+@let order = data();
+
+<mix-tile>
+  <ul class="steps w-1/2 mx-auto">
+    <li
+      class="step step-primary cursor-pointer hover:opacity-60"
+      [class.step-primary]="isProcessing() || isCompleted()"
+      (click)="changeOrderStatus('new')"
+    >
+      Đang xử lý
+    </li>
+
+    <li
+      class="step cursor-pointer hover:opacity-60"
+      [class.step-primary]="isCompleted()"
+      (click)="changeOrderStatus('completed')"
+    >
+      Hoàn tất
+    </li>
+  </ul>
+</mix-tile>
+
+<mix-tile class="block mt-4">
+  <h2 class="text-xl font-bold mb-4">Thông tin đơn hàng:</h2>
+
+  <div class="w-full grid grid-cols-3 text-sm md:text-base">
+    <div class="col-span-1 font-semibold mb-4">ID:</div>
+    <div class="col-span-2 mb-4">#{{ order?.id }}</div>
+
+    <div class="col-span-1 font-semibold mb-4">Tên khách:</div>
+    <div class="col-span-2 mb-4">{{ order?.customer_name }}</div>
+
+    <div class="col-span-1 font-semibold mb-4">Số điện thoại:</div>
+    <div class="col-span-2 mb-4">{{ order?.phone_number }}</div>
+
+    <div class="col-span-1 font-semibold mb-4">Địa chỉ:</div>
+    <div class="col-span-2 mb-4">{{ order?.address }}</div>
+
+    <div class="col-span-1 font-semibold mb-4">Ngày tạo:</div>
+    <div class="col-span-2 mb-4 flex items-center gap-4">
+      {{ order?.created_date || 'N/A' }}
+    </div>
+  </div>
+</mix-tile>
+
+<mix-tile class="block mt-4">
+  <h2 class="text-base md:text-xl font-bold mb-4">Chi tiết đơn hàng:</h2>
+
+  <ul
+    role="list"
+    class="-my-6 divide-y divide-gray-200 overflow-auto text-sm md:text-base"
+  >
+    @for (item of order?.order_items?.data || []; track item.id) {
+      <li class="flex py-6">
+        <div
+          class="size-16 md:size-24 shrink-0 overflow-hidden rounded-md border border-gray-200"
+        >
+          <img alt="" [src]="item.thumbnail" class="size-full object-fit" />
+        </div>
+
+        <div class="ml-4 flex flex-1 flex-col">
+          <div>
+            <div
+              class="text-start flex justify-between font-medium text-gray-900"
+            >
+              <div>
+                <a href="#" class="font-medium">{{ item.title }}</a>
+                @if (item.systemNote) {
+                  <div class="text-sm text-base-content/60">
+                    {{ item.systemNote }}
+                  </div>
+                }
+                <p class="text-base-content/70 mt-2">
+                  <app-currency [value]="item.price || 0"></app-currency>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-1 items-end justify-between text-sm">
+            <p class="text-gray-500">x{{ item.quantity }}</p>
+          </div>
+        </div>
+      </li>
+    } @empty {
+      <li class="flex py-6">Bạn chưa có đơn hàng nào,</li>
+    }
+  </ul>
+
+  <div class="text-xl font-bold mb-4 flex justify-between items-center mt-12">
+    Tổng đơn:
+
+    <div>
+      <app-currency [value]="totalPrice()"></app-currency>
+    </div>
+  </div>
+</mix-tile>
+
+@if (order?.order_status === 'new') {
+  <mix-delete
+    class="block mt-4"
+    [title]="'Huỷ đơn'"
+    [description]="'Bạn có chắc muốn huỷ đơn'"
+    [buttonLabel]="'Xác nhận huỷ đơn'"
+    (onDelete)="changeOrderStatus('cancelled')"
+  ></mix-delete>
+}

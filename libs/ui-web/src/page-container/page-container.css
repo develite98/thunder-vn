@@ -1,0 +1,10 @@
+.top-container {
+  height: 180px;
+  transition: all 0.2s ease-in-out;
+  padding-top: 2.5rem;
+}
+
+.top-container.minimize {
+  padding-top: 1.25rem;
+  height: 120px;
+}
