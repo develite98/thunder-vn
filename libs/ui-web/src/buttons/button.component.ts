@@ -2,10 +2,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  ElementRef,
+  inject,
   input,
+  output,
   ViewEncapsulation,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LucideAngularModule } from 'lucide-angular';
+import { fromEvent } from 'rxjs';
 
 export type MixButtonColor =
   | 'primary'
@@ -48,11 +53,14 @@ export class MixButtonComponent {
   public disabled = input<boolean>(false);
   public prefixIcon = input<string | null>(null);
   public postfixIcon = input<string | null>(null);
+  public el = inject(ElementRef<HTMLElement>);
 
   public color = input<MixButtonColor | undefined>(undefined);
   public type = input<MixButtonStyle | undefined>(undefined);
   public size = input<MixButtonSize | undefined>(undefined);
   public iconButton = input<boolean>(false);
+
+  public click = output<Event>();
 
   public colorClass = computed(() => {
     const color = this.color();
@@ -62,4 +70,19 @@ export class MixButtonComponent {
     const colorType = CLASS_NAME[type || 'base'] || '';
     return `${colorType} ${className}`;
   });
+
+  constructor() {
+    fromEvent(this.el.nativeElement, 'click')
+      .pipe(takeUntilDestroyed())
+      .subscribe((event) => {
+        if (this.disabled() || this.loading()) {
+          (event as Event).preventDefault();
+          (event as Event).stopPropagation();
+          (event as Event).stopImmediatePropagation();
+          return false;
+        }
+
+        return true;
+      });
+  }
 }

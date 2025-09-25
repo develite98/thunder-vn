@@ -1,9 +1,9 @@
 import { DatePipe } from '@angular/common';
-import { Component, effect, inject, ViewContainerRef } from '@angular/core';
+import { Component, inject, ViewContainerRef } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { BasePageComponent } from '@mixcore/base';
 import { injectParams } from '@mixcore/router';
-import { MixQuery } from '@mixcore/sdk-client';
+import { ESortDirection, MixQuery } from '@mixcore/sdk-client';
 import { IBranchArea } from '@mixcore/shared-domain';
 import { MixButtonComponent } from '@mixcore/ui/buttons';
 import { MixCopyTextComponent } from '@mixcore/ui/copy-text';
@@ -11,6 +11,7 @@ import { injectDialog } from '@mixcore/ui/dialog';
 import { injectModalService } from '@mixcore/ui/modal';
 import { GridContextMenu, MixTableModule } from '@mixcore/ui/table';
 import { injectToastService } from '@mixcore/ui/toast';
+import { explicitEffect } from 'ngxtension/explicit-effect';
 import { CreateStoreAreaFormComponent } from '../../../../components/create-area-form/create-area-form.component';
 import { BranchAreaStore } from '../../../../state';
 
@@ -49,13 +50,16 @@ export class StoreTableLayoutAreaPageComponent extends BasePageComponent {
   constructor() {
     super();
 
-    effect(() => {
-      const branchId = this.branchId();
-      if (!branchId) return;
-
-      this.store
-        .search(new MixQuery().default(5).equal('StoreId', branchId.toString()))
-        .subscribe();
+    explicitEffect([this.branchId], ([branchId]) => {
+      if (branchId)
+        this.store
+          .search(
+            new MixQuery()
+              .default(20)
+              .sort('createdAt', ESortDirection.Desc)
+              .equal('StoreId', branchId.toString()),
+          )
+          .subscribe();
     });
   }
 
@@ -81,6 +85,13 @@ export class StoreTableLayoutAreaPageComponent extends BasePageComponent {
   public addArea() {
     this.dialog.open(CreateStoreAreaFormComponent, {
       data: { branchId: this.branchId() },
+      vcr: this.vcr,
+    });
+  }
+
+  public editArea(item: IBranchArea) {
+    this.dialog.open(CreateStoreAreaFormComponent, {
+      data: { branchId: this.branchId(), area: item, updateMode: true },
       vcr: this.vcr,
     });
   }

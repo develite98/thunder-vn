@@ -90,9 +90,7 @@ export class FormControlComponent extends FieldWrapper<
 
   public onSubmit() {
     const control = this.field.formControl;
-    if (!control) {
-      return;
-    }
+    if (!control || !this.valueChanged()) return;
 
     if (FormUtils.validateForm(control)) {
       this.internalEvent.formControlSubmitListener$.next({

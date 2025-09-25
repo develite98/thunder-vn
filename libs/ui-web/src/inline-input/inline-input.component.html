@@ -1,0 +1,51 @@
+<div
+  class="inline-input w-full"
+  [class.--empty]="!cva.value"
+  [class.text-2xl]="size === '2xl'"
+  [class.text-lg]="size === 'base'"
+  [class.text-xl]="size === 'xl'"
+>
+  @if (editing()) {
+    <div
+      class="w-full flex items-center gap-2 relative border border-base-content/10"
+    >
+      <input
+        class="input !border-none !outline-none w-full inline-input-el"
+        [class.!text-2xl]="size === '2xl'"
+        [class.!text-lg]="size === 'base'"
+        [class.!text-xl]="size === 'xl'"
+        [placeholder]="placeHolder"
+        [type]="type() || 'text'"
+        #input
+        [ngModel]="cva.value"
+        (ngModelChange)="handleInputChange($event)"
+      />
+
+      <div
+        class="flex items-center absolute left-[-1px] bottom-[1px] pt-2 translate-y-[100%] bg-base-100 rounded pb-2 px-2 rounded border border-base-content/10 border-t-transparent"
+      >
+        <button
+          [disabled]="saving() || !isDataChanged()"
+          class="btn btn-primary btn-xs mr-2"
+          (click)="onSave()"
+        >
+          @if (saving()) {
+            <span class="loading loading-spinner loading-xs"></span>
+          }
+          Save
+        </button>
+        <button
+          [disabled]="saving()"
+          class="btn btn-xs"
+          (click)="temporaryValue = cva.value; editing.set(false)"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  } @else {
+    <span (click)="toggleEditTitle()" class="input input-bordered">
+      <span>{{ cva.value || placeHolder }}</span>
+    </span>
+  }
+</div>

@@ -24,7 +24,6 @@ import { provideHotToastConfig } from '@ngxpert/hot-toast';
 import { icons, LucideAngularModule } from 'lucide-angular';
 import { appRoutes } from './app.routes';
 
-import { CodeEditorModule } from '@ngstack/code-editor';
 import { appSetting } from '../environments/environment';
 
 import { getAuth, provideAuth } from '@angular/fire/auth';
@@ -86,10 +85,7 @@ export const appConfig: ApplicationConfig = {
         popper: popperVariation,
       },
     }),
-    importProvidersFrom(
-      LucideAngularModule.pick(icons),
-      CodeEditorModule.forRoot(),
-    ),
+    importProvidersFrom(LucideAngularModule.pick(icons)),
     provideHotToastConfig({ position: 'top-right' }),
     provideAuth(() => getAuth()),
   ],

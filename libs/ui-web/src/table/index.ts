@@ -9,14 +9,11 @@ import { MixSelectComponent } from '@mixcore/ui/select';
 import { MixTileComponent } from '@mixcore/ui/tile';
 import { TippyDirective } from '@ngneat/helipopper';
 import { FlexRenderDirective } from '@tanstack/angular-table';
+import { MixInputQueryBuilderComponent } from './components/input-query-builder.component';
 import {
   TableHeadSelectionComponent,
   TableRowSelectionComponent,
 } from './components/selection.component';
-import {
-  TableFilterComponent,
-  TableFilterDisplayComponent,
-} from './components/table-filter.component';
 import { TableSortComponent } from './components/table-sort.component';
 import {
   MixTableCellDirective,
@@ -31,10 +28,8 @@ import { MixTableComponent } from './table/table.component';
     MixTableCellDirective,
     MixTableColumnDirective,
     MixTableHeaderDirective,
-    TableFilterDisplayComponent,
     TableRowSelectionComponent,
     TableHeadSelectionComponent,
-    TableFilterComponent,
   ],
   imports: [
     FlexRenderDirective,
@@ -49,6 +44,7 @@ import { MixTableComponent } from './table/table.component';
     TableSortComponent,
     MixSelectComponent,
     AsyncPipe,
+    MixInputQueryBuilderComponent,
   ],
   exports: [
     MixTableComponent,
@@ -62,7 +58,6 @@ export class MixTableModule {}
 export type {
   GridContextMenu,
   ITableFilter,
-  ITableFilterValue,
   ITableSort,
   ITableSortChange,
 } from './types';

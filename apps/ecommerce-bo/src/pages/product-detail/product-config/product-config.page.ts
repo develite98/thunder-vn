@@ -9,11 +9,7 @@ import { MixDeleteComponent } from '@mixcore/ui/delete';
 import { IFormConfig, IFormSubmit, MixFormComponent } from '@mixcore/ui/forms';
 import { injectModalService } from '@mixcore/ui/modal';
 import { injectToastService } from '@mixcore/ui/toast';
-import { injectDispatch } from '@ngrx/signals/events';
-import {
-  productDetailPageEvent,
-  ProductStore,
-} from 'apps/ecommerce-bo/src/state';
+import { ProductStore } from 'apps/ecommerce-bo/src/state';
 import { IProduct } from 'apps/ecommerce-bo/src/types';
 
 @Component({
@@ -26,7 +22,6 @@ export class ProductConfigPage extends BasePageComponent {
   readonly store = inject(ProductStore);
   readonly translateSrv = inject(TranslocoService);
   readonly toast = injectToastService();
-  readonly event = injectDispatch(productDetailPageEvent);
   readonly modal = injectModalService();
   readonly router = injectMiniAppRouter();
   readonly client = injectMixClient();
@@ -43,7 +38,7 @@ export class ProductConfigPage extends BasePageComponent {
 
   readonly base64FileUploadFn = (content: string) => {
     return this.client.storage.uploadFileBase64({
-      content,
+      fileBase64: content,
       fileName: `product-thumbnail-${Date.now()}.png`,
       folder: 'products',
     });
@@ -134,6 +129,10 @@ export class ProductConfigPage extends BasePageComponent {
         required: true,
         fileUploadFn: this.fileUploadFn,
         base64FileUploadFn: this.base64FileUploadFn,
+        aspectRatios: [
+          { label: 'Thumbnail', value: 1 },
+          { label: '16:9', value: 16 / 9 },
+        ],
       },
     },
   ];
@@ -143,48 +142,44 @@ export class ProductConfigPage extends BasePageComponent {
       this.translateSrv.translate('Trying to update product...'),
     );
 
-    this.event.updated({
-      data: event.value,
-      callback: {
+    this.store
+      .updateData(event.value, {
         success: () => {
           toastSuccess(
             this.translateSrv.translate('Product updated successfully'),
           );
+
           event.resetControl?.();
         },
         error: () => {
           toastError(this.translateSrv.translate('Error updating agency'));
         },
-      },
-    });
+      })
+      .subscribe();
   }
 
   public onDelete() {
     this.modal.asKForAction(
-      this.translateSrv.translate('Are you sure to remove this data'),
+      this.translate('Are you sure to remove this data'),
       () => {
-        const userId = this.id();
-        if (!userId) return;
+        const id = this.id();
+        if (!id) return;
 
         const { success: toastSuccess, error: toastError } = this.toast.loading(
-          this.translateSrv.translate('Trying to delete Product...'),
+          this.translate('common.delete.processing'),
         );
 
-        this.event.deleted({
-          data: userId as unknown as number,
-          callback: {
+        this.store
+          .deleteDataById(id, {
             success: () => {
-              toastSuccess(
-                this.translateSrv.translate('Product deleted successfully'),
-              );
-
-              this.router.navigate(['users']);
+              toastSuccess(this.translate('Product deleted successfully'));
+              this.router.navigate(['products', 'list']);
             },
             error: () => {
-              toastError(this.translateSrv.translate('Error deleting product'));
+              toastError(this.translate('Error deleting product'));
             },
-          },
-        });
+          })
+          .subscribe();
       },
     );
   }

@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 import { injectMiniAppRouter } from '@mixcore/app-config';
-import { BasePageComponent } from '@mixcore/base';
+import { BasePageComponent, LoadingState } from '@mixcore/base';
 import { MixQuery } from '@mixcore/sdk-client';
 import { MixCopyTextComponent } from '@mixcore/ui/copy-text';
 import { injectModalService } from '@mixcore/ui/modal';
@@ -56,6 +56,7 @@ export class EcomSubscribersPageComponent extends BasePageComponent {
   public onToggleStatus(item: ISubscriber) {
     const statusToUpdate = item.status === 'processed' ? 'new' : 'processed';
     const updatedItem = { ...item, status: statusToUpdate };
+    this.loadingState.set(LoadingState.Loading);
 
     const { success, error } = this.toast.loading(
       this.translate('common.update.processing'),
@@ -63,9 +64,11 @@ export class EcomSubscribersPageComponent extends BasePageComponent {
     this.store.updateData(updatedItem).subscribe({
       next: () => {
         success(this.translateSrv.translate('common.update.success'));
+        this.loadingState.set(LoadingState.Success);
       },
       error: () => {
         error(this.translateSrv.translate('common.update.error'));
+        this.loadingState.set(LoadingState.Success);
       },
     });
   }

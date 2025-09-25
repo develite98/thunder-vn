@@ -3,13 +3,11 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { MixQuery } from '@mixcore/sdk-client';
 import { publicBannerStore, websiteBuilderStore } from '../../stores';
+import { publicCategoryStore } from '../../stores/public-category.store';
 import {
-  IPublicProductCategory,
-  publicCategoryStore,
-} from '../../stores/public-category.store';
-import {
+  categoryProductStore,
+  ICategoryProduct,
   IPublicProduct,
-  publicProductStore,
 } from '../../stores/public-product.store';
 
 import { MixIconComponent } from '@mixcore/ui/icons';
@@ -59,22 +57,21 @@ export interface Product {
 export class SwiperSectionComponent {
   public homeBanners = inject(publicBannerStore);
   public cats = inject(publicCategoryStore);
-  public products = inject(publicProductStore);
+  public catProdStore = inject(categoryProductStore);
+
   public builder = inject(websiteBuilderStore);
   public router = inject(Router);
   public banner = this.homeBanners.dataEntities;
 
-  public getBlogsByCat(
-    cat: IPublicProductCategory,
-    products: IPublicProduct[],
-  ) {
-    return products
-      .filter((products) => cat.product_slugs.includes(products.seo_url))
-      .slice(0, 2);
-  }
-
   constructor() {
     this.homeBanners.search(new MixQuery().default(5)).subscribe();
+  }
+
+  public getCategoryProducts(catId: number, categories: ICategoryProduct[]) {
+    return categories
+      .filter((x) => x.category_id === catId)
+      .map((x) => x.product)
+      .filter((x) => x !== undefined) as IPublicProduct[];
   }
 
   public onSearch(searchText: string) {

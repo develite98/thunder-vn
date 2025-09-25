@@ -33,6 +33,7 @@ export class CreateColumnButtonComponent {
     EMixDataType.DateTime,
     EMixDataType.Json,
     EMixDataType.Upload,
+    EMixDataType.Html,
   ];
 
   public onSelect(type: EMixDataType) {

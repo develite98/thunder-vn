@@ -39,17 +39,22 @@
     </div>
   </div>
   <div
-    class="px-8 py-6 border-t border-base-content/5 flex items-center justify-end form-item-footer"
+    class="sm:px-4 lg:px-8 sm:py-3 lg:py-4 border-t border-base-content/10 border-dashed flex items-center justify-end form-item-footer"
   >
     @if (isEditorType()) {
-      <mix-button type="outline" [iconButton]="true" (click)="onZoomToggle()">
+      <mix-button
+        type="outline"
+        [size]="'md'"
+        [iconButton]="true"
+        (click)="onZoomToggle()"
+      >
         <mix-icon icon="fullscreen" />
       </mix-button>
     }
 
-    <div class="divider divider-horizontal h-full"></div>
     <mix-button
       color="primary"
+      [size]="'md'"
       [disabled]="!valueChanged()"
       (click)="onSubmitHandler()"
       >{{ 'common.label.update' | transloco }}</mix-button

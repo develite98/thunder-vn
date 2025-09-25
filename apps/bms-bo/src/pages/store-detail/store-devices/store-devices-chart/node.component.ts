@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { EMMSBranchDeviceType, IMMSBranchDevice } from '@mixcore/shared-domain';
 import { MixIconComponent } from '@mixcore/ui/icons';
 import { injectModalService } from '@mixcore/ui/modal';
@@ -11,11 +12,12 @@ import { StoreDeviceListPageEvent } from 'apps/bms-bo/src/state';
 
 @Component({
   selector: 'app-org-chart-node',
-  imports: [MixIconComponent, DatePipe, TippyDirective],
+  standalone: true,
+  imports: [MixIconComponent, DatePipe, TippyDirective, TranslocoPipe],
   template: `
     <div class="node-content h-full p-4 px-6">
       <div class="w-full h-full flex items-center gap-6">
-        @switch (data.typeId) {
+        @switch (data().typeId) {
           @case (deviceType.Cashier) {
             <img
               src="images/cashier-device.png"
@@ -48,24 +50,24 @@ import { StoreDeviceListPageEvent } from 'apps/bms-bo/src/state';
         }
 
         <div class="h-full flex flex-col grow">
-          <h4 class="font-bold">{{ data.name }}</h4>
-          @if (data.typeId !== deviceType.Root) {
-            <div class="text-xs mt-1">{{ data.createdAt | date: 'short' }}</div>
-            @if (data.deviceIp) {
-              <div class="text-xs">IP: {{ data.deviceIp }}</div>
+          <h4 class="font-bold">{{ data().name }}</h4>
+          @if (data().typeId !== deviceType.Root) {
+            <div class="text-xs mt-1">{{ data().createdAt | date: 'short' }}</div>
+            @if (data().deviceIp) {
+              <div class="text-xs">IP: {{ data().deviceIp }}</div>
             }
           } @else {
-            <div class="text-xs mt-1">Devices: {{ data['deviceCount'] }}</div>
-            <div class="text-xs">POS: {{ data['cashierCount'] }}</div>
+            <div class="text-xs mt-1">{{ 'bms.device.devices' | transloco }}: {{ data()['deviceCount'] }}</div>
+            <div class="text-xs">{{ 'bms.device.pos' | transloco }}: {{ data()['cashierCount'] }}</div>
             <div class="text-xs">
-              Printer: {{ data['kitchenPrinterCount'] }}
+              {{ 'bms.device.printer' | transloco }}: {{ data()['kitchenPrinterCount'] }}
             </div>
           }
 
           <div
             class="mt-auto flex items-center gap-2 pt-2 border-t border-base-content/10"
           >
-            @if (data.typeId === deviceType.Cashier) {
+            @if (data().typeId === deviceType.Cashier) {
               <button
                 class="btn btn-xs btn-primary"
                 [tp]="tpl"
@@ -75,11 +77,11 @@ import { StoreDeviceListPageEvent } from 'apps/bms-bo/src/state';
                 [tpPlacement]="'bottom-start'"
                 [tpHideOnClick]="false"
               >
-                <mix-icon [size]="12" icon="plus" /> Add
+                <mix-icon [size]="12" icon="plus" /> {{ 'common.add' | transloco }}
               </button>
             }
 
-            @if (data.typeId !== deviceType.Root) {
+            @if (data().typeId !== deviceType.Root) {
               <button
                 class="btn btn-xs btn-square  btn-primary"
                 (click)="onEdit()"
@@ -95,14 +97,14 @@ import { StoreDeviceListPageEvent } from 'apps/bms-bo/src/state';
               </button>
             }
 
-            @if (data.typeId === deviceType.Root) {
+            @if (data().typeId === deviceType.Root) {
               <button
                 class="btn btn-xs  btn-primary"
                 (click)="onCreate(deviceType.Cashier)"
               >
                 <mix-icon [size]="12" icon="plus" />
 
-                Cashier
+                {{ 'bms.device.cashier' | transloco }}
               </button>
 
               <button
@@ -111,7 +113,7 @@ import { StoreDeviceListPageEvent } from 'apps/bms-bo/src/state';
               >
                 <mix-icon [size]="12" icon="plus" />
 
-                Kitchen printer
+                {{ 'bms.device.kitchenPrinter' | transloco }}
               </button>
             }
           </div>
@@ -125,14 +127,14 @@ import { StoreDeviceListPageEvent } from 'apps/bms-bo/src/state';
           <li (click)="hide(); onCreate(deviceType.Handy)">
             <a class="w-full flex items-center">
               <mix-icon [size]="12" icon="plus" />
-              Handy
+              {{ 'bms.device.handy' | transloco }}
             </a>
           </li>
 
           <li (click)="hide(); onCreate(deviceType.Printer)">
             <a class="w-full flex items-center">
               <mix-icon [size]="12" icon="plus" />
-              Printer
+              {{ 'bms.device.printer' | transloco }}
             </a>
           </li>
         </ul>
@@ -150,12 +152,13 @@ import { StoreDeviceListPageEvent } from 'apps/bms-bo/src/state';
   ],
 })
 export class OrgChartNodeComponent {
-  @Input() data!: IMMSBranchDevice;
-  @Input() devices: IMMSBranchDevice[] = [];
+  data = input.required<IMMSBranchDevice>();
+  devices = input<IMMSBranchDevice[]>([]);
 
   public event = injectDispatch(StoreDeviceListPageEvent);
   public dialog = inject(DialogService);
   public modal = injectModalService();
+  private translate = inject(TranslocoService);
 
   public deviceType = EMMSBranchDeviceType;
 
@@ -163,9 +166,9 @@ export class OrgChartNodeComponent {
     this.dialog.open(DeviceFormComponent, {
       data: {
         typeId,
-        storeId: this.data.storeId,
-        masterDeviceId: this.data.id === 999 ? null : this.data.id,
-        devices: this.devices,
+        storeId: this.data().storeId,
+        masterDeviceId: this.data().id === 999 ? null : this.data().id,
+        devices: this.devices(),
       },
     });
   }
@@ -173,19 +176,22 @@ export class OrgChartNodeComponent {
   public onEdit() {
     this.dialog.open(DeviceFormComponent, {
       data: {
-        data: this.data,
+        data: this.data(),
         isUpdate: true,
-        typeId: this.data.typeId,
-        storeId: this.data.storeId,
-        masterDeviceId: this.data.masterDeviceId,
-        devices: this.devices,
+        typeId: this.data().typeId,
+        storeId: this.data().storeId,
+        masterDeviceId: this.data().masterDeviceId,
+        devices: this.devices(),
       },
     });
   }
 
   public onDelete() {
-    this.modal.asKForAction('', () => {
-      this.event.deleted({ data: this.data.id });
-    });
+    this.modal.asKForAction(
+      this.translate.translate('bms.device.deleteConfirmation'),
+      () => {
+        this.event.deleted({ data: this.data().id });
+      },
+    );
   }
 }

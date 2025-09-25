@@ -6,15 +6,18 @@
     [loading]="store.isLoading()"
     [contextMenu]="contextMenu"
     [(searchText)]="searchText"
-    (goPrevious)="store.goPreviousPage()"
+    (goPrevious)="store.goPreviousPageRouter()"
+    (goNext)="store.goNextPageRouter()"
     (goNext)="store.goNextPage()"
-    (refresh)="event.refreshed({ query: store.query(), refresh: true })"
+    (refresh)="store.refresh()"
+    (rowClick)="editMember($event)"
   >
     <ng-template #toolar>
       <mix-button
         [prefixIcon]="'plus'"
         [color]="'primary'"
-        (click)="addMember()"
+        (click)="addMember(true)"
+        [disabled]="!store.isSuccess()"
       >
         {{ 'bms.branch.user.create' | transloco }}
       </mix-button>
@@ -27,21 +30,21 @@
     >
       <ng-template mixColumnCell let-row>
         <span class="text-primary font-medium">
-          {{ row.data.userData?.displayName }}
+          {{ row.data.fullName }}
         </span>
       </ng-template>
     </div>
 
-    <div mixTableColumn [header]="'common.label.id'" [key]="'staffCode'">
+    <div mixTableColumn [header]="'Username'" [key]="'staffcode'">
       <ng-template mixColumnCell let-row>
-        <mix-copy-text [text]="row.data.userData?.staffCode" />
+        <mix-copy-text [text]="row.data.username"></mix-copy-text>
       </ng-template>
     </div>
 
     <div mixTableColumn [header]="'common.label.status'" [key]="'status'">
       <ng-template mixColumnCell let-row>
         <span class="text-primary font-medium">
-          @if (row.data.userData?.isAvailable) {
+          @if (row.data?.isAvailable) {
             <span class="badge badge-soft badge-success">{{
               'bms.branch.active' | transloco
             }}</span>
@@ -60,7 +63,7 @@
       [key]="'lastModified'"
     >
       <ng-template mixColumnCell let-row>
-        {{ row.data.userData?.createdAt | date }}
+        {{ row.data.lastModified | date }}
       </ng-template>
     </div>
   </mix-table>

@@ -11,7 +11,7 @@
 <mix-page-container
   [backButton]="true"
   [defaultPage]="['users']"
-  [pageTitle]="data?.email || ''"
+  [pageTitle]="data?.email || data?.userName || ''"
   [pageDescription]="data?.id || ''"
   [tabs]="tabs()"
   [loading]="dataState()?.isLoading"

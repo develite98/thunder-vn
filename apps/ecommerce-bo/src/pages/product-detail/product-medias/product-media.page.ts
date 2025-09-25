@@ -71,19 +71,21 @@ export class ProductMediaPage extends BasePageComponent {
       'Trying to update product...',
     );
 
-    this.event.updated({
-      data: { ...value, media: { mediaList: this.medias || [] } },
-      callback: {
-        success: () => {
-          if (fromMedia) this.canSave = false;
-          toastSuccess('Product updated successfully');
+    this.store
+      .updateData(
+        { ...value, media: { mediaList: this.medias || [] } },
+        {
+          success: () => {
+            if (fromMedia) this.canSave = false;
+            toastSuccess('Product updated successfully');
+          },
+          error: (error) => {
+            toastError('Error updating agency');
+            console.error('Error updating agency:', error);
+          },
         },
-        error: (error) => {
-          toastError('Error updating agency');
-          console.error('Error updating agency:', error);
-        },
-      },
-    });
+      )
+      .subscribe();
   }
 
   public onDelete(image: string) {

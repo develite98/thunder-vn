@@ -1,30 +1,48 @@
-<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
-<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
-<div class="pt-[14vh] w-full h-full">
+<div class="pt-[12vh] w-full h-full">
+  @let areaChanges = toSaveAreas();
+  @let tableChanges = toSaveTables();
+
   <div class="container mx-auto">
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-2">
+      <mix-button type="ghost" (click)="onClose()"
+        ><mix-icon icon="chevron_left"></mix-icon
+      ></mix-button>
       <div class="text-2xl font-bold">Layout Edit</div>
 
-      <label class="ms-4">
-        <input type="checkbox" class="toggle toggle-lg" />
-        <span class="ml-2">Map view</span>
-      </label>
+      @let canSave = areaChanges.length || tableChanges.length;
+
+      <mix-button
+        [loading]="isLoading()"
+        (click)="onSave()"
+        class="ms-4"
+        [color]="'primary'"
+        [disabled]="!canSave"
+        >Save changes</mix-button
+      >
+      <mix-button (click)="onCancel()" [disabled]="!canSave || isLoading()"
+        >Cancel</mix-button
+      >
     </div>
 
     <div
-      class="flex mt-12 items-center gap-4 drag-list"
+      class="flex mt-18 items-center gap-4 drag-list"
       cdkDropList
       cdkDropListOrientation="horizontal"
+      (cdkDropListDropped)="onAreaDrop($event)"
     >
-      @for (area of areaStore.dataEntities() | itemPriority; track $index) {
+      @for (area of areas(); track $index) {
         <div
           cdkDrag
+          [cdkDragData]="area"
           (click)="selectedAreaId.set(area.id)"
+          (keyup)="selectedAreaId.set(area.id)"
+          [tabindex]="$index"
           class="drag-box min-w-[120px]"
         >
           <div
-            class="w-full bg-base-100 rounded px-4 py-2 border border-base-content/20 font-medium cursor-pointer hover:border-primary"
+            class="w-full bg-success/10 rounded px-4 py-2 border border-base-content/20 font-medium cursor-pointer hover:border-primary"
             [class.border-primary]="area.id === selectedAreaId()"
+            [class.!bg-base-100]="!areaChanges.includes(area.id)"
           >
             {{ area.name }}
           </div>
@@ -33,20 +51,29 @@
     </div>
     <div class="divider"></div>
 
-    <div
-      class="grid grid-cols-9 items-center gap-4 drag-list"
-      cdkDropList
-      cdkDropListOrientation="mixed"
-    >
-      @for (table of tableStore.dataEntities() | itemPriority; track $index) {
-        <div cdkDrag class="w-full h-full font-bold drag-box">
-          <div
-            class="bg-base-100 w-full h-full rounded p-4 border border-base-content/20 flex items-center justify-center cursor-pointer hover:border-primary text-lg text-center"
-          >
-            {{ table.name }}
+    @if (tableStore.isLoading()) {
+      <div class="grid grid-cols-9 items-center gap-4 drag-list">
+        <div class="skeleton h-18 w-full"></div>
+        <div class="skeleton h-18 w-full"></div>
+      </div>
+    } @else {
+      <div
+        class="grid grid-cols-9 items-center gap-4 drag-list"
+        cdkDropList
+        cdkDropListOrientation="mixed"
+        (cdkDropListDropped)="onTableDrop($event)"
+      >
+        @for (table of tables(); track $index) {
+          <div cdkDrag class="w-full h-full font-bold drag-box">
+            <div
+              class="bg-success/10 w-full h-full rounded p-4 border border-base-content/20 flex items-center justify-center cursor-pointer hover:border-primary text-lg text-center"
+              [class.!bg-base-100]="!tableChanges.includes(table.id)"
+            >
+              {{ table.name }}
+            </div>
           </div>
-        </div>
-      }
-    </div>
+        }
+      </div>
+    }
   </div>
 </div>

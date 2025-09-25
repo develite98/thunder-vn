@@ -51,6 +51,27 @@
   "storeMember.lastName": "Last Name",
   "storeMember.lastNameDescription": "The last name of the member.",
 
-  "branch.table.label.capacity": "Capacity",
-  "menu.tab.list": "List of Menus"
+  "branch.table.label.capacity": "Sức chứa",
+  "menu.tab.list": "Danh sách menu",
+
+  "device.tableView": "Xem bảng",
+  "device.chartView": "Xem biểu đồ",
+  "device.cashier": "Máy tính tiền",
+  "device.kitchenPrinter": "Máy in bếp",
+  "device.deviceName": "Tên thiết bị",
+  "device.deviceType": "Loại thiết bị",
+  "device.ipAddress": "Địa chỉ IP",
+  "device.masterDevice": "Thiết bị chính",
+  "device.default": "Mặc định",
+  "device.status": "Trạng thái",
+  "device.lastModified": "Cập nhật cuối",
+  "device.under": "thuộc",
+  "device.addHandy": "Thêm máy cầm tay",
+  "device.addPrinter": "Thêm máy in",
+  "device.renderingChart": "Đang tạo biểu đồ...",
+  "device.devices": "Thiết bị",
+  "device.pos": "Máy POS",
+  "device.printer": "Máy in",
+  "device.handy": "Máy cầm tay",
+  "device.deleteConfirmation": "Bạn có chắc chắn muốn xóa thiết bị này không?"
 }

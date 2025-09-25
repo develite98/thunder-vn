@@ -1,31 +1,26 @@
+import { ECompareOperator } from '@mixcore/sdk-client';
 import { createFromMixDb } from '@mixcore/sdk-client-ng';
 import { withCRUD } from '@mixcore/signal';
 import { signalStore } from '@ngrx/signals';
-import { IProduct, IProductCategory } from '../../types';
-import {
-  productCategoryPageEvent,
-  productDetailPageEvent,
-  productDialogEvent,
-  productPageEvent,
-} from '../events/product.event';
+import { ICategoryProduct, IProduct, IProductCategory } from '../../types';
+import { productCategoryPageEvent } from '../events/product.event';
+
 const DB_NAME = 'mix_product';
 const DB_CATEGORY_NAME = 'mix_ecom_product_category';
+const DB_PRODUCT_CATEGORY = 'category_product';
 
 export const ProductStore = signalStore(
   { providedIn: 'root' },
   withCRUD<IProduct>({
     apiFactory: createFromMixDb<IProduct>(DB_NAME),
-    events: {
-      searchDataOn: [
-        productPageEvent.opened,
-        productPageEvent.refreshed,
-        productPageEvent.searched,
-      ],
-      createDataOn: [productDialogEvent.create],
-      updateDataOn: [productDetailPageEvent.updated],
-      deleteDataOn: [productDetailPageEvent.deleted],
-      getDataByIdOn: [productDetailPageEvent.pageOpened],
-    },
+    filterConfig: [
+      {
+        fieldName: 'title',
+        label: 'Tên sản phẩm',
+        type: 'text',
+        allowdOperators: [ECompareOperator.Equal, ECompareOperator.Like],
+      },
+    ],
   }),
 );
 
@@ -45,5 +40,12 @@ export const ProductCategoryStore = signalStore(
       updateDataOn: [productCategoryPageEvent.updated],
       deleteDataOn: [productCategoryPageEvent.deleted],
     },
+  }),
+);
+
+export const CategoryProductRelationStore = signalStore(
+  { providedIn: 'root' },
+  withCRUD<ICategoryProduct>({
+    apiFactory: createFromMixDb<ICategoryProduct>(DB_PRODUCT_CATEGORY),
   }),
 );

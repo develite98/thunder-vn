@@ -1,3 +1,4 @@
+export * from './category-form/category-form.component';
 export * from './create-agency-member/create-agency-member.component';
 export * from './create-agency/create-agency.component';
 export * from './create-banner/create-banner.component';

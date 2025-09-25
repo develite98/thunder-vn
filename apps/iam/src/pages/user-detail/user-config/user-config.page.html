@@ -49,7 +49,12 @@
       </div>
     </div>
   </mix-tile>
-  <mix-form [form]="form" [value]="user" [formConfig]="fields"></mix-form>
+  <mix-form
+    (onSubmit)="onSubmit($event)"
+    [form]="form"
+    [value]="user"
+    [formConfig]="fields"
+  ></mix-form>
 
   <mix-delete
     class="mt-6 block"

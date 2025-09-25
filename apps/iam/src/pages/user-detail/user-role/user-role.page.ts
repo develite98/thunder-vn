@@ -7,8 +7,7 @@ import { MixQuery } from '@mixcore/sdk-client';
 import { MixTileComponent } from '@mixcore/ui/tile';
 import { injectToastObserve } from '@mixcore/ui/toast';
 import { MixToggleComponent } from '@mixcore/ui/toggle';
-import { injectDispatch } from '@ngrx/signals/events';
-import { RoleStore, userDetailPage, UserStore } from 'apps/iam/src/state';
+import { RoleStore, UserStore } from 'apps/iam/src/state';
 
 @Component({
   selector: 'mix-iam-user-role-page',
@@ -21,7 +20,6 @@ export class IamUserRolePageComponent extends BasePageComponent {
 
   readonly useId = injectParams('userId');
   readonly store = inject(UserStore);
-  readonly event = injectDispatch(userDetailPage);
   readonly router = injectMiniAppRouter();
   readonly translateSrv = inject(TranslocoService);
 

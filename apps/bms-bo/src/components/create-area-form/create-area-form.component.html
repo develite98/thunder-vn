@@ -1,4 +1,6 @@
-<mix-dialog-wrapper [title]="'bms.branch.area.createNew'">
+<mix-dialog-wrapper
+  [title]="updateMode ? 'Update area' : 'bms.branch.area.createNew'"
+>
   <div dialog-body [formGroup]="form">
     <div class="grid grid-cols-12 gap-4">
       <mix-form-field
@@ -6,27 +8,56 @@
         [required]="true"
         [autoFocus]="true"
         [name]="'bms.branch.area.label.name'"
+        [description]="isBulkCreate() ? 'Enter one table name per commas' : ''"
       >
-        <input
-          #autofocus
-          formControlName="name"
-          class="input input-bordered"
-          [placeholder]="'common.input.placeholder' | transloco"
-        />
+        @if (isBulkCreate(); as isBulk) {
+          <textarea
+            #autofocus
+            formControlName="name"
+            class="textarea"
+            [placeholder]="'common.input.placeholder' | transloco"
+          ></textarea>
+        } @else {
+          <input
+            #autofocus
+            formControlName="name"
+            class="input"
+            [placeholder]="'common.input.placeholder' | transloco"
+          />
+        }
       </mix-form-field>
     </div>
   </div>
 
-  <div dialog-footer class="flex items-center justify-end gap-2">
-    <mix-button (click)="dialogRef.close()">
+  <div dialog-footer class="flex items-center justify-start gap-2">
+    @if (!updateMode) {
+      <mix-toggle
+        [value]="isBulkCreate()"
+        (valueChange)="isBulkCreate.set($event)"
+        >Bulk create</mix-toggle
+      >
+    }
+
+    <mix-button (click)="dialogRef.close()" type="ghost" class="ms-auto">
       {{ 'common.cancel' | transloco }}
     </mix-button>
-    <mix-button
-      [loading]="isLoading()"
-      [color]="'primary'"
-      (click)="onSubmit()"
-    >
-      {{ 'common.create' | transloco }}
-    </mix-button>
+
+    @if (updateMode) {
+      <mix-button
+        [loading]="isLoading()"
+        [color]="'primary'"
+        (click)="onSave()"
+      >
+        {{ 'common.update' | transloco }}
+      </mix-button>
+    } @else {
+      <mix-button
+        [loading]="isLoading()"
+        [color]="'primary'"
+        (click)="onSubmit()"
+      >
+        {{ 'common.create' | transloco }}
+      </mix-button>
+    }
   </div>
 </mix-dialog-wrapper>

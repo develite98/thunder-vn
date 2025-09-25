@@ -74,10 +74,12 @@ export class ToastService {
   }
 
   public success<T>(message: string, options?: ToastOptions<T>) {
-    this.toast.show(CustomToastComponent, {
+    const ref = this.toast.show(CustomToastComponent, {
       ...options,
       data: { message, type: 'Success' },
     });
+
+    return ref;
   }
 
   public warning<T>(message: string, options?: ToastOptions<T>) {

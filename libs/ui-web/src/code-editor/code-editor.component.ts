@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   inject,
   input,
   signal,
@@ -22,7 +23,7 @@ import { NgxControlValueAccessor } from 'ngxtension/control-value-accessor';
     },
   ],
 })
-export class MixCodeEditorComponent {
+export class MixCodeEditorComponent implements OnDestroy {
   protected cva = inject<NgxControlValueAccessor<string | undefined>>(
     NgxControlValueAccessor,
   );
@@ -30,6 +31,8 @@ export class MixCodeEditorComponent {
   public theme = input<string>('vs-dark');
   public language = input<string>('json');
   public model = signal<CodeModel | undefined>(undefined);
+  
+  private timeoutId: number | null = null;
 
   public options = {
     contextmenu: true,
@@ -48,8 +51,20 @@ export class MixCodeEditorComponent {
   }
 
   onEditorInit(editor: CodeEditorComponent) {
-    setTimeout(() => {
+    // Clear any existing timeout
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
+    
+    this.timeoutId = setTimeout(() => {
       editor.formatDocument();
+      this.timeoutId = null;
     }, 10);
+  }
+
+  ngOnDestroy() {
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
   }
 }

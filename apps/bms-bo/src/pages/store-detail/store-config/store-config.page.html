@@ -34,12 +34,14 @@
     </div>
   } -->
 
-  <mix-form
-    [form]="form"
-    [value]="product"
-    [formConfig]="fields"
-    (onSubmit)="onSubmit($event)"
-  ></mix-form>
+  @if (fields(); as fields) {
+    <mix-form
+      [form]="form"
+      [value]="product"
+      [formConfig]="fields"
+      (onSubmit)="onSubmit($event)"
+    ></mix-form>
+  }
 
   <mix-delete
     (onDelete)="onDelete()"

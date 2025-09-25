@@ -8,6 +8,7 @@
     (goNext)="store.goNextPage()"
     [toolbarTpl]="toolar"
     [contextMenu]="contextMenu"
+    (rowClick)="editArea($event)"
   >
     <ng-template #toolar>
       <mix-button

@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   inject,
   input,
 } from '@angular/core';
@@ -23,7 +24,7 @@ import { NgxControlValueAccessor } from 'ngxtension/control-value-accessor';
     },
   ],
 })
-export class MixToggleComponent {
+export class MixToggleComponent implements OnDestroy {
   protected cva = inject<NgxControlValueAccessor<boolean | undefined>>(
     NgxControlValueAccessor,
   );
@@ -32,10 +33,25 @@ export class MixToggleComponent {
   public description = input<string | null>(null);
   public modal = injectModalService();
   public id = StringHelper.generateUUID();
+  public disabled = input(false);
+
+  private timeoutId: number | null = null;
 
   onValueChange(event: Event) {
     const input = event.target as HTMLInputElement;
     const value = input.checked;
+
+    if (this.disabled()) {
+      if (this.timeoutId) {
+        clearTimeout(this.timeoutId);
+      }
+
+      this.timeoutId = setTimeout(() => {
+        input.checked = this.cva.value ?? false;
+        this.timeoutId = null;
+      }, 100);
+      return;
+    }
 
     if (this.needConfirm()) {
       this.modal.asKForAction(
@@ -44,13 +60,25 @@ export class MixToggleComponent {
           this.cva.value = value;
         },
         () => {
-          setTimeout(() => {
+          // Clear any existing timeout
+          if (this.timeoutId) {
+            clearTimeout(this.timeoutId);
+          }
+
+          this.timeoutId = setTimeout(() => {
             input.checked = this.cva.value ?? false;
+            this.timeoutId = null;
           }, 100);
         },
       );
     } else {
       this.cva.value = value;
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
     }
   }
 }

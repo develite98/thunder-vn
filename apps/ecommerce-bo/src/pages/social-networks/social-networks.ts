@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { Component, inject, ViewContainerRef } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { injectMiniAppRouter } from '@mixcore/app-config';
@@ -25,7 +24,6 @@ import { ISocialNetwork } from '../../types';
     MixTableModule,
     MixCopyTextComponent,
     MixButtonComponent,
-    DatePipe,
     TranslocoPipe,
   ],
 })

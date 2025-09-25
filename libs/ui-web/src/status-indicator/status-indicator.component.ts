@@ -11,4 +11,5 @@ import { EMixContentStatus } from '@mixcore/sdk-client';
 export class MixStatusIndicatorComponent {
   public STATUS = EMixContentStatus;
   public status = input<EMixContentStatus>(EMixContentStatus.Draft);
+  public reverse = input<boolean>(false);
 }

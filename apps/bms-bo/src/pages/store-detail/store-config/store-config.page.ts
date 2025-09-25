@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { TranslocoService } from '@jsverse/transloco';
 import { injectMiniAppRouter } from '@mixcore/app-config';
@@ -6,11 +11,11 @@ import { BasePageComponent } from '@mixcore/base';
 import { injectParams } from '@mixcore/router';
 import { IBranch } from '@mixcore/shared-domain';
 import { MixDeleteComponent } from '@mixcore/ui/delete';
-import { IFormConfig, IFormSubmit, MixFormComponent } from '@mixcore/ui/forms';
+import { IFormSubmit, MixFormComponent } from '@mixcore/ui/forms';
 import { injectModalService } from '@mixcore/ui/modal';
 import { injectToastService } from '@mixcore/ui/toast';
 
-import { BranchStore } from 'apps/bms-bo/src/state';
+import { BranchStore, CurrencyStore } from 'apps/bms-bo/src/state';
 
 @Component({
   selector: 'app-store-config-page',
@@ -20,6 +25,8 @@ import { BranchStore } from 'apps/bms-bo/src/state';
 })
 export class StoreConfigPage extends BasePageComponent {
   public store = inject(BranchStore);
+  public currencyStore = inject(CurrencyStore);
+
   public id = injectParams('id');
   public modal = injectModalService();
   public router = injectMiniAppRouter();
@@ -30,54 +37,88 @@ export class StoreConfigPage extends BasePageComponent {
   public dataState = this.store.selectEntityStateById(this.id);
 
   public form = new FormGroup({});
-  public fields: IFormConfig[] = [
-    {
-      key: 'name',
-      type: 'input',
-      props: {
-        label: 'bms.branch.name',
-        placeholder: 'common.input.placeholder',
-        description: 'bms.branch.nameDescription',
-        required: true,
+  public fields = computed(() => {
+    const currency = this.currencyStore.dataEntities();
+    if (!currency.length) return null;
+
+    return [
+      {
+        key: 'name',
+        type: 'input',
+        props: {
+          label: 'bms.branch.name',
+          placeholder: 'common.input.placeholder',
+          description: 'bms.branch.nameDescription',
+          required: true,
+        },
       },
-    },
-    {
-      key: 'code',
-      type: 'input',
-      props: {
-        label: 'bms.branch.storeCode',
-        placeholder: 'common.input.placeholder',
-        description: 'bms.branch.storeCodeDescription',
+      {
+        key: 'code',
+        type: 'input',
+        props: {
+          label: 'bms.branch.storeCode',
+          placeholder: 'common.input.placeholder',
+          description: 'bms.branch.storeCodeDescription',
+        },
       },
-    },
-    {
-      key: 'sapCode',
-      type: 'input',
-      props: {
-        label: 'bms.branch.label.sapCode',
-        placeholder: 'common.input.placeholder',
-        description: 'bms.branch.label.sapCodeDescription',
+      {
+        key: 'sapCode',
+        type: 'input',
+        props: {
+          label: 'bms.branch.label.sapCode',
+          placeholder: 'common.input.placeholder',
+          description: 'bms.branch.label.sapCodeDescription',
+        },
       },
-    },
-    {
-      key: 'firstAddressLine',
-      type: 'textarea',
-      props: {
-        label: 'bms.branch.firstAddressLine',
-        placeholder: 'common.input.placeholder',
-        description: 'bms.branch.firstAddressLineDescription',
+      {
+        key: 'currencyId',
+        type: 'select',
+        props: {
+          label: 'Currency',
+          placeholder: 'common.select.placeholder',
+          options: currency.map((c) => ({
+            label: `${c.name} - ${c.shortName}`,
+            value: c.id,
+          })),
+          required: true,
+        },
       },
-    },
-    {
-      key: 'secondAddressLine',
-      type: 'textarea',
-      props: {
-        label: 'bms.branch.secondAddressLine',
-        placeholder: 'common.input.placeholder',
-        description: 'bms.branch.firstAddressLineDescription',
+      {
+        key: 'firstAddressLine',
+        type: 'textarea',
+        props: {
+          label: 'bms.branch.firstAddressLine',
+          placeholder: 'common.input.placeholder',
+          description: 'bms.branch.firstAddressLineDescription',
+        },
       },
-    },
-  ];
+      {
+        key: 'secondAddressLine',
+        type: 'textarea',
+        props: {
+          label: 'bms.branch.secondAddressLine',
+          placeholder: 'common.input.placeholder',
+          description: 'bms.branch.firstAddressLineDescription',
+        },
+      },
+      {
+        key: 'website',
+        type: 'input',
+        props: {
+          label: 'Website',
+          placeholder: 'common.input.placeholder',
+        },
+      },
+      {
+        key: 'hotline',
+        type: 'input',
+        props: {
+          label: 'Hot-line',
+          placeholder: 'common.input.placeholder',
+        },
+      },
+    ];
+  });
 
   public onSubmit(event: IFormSubmit<IBranch>) {
     const { success: toastSuccess, error: toastError } = this.toast.loading(

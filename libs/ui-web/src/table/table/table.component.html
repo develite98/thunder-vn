@@ -1,33 +1,14 @@
 <div class="h-full w-full overflow-auto flex flex-col gap-2 pb-2 mix-table">
   @let pageRange = range();
   @let pageInfo = paging();
-  @let filterOptions = filters();
 
   @if (!hideToolbar()) {
     <div class="w-full flex items-center justify-between py-1 gap-2">
       <div class="grow flex items-center gap-2">
-        <label
-          class="input !outline-none rounded border-base-content/10 max-w-64 flex items-center gap-2 text-base-content/60"
-        >
-          <input
-            type="text"
-            class="grow"
-            [(ngModel)]="searchText"
-            [placeholder]="searchTextPlaceHolder() | transloco"
-          />
-
-          <kbd>
-            <mix-icon icon="search" />
-          </kbd>
-        </label>
-
-        @if (filterOptions.length) {
-          <mix-table-filter
-            (onFilterChange)="handleFilterChange($event)"
-            [filterValue]="filterValue()"
-            [filters]="filterOptions"
-          />
-        }
+        <mix-input-query-builder
+          [filterOptions]="filterOptions()"
+          (valueChange)="onFilterChange.emit($event)"
+        ></mix-input-query-builder>
 
         @if (searchBarTpl(); as searchBarTpl) {
           <div class="grow">
@@ -35,7 +16,11 @@
           </div>
         }
 
-        <div role="tablist" class="tabs tabs-box ms-auto">
+        <div
+          role="tablist"
+          class="tabs tabs-box ms-auto"
+          style="--radius-field: 4rem"
+        >
           <button
             role="tab"
             type="button"
@@ -146,7 +131,7 @@
     @if (table; as table) {
       <div
         class="bg-base-100 rounded-2xl grow overflow-auto border border-base-content/5"
-        [style.maxHeight]="'50vh'"
+        [style.maxHeight]="tableHeight()"
       >
         <table class="table table-pin-rows table-pin-cols">
           <thead>
@@ -214,7 +199,7 @@
             ) {
               <tr
                 class="hover:bg-base-200 cursor-pointer"
-                (click)="onRowClick(row.original)"
+                (click)="rowClickHandle(row, row.original)"
               >
                 @for (
                   cell of row.getVisibleCells();
@@ -265,7 +250,10 @@
                         #element
                         class="menu bg-base-100 border border-base-content/10 rounded-box z-1 w-52 p-2 shadow-sm"
                       >
-                        @for (menu of contextMenu(); track menu) {
+                        @for (
+                          menu of getContextMenu(rowDataProps.data);
+                          track menu
+                        ) {
                           <li (click)="hide(); menu.action(rowDataProps.data)">
                             <a>
                               @let className = `me-2  ${menu.iconClass}`;

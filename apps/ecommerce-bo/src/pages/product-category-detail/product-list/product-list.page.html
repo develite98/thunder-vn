@@ -1,9 +1,9 @@
 <mix-table
-  [data]="productStore.dataEntities() || []"
-  [paging]="productStore.pagingInfo()"
-  [loading]="productStore.isLoading()"
-  (goPrevious)="productStore.goPreviousPage()"
-  (goNext)="productStore.goNextPage()"
+  [data]="categoryProductRelationStore.dataEntities() || []"
+  [paging]="categoryProductRelationStore.pagingInfo()"
+  [loading]="categoryProductRelationStore.isLoading()"
+  (goPrevious)="categoryProductRelationStore.goPreviousPage()"
+  (goNext)="categoryProductRelationStore.goNextPage()"
   [contextMenu]="contextMenu"
   [toolbarTpl]="toolar"
 >
@@ -17,33 +17,60 @@
     </mix-button>
   </ng-template>
 
+  <div mixTableColumn [header]="'Thumbnail'" [key]="'thumbnail'">
+    <ng-template mixColumnCell let-row>
+      @let product = productStore.dataEntityMap()[row.data.product_id];
+      @if (product) {
+        <img
+          [src]="product.thumbnail"
+          class="h-14 w-14 object-cover rounded-lg"
+          alt=""
+        />
+      }
+    </ng-template>
+  </div>
+
   <div mixTableColumn [header]="'ecommerce.product.name'" [key]="'title'">
     <ng-template mixColumnCell let-row>
-      {{ row.data.title }}
+      @let product = productStore.dataEntityMap()[row.data.product_id];
+      @if (product) {
+        {{ product.title }}
+      } @else {
+        <div class="skeleton h-4 w-28"></div>
+      }
+    </ng-template>
+  </div>
+
+  <div mixTableColumn [header]="'URL'" [key]="'seo_url'">
+    <ng-template mixColumnCell let-row>
+      @let product = productStore.dataEntityMap()[row.data.product_id];
+      @if (product) {
+        <mix-copy-text [text]="product.seo_url || ''"></mix-copy-text>
+      } @else {
+        <div class="skeleton h-4 w-28"></div>
+      }
     </ng-template>
   </div>
 
   <div mixTableColumn [header]="'ecommerce.product.price'" [key]="'totalPrice'">
     <ng-template mixColumnCell let-row>
-      <mix-currency [value]="row.data.price"></mix-currency>
+      @let product = productStore.dataEntityMap()[row.data.product_id];
+      @if (product) {
+        <mix-currency [value]="product.price || 0"></mix-currency>
+      } @else {
+        <div class="skeleton h-4 w-28"></div>
+      }
     </ng-template>
   </div>
 
-  <div [header]="'common.status'" key="'status'" mixTableColumn>
-    <ng-template let-row mixColumnCell>
-      <mix-status-indicator [status]="row.data.status"></mix-status-indicator>
-    </ng-template>
-  </div>
-
-  <div
-    mixTableColumn
-    [header]="'common.created_date'"
-    [key]="'createdDateTime'"
-  >
+  <div mixTableColumn [header]="'Priority'" [key]="'priority'">
     <ng-template mixColumnCell let-row>
-      <span class="text-sm">
-        {{ row.data.created_date_time | date: 'short' }}
-      </span>
+      <div class="w-32">
+        <mix-inline-input
+          [value]="row.data.priority"
+          (valueChange)="onUpdatePriority(row.data, $event)"
+        ></mix-inline-input>
+      </div>
     </ng-template>
   </div>
 </mix-table>

@@ -1,5 +1,10 @@
 import { DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { BaseComponent } from '@mixcore/base';
@@ -33,16 +38,24 @@ export class SearchProductComponent extends BaseComponent {
   readonly formControl = new FormControl('');
   readonly store = inject(ProductStore);
 
+  public selection = signal<Record<number, boolean>>({});
+
   public onSumbit() {
-    //
+    const data = this.store.dataEntities();
+    const indexes = Object.keys(this.selection()).map((i) => Number(i));
+    const selectedProducts = indexes.map((x) => data[x]);
+
+    this.dialogRef.close(selectedProducts);
   }
 
   constructor() {
     super();
+
     this.formControl.valueChanges.pipe(debounceTime(300)).subscribe((value) => {
       if (value) {
         const query = new MixQuery().default(100).like('title', value);
         this.store.search(query).subscribe();
+        this.selection.set({});
       }
     });
   }

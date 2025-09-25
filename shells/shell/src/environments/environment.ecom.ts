@@ -8,6 +8,7 @@ export const appSetting: IAppConfig = {
     appName: 'Thunderbird VN',
     appLogoUrl: '/logos/app-logo.svg',
     appVersion: '1.0.0',
+
     appDescription: 'A portal for 4Ps applications',
     appCopyright: '© Copyright 2025 by 4Ps Team',
     defaultTheme: 'light',

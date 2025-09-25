@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ESortDirection, MixQuery } from '@mixcore/sdk-client';
 import { MixButtonComponent } from '@mixcore/ui/buttons';
 import { MixCopyTextComponent } from '@mixcore/ui/copy-text';
@@ -13,7 +13,7 @@ import { debouncedSignal } from '@mixcore/signal';
 import { injectDialog } from '@mixcore/ui/dialog';
 import { CreateUserComponent } from 'apps/iam/src/components';
 import { explicitEffect } from 'ngxtension/explicit-effect';
-import { injectUserPageEvent, UserStore } from '../../../state';
+import { UserStore } from '../../../state';
 
 @Component({
   selector: 'mix-iam-users-page',
@@ -30,7 +30,6 @@ import { injectUserPageEvent, UserStore } from '../../../state';
 })
 export class IamUsersPage {
   readonly dialog = injectDialog();
-  readonly event = injectUserPageEvent();
   readonly store = inject(UserStore);
   readonly router = injectMiniAppRouter();
   readonly appRouter = inject(Router);
@@ -44,19 +43,22 @@ export class IamUsersPage {
       this.store.searchRouter(keyword),
     );
 
-    effect(() => {
-      const params = this.queryParams();
+    explicitEffect([this.queryParams], ([params]) => {
+      const query = new MixQuery()
+        .default(10)
+        .sort('CreatedDateTime', ESortDirection.Desc)
+        .withParams(params, {
+          paramHandlers: {
+            keyword: (value) => MixQuery.Equal('username', value),
+          },
+        });
 
-      this.event.opened(
-        new MixQuery()
-          .default(10)
-          .sort('CreatedDateTime', ESortDirection.Desc)
-          .withParams(params, {
-            paramHandlers: {
-              keyword: (value) => MixQuery.Like('username', value),
-            },
-          }),
-      );
+      if (params['keyword']) {
+        query.searchColumns = 'username';
+        query.keyword = params['keyword'];
+      }
+
+      this.store.search(query).subscribe();
     });
   }
 

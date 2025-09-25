@@ -1,0 +1,120 @@
+<div class="w-full gap-4">
+  <mix-table
+    [toolbarTpl]="toolbar"
+    [data]="hierarchicalDevices() || []"
+    [paging]="branchDeviceStore.pagingInfo()"
+    [loading]="branchDeviceStore.isLoading()"
+    [enableSorting]="false"
+    [contextMenu]="contextMenu"
+    (refresh)="branchStore.refresh()"
+  >
+    <ng-template #toolbar>
+      <div class="flex gap-2">
+        <mix-button
+          variant="primary"
+          size="sm"
+          (click)="onCreate(EMMSBranchDeviceType.Cashier)"
+        >
+          <mix-icon icon="monitor" class="w-4 h-4 mr-2"></mix-icon>
+          {{ 'bms.device.cashier' | transloco }}
+        </mix-button>
+        <mix-button
+          variant="secondary"
+          size="sm"
+          (click)="onCreate(EMMSBranchDeviceType.KitchenPrinter)"
+        >
+          <mix-icon icon="printer" class="w-4 h-4 mr-2"></mix-icon>
+          {{ 'bms.device.kitchenPrinter' | transloco }}
+        </mix-button>
+      </div>
+    </ng-template>
+
+    <div mixTableColumn [header]="'bms.device.deviceName'" [key]="'name'">
+      <ng-template mixColumnCell let-row>
+        <div [class]="getHierarchyClass(row.data)">
+          <div class="flex items-center gap-2">
+            <mix-icon
+              [icon]="getDeviceIcon(row.data)"
+              [class]="getIconClass()"
+            ></mix-icon>
+            <div class="flex flex-col">
+              <span class="font-medium">
+                {{ row.data.name }}
+              </span>
+              @if (row.data._parentName) {
+                <span class="text-xs text-base-content/60"
+                  >{{ 'bms.device.under' | transloco }}
+                  {{ row.data._parentName }}</span
+                >
+              }
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+
+    <div mixTableColumn [header]="'bms.device.deviceType'" [key]="'typeId'">
+      <ng-template mixColumnCell let-row>
+        <span class="text-xs">{{
+          getDeviceTypeName(row.data.typeId) | uppercase
+        }}</span>
+      </ng-template>
+    </div>
+
+    <div mixTableColumn [header]="'bms.device.ipAddress'" [key]="'deviceIp'">
+      <ng-template mixColumnCell let-row>
+        @if (row.data.deviceIp) {
+          <mix-copy-text [text]="row.data.deviceIp"></mix-copy-text>
+        } @else {
+          <span class="text-base-content/60">-</span>
+        }
+      </ng-template>
+    </div>
+
+    <div
+      mixTableColumn
+      [header]="'bms.device.masterDevice'"
+      [key]="'masterDeviceId'"
+    >
+      <ng-template mixColumnCell let-row>
+        <span class="text-base-content/60 text-sm">
+          {{ getMasterDeviceName(row.data) | uppercase }}
+        </span>
+      </ng-template>
+    </div>
+
+    <div mixTableColumn [header]="'common.label.default'" [key]="'isDefault'">
+      <ng-template mixColumnCell let-row>
+        @if (row.data.isDefault) {
+          <mix-icon icon="check" class="w-4 h-4 text-success"></mix-icon>
+        }
+      </ng-template>
+    </div>
+
+    <div mixTableColumn [header]="'common.label.status'" [key]="'isAvailable'">
+      <ng-template mixColumnCell let-row>
+        @if (row.data.isAvailable) {
+          <span class="badge badge-soft badge-success">
+            {{ 'bms.branch.active' | transloco | uppercase }}
+          </span>
+        } @else {
+          <span class="badge badge-soft badge-error">
+            {{ 'bms.branch.inactive' | transloco | uppercase }}
+          </span>
+        }
+      </ng-template>
+    </div>
+
+    <div
+      mixTableColumn
+      [header]="'common.label.updatedAt'"
+      [key]="'lastModified'"
+    >
+      <ng-template mixColumnCell let-row>
+        <span class="text-xs text-base-content/70">
+          {{ row.data.lastModified | date: 'MMM dd, yyyy HH:mm' }}
+        </span>
+      </ng-template>
+    </div>
+  </mix-table>
+</div>

@@ -56,5 +56,27 @@
   "branch.table.createNew": "Create New Table",
   "branch.table.label.name": "Table Name",
   "branch.table.label.capacity": "Table Capacity",
-  "menu.tab.list": "List of Menus"
+  "menu.tab.list": "List of Menus",
+  "menuItems.tab.list": "List of Menu Items",
+
+  "device.tableView": "Table View",
+  "device.chartView": "Chart View",
+  "device.cashier": "Cashier",
+  "device.kitchenPrinter": "Kitchen Printer",
+  "device.deviceName": "Device Name",
+  "device.deviceType": "Device Type",
+  "device.ipAddress": "IP Address",
+  "device.masterDevice": "Master Device",
+  "device.default": "Default",
+  "device.status": "Status",
+  "device.lastModified": "Last Modified",
+  "device.under": "under",
+  "device.addHandy": "Add Handy",
+  "device.addPrinter": "Add Printer",
+  "device.renderingChart": "Rendering chart...",
+  "device.devices": "Devices",
+  "device.pos": "POS",
+  "device.printer": "Printer",
+  "device.handy": "Handy",
+  "device.deleteConfirmation": "Are you sure you want to delete this device?"
 }

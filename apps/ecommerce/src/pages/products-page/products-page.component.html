@@ -34,12 +34,6 @@
             [class.font-bold]="select && select?.id === cat.id"
           >
             {{ cat.title }}
-
-            <div
-              class="px-2 py-[px] rounded-full border border-base-content/10"
-            >
-              {{ cat.product_slugs.split(',').length }}
-            </div>
           </div>
         }
 
@@ -71,8 +65,9 @@
         <div class="font-medium mb-4 text-lg mt-4 md:mt-0">
           Tìm thấy {{ displayProducts().length || 0 }} sản phẩm
         </div>
+
         <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          @if (productStore.isLoading()) {
+          @if (isLoading()) {
             <div>
               <div class="flex w-52 flex-col gap-4">
                 <div class="flex items-center gap-4">
@@ -155,6 +150,18 @@
             }
           }
         </div>
+
+        @if (categoryDetail(); as categoryDetail) {
+          <div class="divider divider-start mt-24">
+            <div
+              class="text-lg md:text-2xl font-bold uppercase ps-6 border-l-6 border-primary"
+            >
+              {{ categoryDetail.title }}
+            </div>
+          </div>
+
+          <div class="prose prose-sm mt-8" [innerHtml]="description()"></div>
+        }
       </div>
     </div>
   </div>

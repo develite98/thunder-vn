@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { BasePageComponent } from '@mixcore/base';
 import { MixQuery } from '@mixcore/sdk-client';
 import { MixBreadcrumbsModule } from '@mixcore/ui/breadcrumbs';
-import { BrandStore } from './state';
+import { BrandStore, CurrencyStore } from './state';
 
 @Component({
   selector: 'app-bms-root',
@@ -28,10 +28,12 @@ export class AppComponent extends BasePageComponent {
   public appNameTranslateKey = `bms.appName`;
 
   public brandStore = inject(BrandStore);
+  public currencyStore = inject(CurrencyStore);
 
   public override ngOnInit(): void {
     super.ngOnInit();
 
-    this.brandStore.search(new MixQuery().default(10)).subscribe();
+    this.brandStore.search(new MixQuery().default(50)).subscribe();
+    this.currencyStore.search(new MixQuery().default(50)).subscribe();
   }
 }

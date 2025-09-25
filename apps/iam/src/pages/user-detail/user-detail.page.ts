@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { injectMiniAppRouter } from '@mixcore/app-config';
 import { BasePageComponent } from '@mixcore/base';
@@ -8,8 +8,8 @@ import { injectModalService } from '@mixcore/ui/modal';
 import { MixPageContainerComponent } from '@mixcore/ui/page-container';
 import { ITabItem } from '@mixcore/ui/tabs';
 import { injectToastService } from '@mixcore/ui/toast';
-import { injectDispatch } from '@ngrx/signals/events';
-import { RoleStore, userDetailPage, UserStore } from '../../state';
+import { explicitEffect } from 'ngxtension/explicit-effect';
+import { RoleStore, UserStore } from '../../state';
 
 @Component({
   selector: 'mix-iam-user-detail-page',
@@ -22,9 +22,9 @@ export class IamUserDetailPage extends BasePageComponent {
   readonly modal = injectModalService();
   readonly useId = injectParams('userId');
   readonly store = inject(UserStore);
-  readonly event = injectDispatch(userDetailPage);
   readonly router = injectMiniAppRouter();
   readonly toast = injectToastService();
+
   readonly tabs = computed(() => {
     const userId = this.useId();
     return [
@@ -49,11 +49,10 @@ export class IamUserDetailPage extends BasePageComponent {
   constructor() {
     super();
 
-    effect(() => {
-      const userId = this.useId();
+    explicitEffect([this.useId], ([userId]) => {
       if (!userId) return;
 
-      this.event.pageOpened({ data: userId });
+      this.store.getById(userId).subscribe();
     });
   }
 }

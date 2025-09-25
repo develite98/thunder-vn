@@ -12,13 +12,23 @@
           ) {
             <li>
               <h2 class="menu-title text-sm text-primary">{{ cat.title }}</h2>
+              @let products =
+                getCategoryProducts(cat.id, catProdStore.dataEntities());
+
               <ul class="font-medium text-sm flex flex-col gap-1">
-                @for (
-                  item of getBlogsByCat(cat, products.dataEntities());
-                  track item.id
-                ) {
+                @for (item of products; track item.id) {
                   <li>
                     <a [routerLink]="['/product', item.id]">{{ item.title }}</a>
+                  </li>
+                }
+
+                @if (cats.isLoading() || catProdStore.isLoading()) {
+                  <li class="w-full">
+                    <span class="skeleton w-full h-[16px]"></span>
+                  </li>
+
+                  <li class="w-3/4 mt-2">
+                    <span class="skeleton w-full h-[16px]"></span>
                   </li>
                 }
               </ul>
@@ -58,15 +68,28 @@
                       <h2 class="menu-title text-sm text-primary">
                         {{ cat.title }}
                       </h2>
+
+                      @let products =
+                        getCategoryProducts(
+                          cat.id,
+                          catProdStore.dataEntities()
+                        );
                       <ul class="font-medium text-sm flex flex-col gap-1">
-                        @for (
-                          item of getBlogsByCat(cat, products.dataEntities());
-                          track item.id
-                        ) {
+                        @for (item of products; track item.id) {
                           <li>
                             <a [routerLink]="['/product', item.id]">{{
                               item.title
                             }}</a>
+                          </li>
+                        }
+
+                        @if (cats.isLoading() || catProdStore.isLoading()) {
+                          <li class="w-full">
+                            <span class="skeleton w-full h-[16px]"></span>
+                          </li>
+
+                          <li class="w-3/4 mt-2">
+                            <span class="skeleton w-full h-[16px]"></span>
                           </li>
                         }
                       </ul>

@@ -1,4 +1,8 @@
 <div class="store-devices">
-  <div #chartContainer></div>
-  <ng-template #dynamicHost></ng-template>
+  <div class="-mt-6">
+    <div class="flex items-center gap-2 mb-6 pt-2">
+      <mix-tabs class="block" [tabs]="tabs()"></mix-tabs>
+    </div>
+    <router-outlet></router-outlet>
+  </div>
 </div>

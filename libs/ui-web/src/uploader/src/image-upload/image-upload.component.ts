@@ -4,6 +4,7 @@ import { BaseComponent, LoadingState } from '@mixcore/base';
 import { MixButtonComponent } from '@mixcore/ui/buttons';
 import { injectDialogRef, MixDialogWrapperComponent } from '@mixcore/ui/dialog';
 import { MixIconComponent } from '@mixcore/ui/icons';
+import { injectToastService } from '@mixcore/ui/toast';
 import { ImageCroppedEvent, ImageCropperComponent } from 'ngx-image-cropper';
 
 @Component({
@@ -24,6 +25,7 @@ export class MixImageUploadComponent extends BaseComponent {
   public croppedImage = '';
   public croppedImageInfo = signal<ImageCroppedEvent | null>(null);
   public showCropper = false;
+  public toast = injectToastService();
 
   public aspectRatios: {
     label: string;
@@ -128,18 +130,40 @@ export class MixImageUploadComponent extends BaseComponent {
   }
 
   public uploadCroppedImage() {
-    if (!this.croppedImage) {
+    const cropImage = this.croppedImageInfo();
+    if (!cropImage) {
       return;
     }
 
     if (this.base64FileUploadFn) {
       this.loadingState.set(LoadingState.Loading);
-      this.base64FileUploadFn(this.croppedImage).then((url) => {
-        this.dialogRef.close(url);
-        this.loadingState.set(LoadingState.Success);
+      this.blobToBase64(cropImage.blob as Blob).then((base64) => {
+        if (this.base64FileUploadFn) {
+          this.base64FileUploadFn(base64)
+            .then((url) => {
+              this.dialogRef.close(url);
+              this.loadingState.set(LoadingState.Success);
+            })
+            .catch(() => {
+              this.loadingState.set(LoadingState.Success);
+              this.toast.error('Error uploading image');
+            });
+        }
       });
     } else {
       this.dialogRef.close(this.croppedImage);
     }
+  }
+
+  public blobToBase64(blob: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const result = reader.result as string;
+        resolve(result);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
   }
 }

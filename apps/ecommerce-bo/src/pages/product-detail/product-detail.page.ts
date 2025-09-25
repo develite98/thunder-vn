@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   inject,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
@@ -13,9 +12,10 @@ import { EMixContentStatus } from '@mixcore/sdk-client';
 import { MixPageContainerComponent } from '@mixcore/ui/page-container';
 import { ITabItem } from '@mixcore/ui/tabs';
 import { injectToastService } from '@mixcore/ui/toast';
-import { injectDispatch } from '@ngrx/signals/events';
+import { explicitEffect } from 'ngxtension/explicit-effect';
 import { StatusSelectComponent } from '../../components';
-import { productDetailPageEvent, ProductStore } from '../../state';
+import { ProductStore } from '../../state';
+import { IProduct } from '../../types';
 
 @Component({
   selector: 'mix-product-detail-page',
@@ -26,7 +26,6 @@ import { productDetailPageEvent, ProductStore } from '../../state';
 export class ProductDetailpage extends BasePageComponent {
   readonly translateSrv = inject(TranslocoService);
   readonly toast = injectToastService();
-  readonly event = injectDispatch(productDetailPageEvent);
   readonly id = injectParams('id');
   readonly store = inject(ProductStore);
   readonly tabs = computed(() => {
@@ -57,11 +56,10 @@ export class ProductDetailpage extends BasePageComponent {
 
   constructor() {
     super();
-    effect(() => {
-      const id = this.id();
+    explicitEffect([this.id], ([id]) => {
       if (!id) return;
 
-      this.event.pageOpened({ data: id });
+      this.store.getById(id).subscribe();
     });
   }
 
@@ -74,21 +72,12 @@ export class ProductDetailpage extends BasePageComponent {
         this.translateSrv.translate('Trying to update product...'),
       );
 
-      this.event.updated({
-        data: data,
-        callback: {
-          success: () => {
-            toastSuccess(
-              this.translateSrv.translate('Product updated successfully'),
-            );
-          },
-          error: (error) => {
-            toastError(
-              this.translateSrv.translate('Error updating product') +
-                ' ' +
-                error,
-            );
-          },
+      this.store.updateData({ ...data } as IProduct).subscribe({
+        next: () => {
+          toastSuccess(this.translate('common.update.success'));
+        },
+        error: () => {
+          toastError(this.translate('common.update.error'));
         },
       });
     }

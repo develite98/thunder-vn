@@ -2,22 +2,20 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   inject,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { BasePageComponent } from '@mixcore/base';
 import { injectParams } from '@mixcore/router';
+import { watch } from '@mixcore/signal';
 import { MixPageContainerComponent } from '@mixcore/ui/page-container';
 import { ITabItem } from '@mixcore/ui/tabs';
-import { injectDispatch } from '@ngrx/signals/events';
 import {
   BmsBranchStore,
   BranchAreaStore,
   BranchMemberStore,
   BranchStore,
   BranchTableStore,
-  StoreDetailPageEvent,
 } from '../../state';
 
 @Component({
@@ -34,11 +32,10 @@ import {
   ],
 })
 export class StoreDetailPageComponent extends BasePageComponent {
+  public id = injectParams('id');
+
   public store = inject(BranchStore);
   public bmsBranchStore = inject(BmsBranchStore);
-
-  public event = injectDispatch(StoreDetailPageEvent);
-  public id = injectParams('id');
 
   public tabs = computed(() => {
     const id = this.id();
@@ -50,7 +47,7 @@ export class StoreDetailPageComponent extends BasePageComponent {
         icon: 'settings',
       },
       {
-        id: '3',
+        id: '2',
         title: 'bms.branch.tab.layouts',
         route: ['stores', id, 'layouts', 'areas'],
         icon: 'house-plug',
@@ -63,9 +60,9 @@ export class StoreDetailPageComponent extends BasePageComponent {
       },
 
       {
-        id: '3',
+        id: '4',
         title: 'bms.branch.tab.device',
-        route: ['stores', id, 'devices'],
+        route: ['stores', id, 'devices', 'table'],
         icon: 'monitor-smartphone',
       },
     ] as ITabItem[];
@@ -77,17 +74,12 @@ export class StoreDetailPageComponent extends BasePageComponent {
   constructor() {
     super();
 
-    effect(() => {
-      const id = this.id();
-      if (id) {
-        this.event.pageOpened({ data: parseInt(id) });
-      }
+    watch([this.id], ([id]) => {
+      if (id) this.store.getById(parseInt(id)).subscribe();
     });
 
-    effect(() => {
-      const data = this.data();
-      if (data && this.bmsBranchStore.isInit())
-        this.bmsBranchStore.getById(data.id).subscribe();
+    watch([this.data, this.bmsBranchStore.isInit], ([data, isInit]) => {
+      if (data && isInit) this.bmsBranchStore.getById(data.id).subscribe();
     });
   }
 }

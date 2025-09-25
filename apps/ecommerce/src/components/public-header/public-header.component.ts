@@ -55,7 +55,9 @@ export class PublicHeaderComponent {
   }
 
   constructor() {
-    this.snStore.search(new MixQuery().default(5)).subscribe();
+    setTimeout(() => {
+      this.snStore.search(new MixQuery().default(10)).subscribe();
+    }, 2000);
   }
 
   public onSocialNetworkClick(link: string) {

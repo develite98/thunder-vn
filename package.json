@@ -2,12 +2,11 @@
   "name": "@mix-portal/source",
   "version": "0.0.0",
   "license": "MIT",
-  "packageManager": "pnpm@9.0.0",
   "scripts": {
     "dev:mobile": "pnpm nx serve shell-mobile",
     "dev:ecom": "pnpm exec nx run shell:serve:ecom",
     "dev:bo": "pnpm nx serve shell",
-    "build": "pnpm exec nx run shell:build:production",
+    "build:bo": "pnpm exec nx run shell:build:production",
     "start-docs": "pnpm --filter ./docs start"
   },
   "private": true,
@@ -23,7 +22,7 @@
     "@angular/router": "20.2.1",
     "@jsverse/transloco": "7.6.1",
     "@microsoft/signalr": "9.0.6",
-    "@mixcore/sdk-client": "0.0.3-dev.34",
+    "@mixcore/sdk-client": "0.0.3-dev.41",
     "@ngneat/dialog": "5.2.0",
     "@ngneat/helipopper": "11.1.4",
     "@ngneat/overview": "6.1.2",
@@ -35,6 +34,7 @@
     "@tailwindcss/postcss": "4.1.12",
     "@tailwindcss/typography": "0.5.16",
     "@tanstack/angular-table": "8.21.3",
+    "@tanstack/angular-virtual": "^4.0.0",
     "@tanstack/table-core": "8.21.3",
     "@tiptap/core": "3.2.1",
     "@tiptap/extension-document": "3.2.1",
@@ -72,6 +72,7 @@
     "swiper": "11.2.10",
     "tailwindcss": "4.1.12",
     "tippy.js": "6.3.7",
+    "xlsx": "^0.18.5",
     "zone.js": "0.15.1"
   },
   "devDependencies": {

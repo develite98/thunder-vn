@@ -43,12 +43,16 @@
         </ng-template>
       </div>
 
-      <div mixTableColumn [header]="'common.label.priority'" [key]="'priority'">
+      <div mixTableColumn [header]="'Priority'" [key]="'priority'">
         <ng-template mixColumnCell let-row>
-          <div>{{ row.data.priority }}</div>
+          <div class="w-32">
+            <mix-inline-input
+              [value]="row.data.priority"
+              (valueChange)="onUpdatePriority(row.data, $event)"
+            ></mix-inline-input>
+          </div>
         </ng-template>
       </div>
-
       <div
         mixTableColumn
         [header]="'common.created_date'"

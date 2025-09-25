@@ -31,6 +31,24 @@ export class ProductCategoryConfigPage extends BasePageComponent {
   readonly router = injectMiniAppRouter();
   readonly client = injectMixClient();
 
+  readonly fileUploadFn = (file: File) => {
+    return this.client.storage.uploadFile(file, 'products').then((res) => {
+      if (!res) return res;
+
+      return res.startsWith('https://ecom.')
+        ? res.replace('https://ecom.', 'https://')
+        : `${res}`;
+    });
+  };
+
+  readonly base64FileUploadFn = (content: string) => {
+    return this.client.storage.uploadFileBase64({
+      content,
+      fileName: `product-detail-${Date.now()}.png`,
+      folder: 'products',
+    });
+  };
+
   public value: Partial<IProductCategory> = {};
   public data = this.store.selectEntityById(this.id, (v) => {
     this.value = ObjectUtils.clone(v);
@@ -56,6 +74,18 @@ export class ProductCategoryConfigPage extends BasePageComponent {
         description: 'ecommerce.productCategory.descriptionDetail',
         placeholder: 'common.input.placeholder',
         required: true,
+      },
+    },
+    {
+      key: 'long_description',
+      type: 'editor',
+      props: {
+        label: 'ecommerce.product.description',
+        description: 'ecommerce.product.descriptionDetail',
+        placeholder: 'common.input.placeholder',
+        required: true,
+        fileUploadFn: this.fileUploadFn,
+        base64FileUploadFn: this.base64FileUploadFn,
       },
     },
   ];

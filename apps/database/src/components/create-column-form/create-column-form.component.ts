@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { EDataType, MixColumn, MixTable } from '@mixcore/sdk-client';
 import { injectDialogRef, MixDialogWrapperComponent } from '@mixcore/ui/dialog';
@@ -73,6 +78,9 @@ export class CreateColumnFormComponent extends BaseComponent {
     isEncrypt: [false],
   });
 
+  public showAlterColumnWarning = signal(false);
+  public column = signal<MixColumn | null>(null);
+
   constructor() {
     super();
     this.form.controls.displayName.valueChanges
@@ -93,20 +101,26 @@ export class CreateColumnFormComponent extends BaseComponent {
 
       const column = this.form.value as unknown as MixColumn;
 
+      column.mixDatabaseName = this.table.systemName;
       column.priority = (this.table.columns?.length || 0) + 1;
       column.columnConfigurations = this.configurationForms
         .value as unknown as any;
 
       this.table.columns = [...(this.table.columns || []), column];
-
       this.tableStore
         .updateData(this.table as unknown as MixTable, {
           success: (item) => {
-            this.toast.success(this.translate('common.update.success'));
+            const newColumn =
+              item.columns?.find((c) => c.systemName === column.systemName) ||
+              null;
 
-            setTimeout(() => {
-              this.dialogRef.close(item);
-            }, 50);
+            (newColumn as any).isDrop = true;
+            (newColumn as any).isDelete = false;
+
+            this.column.set(newColumn);
+            this.toast.success(this.translate('common.update.success'));
+            this.loadingState.set(LoadingState.Pending);
+            this.showAlterColumnWarning.set(true);
           },
           error: (error) => {
             this.loadingState.set(LoadingState.Pending);
@@ -117,5 +131,32 @@ export class CreateColumnFormComponent extends BaseComponent {
         })
         .subscribe();
     });
+  }
+
+  public onReflectChange() {
+    const column = this.column();
+    if (!column) return;
+
+    this.loadingState.set(LoadingState.Loading);
+    const { success: toastSuccess, error: toastError } = this.toast.loading(
+      this.translate('Reflecting change to database...'),
+    );
+
+    this.tableStore
+      .alterColumn(column, {
+        success: (item) => {
+          toastSuccess(this.translate('common.update.success'));
+          setTimeout(() => {
+            this.dialogRef.close();
+          }, 500);
+        },
+        error: (error) => {
+          this.loadingState.set(LoadingState.Pending);
+          toastError(
+            `Error creating table: ${error?.message || 'Unknown error'}`,
+          );
+        },
+      })
+      .subscribe();
   }
 }

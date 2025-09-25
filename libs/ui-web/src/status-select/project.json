@@ -1,0 +1,18 @@
+{
+  "name": "@mixcore/ui/status-select",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ui-web/src/status-select",
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/ui-web/src/status-select/**/*.ts",
+          "libs/ui-web/src/status-select/**/*.html"
+        ]
+      }
+    }
+  }
+}

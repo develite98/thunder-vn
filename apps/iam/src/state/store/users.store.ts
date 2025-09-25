@@ -4,11 +4,6 @@ import { setEntity, withCRUD } from '@mixcore/signal';
 import { tapResponse } from '@ngrx/operators';
 import { signalStore, withMethods } from '@ngrx/signals';
 import { from } from 'rxjs';
-import {
-  userDetailPage,
-  userDialogEvent,
-  userPageEvent,
-} from '../events/users.event';
 
 export const UserStore = signalStore(
   { providedIn: 'root' },
@@ -30,13 +25,6 @@ export const UserStore = signalStore(
               }) as IUser,
           ),
       })),
-    events: {
-      fetchDataOn: [userPageEvent.opened, userPageEvent.refreshed],
-      createDataOn: [userDialogEvent.create],
-      updateDataOn: [userDetailPage.updated],
-      deleteDataOn: [userDetailPage.deleted],
-      getDataByIdOn: [userDetailPage.pageOpened],
-    },
   }),
   withMethods((store, client = injectMixClient()) => ({
     changeUserRole: (

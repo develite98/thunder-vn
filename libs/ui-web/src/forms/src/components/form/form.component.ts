@@ -23,6 +23,7 @@ import {
   FormInputComponent,
   FormKeyValueInput,
   FormRichTextEditorComponent,
+  FormSelectComponent,
   FormTextAreaComponent,
 } from '../controls';
 import { FormControlSimpleComponent } from '../form-control-simple/form-control-simple.component';
@@ -51,6 +52,11 @@ import { FormControlComponent } from '../form-control/form-control.component';
         {
           name: 'textarea',
           component: FormTextAreaComponent,
+          wrappers: ['default'],
+        },
+        {
+          name: 'select',
+          component: FormSelectComponent,
           wrappers: ['default'],
         },
         {
@@ -93,6 +99,7 @@ export class MixFormComponent<T> {
 
   public value = input<any>({});
   public formConfig = input<FormlyFieldConfig[]>([]);
+  public controlMenu = input<{ label: string; id: string }[] | null>(null);
   public formInternalEvent = inject(FormInternalEvent);
 
   public onSubmit = output<IFormSubmit<T>>();

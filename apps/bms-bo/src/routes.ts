@@ -6,16 +6,16 @@ export const ROUTES: Route[] = [
     loadComponent: () => import('./app.component').then((c) => c.AppComponent),
     children: [
       {
+        path: 'menus',
+        loadChildren: () =>
+          import('./pages/menus/menus.route').then((r) => r.menuRoutes),
+      },
+      {
         path: 'stores',
         loadComponent: () =>
           import('./pages/stores/stores.page').then(
             (c) => c.StoresPageComponent,
           ),
-      },
-      {
-        path: 'menus',
-        loadComponent: () =>
-          import('./pages/menus/menus.page').then((c) => c.MenusPageComponent),
       },
       {
         path: 'brands',
@@ -58,6 +58,27 @@ export const ROUTES: Route[] = [
               import(
                 './pages/store-detail/store-devices/store-devices.page'
               ).then((c) => c.StoreDevicesPage),
+            children: [
+              {
+                path: 'table',
+                loadComponent: () =>
+                  import('./pages/store-detail/store-devices/store-devices-table/store-devices-table.page').then(
+                    (c) => c.StoreDevicesTablePage,
+                  ),
+              },
+              {
+                path: 'chart',
+                loadComponent: () =>
+                  import('./pages/store-detail/store-devices/store-devices-chart/store-devices-chart.page').then(
+                    (c) => c.StoreDevicesChartPage,
+                  ),
+              },
+              {
+                path: '',
+                redirectTo: 'table',
+                pathMatch: 'full',
+              },
+            ],
           },
           {
             path: '',

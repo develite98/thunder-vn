@@ -8,7 +8,7 @@
     (goPrevious)="store.goPreviousPageRouter()"
     (goNext)="store.goNextPageRouter()"
     (goToPage)="store.goToPageRouter($event.pageIndex)"
-    (refresh)="event.refreshed(store.query())"
+    (refresh)="store.refresh()"
     (rowClick)="onEditUser($event.id)"
   >
     <ng-template #toolar>

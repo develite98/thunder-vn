@@ -33,6 +33,19 @@ export interface IBmsUser {
   isDisplay: boolean;
   isAvailable: boolean;
   createdAt: string;
-  lastModified: string;
+  lastModified?: string;
   id: number;
+}
+
+export interface IBranchMember {
+  fullName: string;
+  displayName: string;
+  username: string;
+  staffCode: string;
+  id: number;
+  lastModified?: Date;
+  storeId: number;
+
+  isDisplay: boolean;
+  isAvailable: boolean;
 }

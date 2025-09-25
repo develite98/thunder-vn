@@ -39,5 +39,16 @@ export const TableStore = signalStore(
         }),
       );
     },
+    alterColumn: (col: MixColumn, callback?: IActionCallback<MixColumn>) => {
+      return defer(() => client.table.alterTableColumn(col)).pipe(
+        tap((r) => {
+          callback?.success?.(r);
+        }),
+        catchError((err) => {
+          callback?.error?.(err);
+          throw new Error(err);
+        }),
+      );
+    },
   })),
 );

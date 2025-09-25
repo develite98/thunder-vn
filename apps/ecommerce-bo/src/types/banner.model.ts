@@ -7,6 +7,7 @@ export interface IHomeBanner {
   cta_button_text: string;
   cta_button_url: string;
   created_date_time: string;
+  priority: number;
 }
 
 export interface ISocialNetwork {

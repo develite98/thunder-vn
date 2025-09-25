@@ -1,8 +1,6 @@
-import { DatePipe } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { BasePageComponent } from '@mixcore/base';
 import { injectParams } from '@mixcore/router';
-import { MixButtonComponent } from '@mixcore/ui/buttons';
 import { MixDeleteComponent } from '@mixcore/ui/delete';
 import { injectDialog } from '@mixcore/ui/dialog';
 import { injectModalService } from '@mixcore/ui/modal';
@@ -15,13 +13,7 @@ import { IOrder, OrderHelper, OrderStatus } from 'apps/ecommerce/src/types';
 @Component({
   selector: 'app-ecom-agency-order-detail',
   templateUrl: './order-detail.page.html',
-  imports: [
-    MixTileComponent,
-    DatePipe,
-    MixButtonComponent,
-    MixDeleteComponent,
-    CurrencyComponent,
-  ],
+  imports: [MixTileComponent, MixDeleteComponent, CurrencyComponent],
 })
 export class AgencyOrderDetalPage extends BasePageComponent {
   readonly id = injectParams('id');

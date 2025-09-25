@@ -17,6 +17,8 @@ export class AppComponent extends BasePageComponent {
   constructor() {
     super();
 
-    this.agencyStore.search(new MixQuery().default(50)).subscribe();
+    setTimeout(() => {
+      this.agencyStore.search(new MixQuery().default(50)).subscribe();
+    }, 2000);
   }
 }

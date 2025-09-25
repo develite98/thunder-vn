@@ -1,14 +1,8 @@
 import { DatePipe } from '@angular/common';
-import {
-  Component,
-  effect,
-  inject,
-  signal,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, inject, signal, ViewContainerRef } from '@angular/core';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { injectParams } from '@mixcore/router';
-import { MixQuery } from '@mixcore/sdk-client';
+import { ESortDirection, MixQuery } from '@mixcore/sdk-client';
 import { IBranchTable } from '@mixcore/shared-domain';
 import { MixButtonComponent } from '@mixcore/ui/buttons';
 import { MixCopyTextComponent } from '@mixcore/ui/copy-text';
@@ -23,6 +17,7 @@ import {
   BranchStore,
   BranchTableStore,
 } from 'apps/bms-bo/src/state';
+import { explicitEffect } from 'ngxtension/explicit-effect';
 
 @Component({
   selector: 'mix-store-layout-tables-page',
@@ -56,57 +51,67 @@ export class StoreLayoutTablesPageComponent {
 
   public contextMenu: GridContextMenu<IBranchTable>[] = [
     {
-      label: 'common.delete',
+      label: 'Active / Unactive',
       icon: 'trash-2',
-      action: (item) => this.deleteTable(item.id),
+      action: (item) => this.deleteTable(item),
       iconClass: 'text-error',
     },
   ];
 
   constructor() {
-    effect(() => {
-      const branchId = this.branchId();
-      if (!branchId) return;
-
-      this.areaStore
-        .search(
-          new MixQuery().default(20).equal('StoreId', branchId.toString()),
-        )
-        .subscribe();
+    explicitEffect([this.branchId], ([branchId]) => {
+      if (branchId)
+        this.areaStore
+          .search(
+            new MixQuery()
+              .default(20)
+              .sort('createdAt', ESortDirection.Desc)
+              .equal('StoreId', branchId.toString()),
+          )
+          .subscribe();
     });
 
-    effect(() => {
-      const areaId = this.selectedBranchAreaId();
-      if (!areaId) return;
-
-      this.tableStore
-        .search(new MixQuery().default(10).equal('AreaId', areaId.toString()))
-        .subscribe();
+    explicitEffect([this.selectedBranchAreaId], ([areaId]) => {
+      if (areaId)
+        this.tableStore
+          .search(
+            new MixQuery()
+              .default(100)
+              .sort('createdAt', ESortDirection.Desc)
+              .equal('AreaId', areaId.toString()),
+          )
+          .subscribe();
     });
 
-    effect(() => {
-      const areas = this.areaStore.dataEntities();
-      if (areas.length > 0 && !this.selectedBranchAreaId()) {
-        this.selectedBranchAreaId.set(areas[0].id);
-      }
-    });
+    explicitEffect(
+      [this.areaStore.dataEntities, this.selectedBranchAreaId],
+      ([areas, selectedBranchAreaId]) => {
+        if (areas.length > 0 && !selectedBranchAreaId)
+          this.selectedBranchAreaId.set(areas[0].id);
+      },
+    );
   }
 
-  public deleteTable(id: number) {
+  public deleteTable(item: IBranchTable) {
     this.modal.asKForAction(
       this.translateSrv.translate('common.delete.confirmation'),
       () => {
         const { success, error } = this.toast.loading(
           this.translateSrv.translate('common.delete.processing'),
         );
-        this.tableStore.deleteDataById(id).subscribe({
-          next: () => {
-            success(this.translateSrv.translate('common.delete.success'));
-          },
-          error: (err) => {
-            error(this.translateSrv.translate('common.delete.error'));
-          },
-        });
+        this.tableStore
+          .updateData({
+            ...item,
+            isAvailable: !item.isAvailable,
+          })
+          .subscribe({
+            next: () => {
+              success(this.translateSrv.translate('common.delete.success'));
+            },
+            error: (err) => {
+              error(this.translateSrv.translate('common.delete.error'));
+            },
+          });
       },
     );
   }
@@ -120,6 +125,16 @@ export class StoreLayoutTablesPageComponent {
 
     this.dialog.open(CreateStoreTableFormComponent, {
       data: { area: this.areaStore.dataEntityMap()[id] },
+      vcr: this.vcr,
+    });
+  }
+
+  public updateTable(item: IBranchTable) {
+    this.dialog.open(CreateStoreTableFormComponent, {
+      data: {
+        table: item,
+        updateMode: true,
+      },
       vcr: this.vcr,
     });
   }

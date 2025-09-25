@@ -5,7 +5,12 @@
         <div class="status status-success animate-ping"></div>
         <div class="status status-success"></div>
       </div>
-      <div>{{ 'common.status.published' | transloco }}</div>
+      <div>
+        {{
+          (reverse() ? 'common.status.rPublished' : 'common.status.published')
+            | transloco
+        }}
+      </div>
     </div>
   }
   @case (STATUS.All) {
@@ -14,7 +19,11 @@
         <div class="status status-info animate-ping"></div>
         <div class="status status-info"></div>
       </div>
-      <div>{{ 'common.status.all' | transloco }}</div>
+      <div>
+        {{
+          (reverse() ? 'common.status.rAll' : 'common.status.all') | transloco
+        }}
+      </div>
     </div>
   }
   @case (STATUS.Deleted) {
@@ -23,7 +32,12 @@
         <div class="status status-error animate-ping"></div>
         <div class="status status-error"></div>
       </div>
-      <div>{{ 'common.status.deleted' | transloco }}</div>
+      <div>
+        {{
+          (reverse() ? 'common.status.rDeleted' : 'common.status.deleted')
+            | transloco
+        }}
+      </div>
     </div>
   }
   @case (STATUS.Preview) {
@@ -32,7 +46,12 @@
         <div class="status status-warning animate-ping"></div>
         <div class="status status-warning"></div>
       </div>
-      <div>{{ 'common.status.preview' | transloco }}</div>
+      <div>
+        {{
+          (reverse() ? 'common.status.rPreview' : 'common.status.preview')
+            | transloco
+        }}
+      </div>
     </div>
   }
   @case (STATUS.Schedule) {
@@ -41,7 +60,12 @@
         <div class="status status-primary animate-ping"></div>
         <div class="status status-primary"></div>
       </div>
-      <div>{{ 'common.status.primary' | transloco }}</div>
+      <div>
+        {{
+          (reverse() ? 'common.status.rPrimary' : 'common.status.primary')
+            | transloco
+        }}
+      </div>
     </div>
   }
   @default {
@@ -50,7 +74,12 @@
         <div class="status animate-ping"></div>
         <div class="status"></div>
       </div>
-      <div>{{ 'common.status.draft' | transloco }}</div>
+      <div>
+        {{
+          (reverse() ? 'common.status.rDraft' : 'common.status.draft')
+            | transloco
+        }}
+      </div>
     </div>
   }
 }

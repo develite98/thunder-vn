@@ -8,8 +8,8 @@
       [toolbarTpl]="toolar"
       [data]="store.dataEntities() || []"
       [paging]="store.pagingInfo()"
-      [filters]="filters"
-      [filterValue]="store.query().queries || []"
+      [filterOptions]="store.filterConfig"
+      [filterValues]="store.query().queries || []"
       (onFilterChange)="store.filter($event)"
       [loading]="store.isLoading()"
       [(searchText)]="searchText"
@@ -17,7 +17,7 @@
       (rowClick)="goToDetail($event.id)"
       (goNext)="store.goNextPageRouter()"
       (goToPage)="store.goToPageRouter($event.pageIndex)"
-      (refresh)="event.refreshed({ query: store.query(), refresh: true })"
+      (refresh)="store.refresh().subscribe()"
     >
       <ng-template #toolar>
         <mix-button
@@ -41,6 +41,18 @@
         </ng-template>
       </div>
 
+      <div mixTableColumn [header]="'Code'" [key]="'code'">
+        <ng-template mixColumnCell let-row>
+          <mix-copy-text [text]="row.data.code"></mix-copy-text>
+        </ng-template>
+      </div>
+
+      <div mixTableColumn [header]="'TAX Code'" [key]="'taxCode'">
+        <ng-template mixColumnCell let-row>
+          <mix-copy-text [text]="row.data.taxCode"></mix-copy-text>
+        </ng-template>
+      </div>
+
       <div mixTableColumn [header]="'common.label.status'" [key]="'status'">
         <ng-template mixColumnCell let-row>
           <span class="text-primary font-medium">
@@ -54,18 +66,6 @@
               }}</span>
             }
           </span>
-        </ng-template>
-      </div>
-
-      <div mixTableColumn [header]="'Code'" [key]="'code'">
-        <ng-template mixColumnCell let-row>
-          <mix-copy-text [text]="row.data.code"></mix-copy-text>
-        </ng-template>
-      </div>
-
-      <div mixTableColumn [header]="'TAX Code'" [key]="'taxCode'">
-        <ng-template mixColumnCell let-row>
-          <mix-copy-text [text]="row.data.taxCode"></mix-copy-text>
         </ng-template>
       </div>
 

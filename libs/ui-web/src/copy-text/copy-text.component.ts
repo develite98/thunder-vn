@@ -2,6 +2,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import {
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   input,
   signal,
 } from '@angular/core';
@@ -15,17 +16,31 @@ import { injectToastService } from '@mixcore/ui/toast';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ClipboardModule, TranslocoPipe, MixIconComponent],
 })
-export class MixCopyTextComponent {
+export class MixCopyTextComponent implements OnDestroy {
   public text = input('');
   public copied = signal(false);
   public toast = injectToastService();
+  
+  private timeoutId: number | null = null;
 
   public markCopy() {
     this.copied.set(true);
     this.toast.success('Text copied to clipboard');
 
-    setTimeout(() => {
+    // Clear any existing timeout
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
+
+    this.timeoutId = setTimeout(() => {
       this.copied.set(false);
+      this.timeoutId = null;
     }, 2000);
+  }
+
+  ngOnDestroy() {
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
   }
 }

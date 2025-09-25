@@ -2,8 +2,10 @@
   @if (showLoading()) {
     <mix-loading class="w-full" />
   } @else {
-    <div class="grow overflow-auto flex flex-col">
-      <div class="px-4 py-3 flex items-center w-full min-h-[60px]">
+    <div class="grow overflow-auto flex flex-col gap-2 pt-2">
+      <div
+        class="px-2 mx-2 flex items-center min-h-[60px] bg-base-100 rounded-lg border border-base-content/10"
+      >
         <img
           class="ms-2"
           [src]="appSetting?.appLogoUrl"
@@ -141,7 +143,7 @@
         </div>
 
         <div class="grow flex flex-col overflow-auto">
-          <div class="grow overflow-auto flex flex-col">
+          <div class="grow overflow-auto flex flex-col pe-2">
             <router-outlet></router-outlet>
           </div>
           <div class="px-4 pb-2 pt-0">

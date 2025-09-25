@@ -1,4 +1,4 @@
-import { DatePipe, SlicePipe } from '@angular/common';
+import { SlicePipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { EMixContentStatus, MixQuery } from '@mixcore/sdk-client';
@@ -6,7 +6,7 @@ import { publicBlogStore } from '../../stores';
 
 @Component({
   selector: 'mix-home-blogs',
-  imports: [DatePipe, RouterLink, SlicePipe],
+  imports: [RouterLink, SlicePipe],
   templateUrl: './mix-home-blogs.component.html',
   styleUrl: './mix-home-blogs.component.css',
 })

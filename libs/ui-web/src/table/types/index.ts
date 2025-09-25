@@ -4,6 +4,7 @@ export interface GridContextMenu<T> {
   label: string;
   icon: string;
   action: (item: T) => void;
+  visible?: (item: T) => boolean;
   pinned?: boolean;
   iconClass?: string;
 }
@@ -11,17 +12,12 @@ export interface GridContextMenu<T> {
 export interface ITableFilter {
   fieldName: string;
   label: string;
-  value?: string | number | boolean;
   type?: 'text' | 'number' | 'boolean';
-  options?: ITableFilterValue[];
-  compareOperator?: ECompareOperator[];
-}
 
-export interface ITableFilterValue {
-  fieldName: string;
-  value: string | number | boolean | Date | null;
-  label?: string;
-  compareOperator: ECompareOperator;
+  value?: string | number | boolean | Date | null;
+
+  compareOperator?: ECompareOperator;
+  allowdOperators?: ECompareOperator[];
 }
 
 export interface ITableSort {
@@ -32,3 +28,17 @@ export interface ITableSort {
 export interface ITableSortChange {
   sorts: ITableSort[];
 }
+
+export const OPERATOR_DISPLAY: Record<string, string> = {
+  [ECompareOperator.Like]: 'similar',
+  [ECompareOperator.ILike]: 'similar*',
+  [ECompareOperator.Equal]: '=',
+  [ECompareOperator.NotEqual]: '≠',
+  [ECompareOperator.LessThanOrEqual]: '≤',
+  [ECompareOperator.LessThan]: '<',
+  [ECompareOperator.GreaterThan]: '>',
+  [ECompareOperator.GreaterThanOrEqual]: '≥',
+  [ECompareOperator.Contain]: '⊂',
+  [ECompareOperator.NotContain]: '⊄',
+  [ECompareOperator.InRange]: '<=>',
+};

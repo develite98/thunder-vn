@@ -33,6 +33,7 @@ import { Events, withEffects, withReducer } from '@ngrx/signals/events';
 import { defer, exhaustMap, from, Observable, of, tap } from 'rxjs';
 import { StateStatus, withStatus } from './tracking-status.signal';
 
+import { IFilterConfiguration } from '@mixcore/types';
 import objectHash from 'object-hash';
 
 export class DatatState {
@@ -179,6 +180,7 @@ export function withCRUD<T>(request: {
     deleteDataOn?: EventCreator[];
     getDataByIdOn?: EventCreator[];
   };
+  filterConfig?: IFilterConfiguration[];
 }) {
   return signalStoreFeature(
     withProps(() => {
@@ -197,6 +199,7 @@ export function withCRUD<T>(request: {
         updateDataOn: request?.events?.updateDataOn,
         deleteDataOn: request?.events?.deleteDataOn,
         getDataByIdOn: request?.events?.getDataByIdOn,
+        filterConfig: request?.filterConfig || [],
       };
     }),
     withEntities({
@@ -270,10 +273,13 @@ export function withCRUD<T>(request: {
                 next: (result) => {
                   callback?.success?.(result);
                   setSuccessEntities(store, result, query);
-
                   cacheSrv.set(finalCacheKey, result);
+                  return result;
                 },
-                error: (error) => setErrorEntities(store, error),
+                error: (error) => {
+                  setErrorEntities(store, error);
+                  return null;
+                },
               }),
             );
           },
@@ -296,7 +302,7 @@ export function withCRUD<T>(request: {
           createData: (item: T, callback?: IActionCallback<T>) => {
             if (!store.createFn) throw new Error('createFn is not provided');
 
-            return from(store.createFn(item)).pipe(
+            return defer(() => from(store.createFn!(item))).pipe(
               mapResponse({
                 next: (result) => {
                   addEntity(store, result);
@@ -315,7 +321,7 @@ export function withCRUD<T>(request: {
           updateData: (item: T, callback?: IActionCallback<T>) => {
             if (!store.updateFn) throw new Error('createFn is not provided');
 
-            return from(store.updateFn(item)).pipe(
+            return defer(() => from(store.updateFn!(item))).pipe(
               mapResponse({
                 next: (result) => {
                   setEntity(store, result);

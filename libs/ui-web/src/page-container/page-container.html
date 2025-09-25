@@ -1,14 +1,11 @@
 <div
   class="overflow-auto no-scrollbar"
-  style="height: calc(100vh - 108px)"
+  style="height: calc(100vh - 130px)"
   #scrollContainer
 >
-  @let minimize = minimized();
-
-  <div class="h-[11.25rem] sticky top-0 z-10">
+  <div class="sticky top-0 z-10">
     <div
       class="top-container flex px-4 w-full bg-base-100 border border-base-content/10 rounded-lg"
-      [class.minimize]="minimize"
     >
       <div class="container h-full flex flex-col max-w-screen-lg mx-auto">
         <div class="flex items-center gap-4 w-full">
@@ -29,7 +26,7 @@
               @if (tpl) {
                 <ng-container *ngTemplateOutlet="tpl"></ng-container>
               } @else {
-                <h1 class="text-3xl font-title font-semibold">
+                <h1 class="text-2xl font-title font-semibold">
                   {{ pageTitle() | transloco }}
                 </h1>
               }
@@ -49,12 +46,12 @@
           }
         </div>
 
-        <mix-tabs class="mt-auto" [tabs]="tabs()"></mix-tabs>
+        <mix-tabs class="mt-auto mb-1" [tabs]="tabs()"></mix-tabs>
       </div>
     </div>
   </div>
 
-  <div class="container max-w-screen-lg mx-auto py-8">
+  <div class="container max-w-screen-lg mx-auto sm:py-4 lg:py-8">
     <ng-content></ng-content>
   </div>
 </div>

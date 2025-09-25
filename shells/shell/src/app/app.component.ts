@@ -1,10 +1,11 @@
 import { Component, computed, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { TranslocoService } from '@jsverse/transloco';
 import { injectAppConfig } from '@mixcore/app-config';
 import { AppTenantStore } from '@mixcore/base';
 import { injectLocationHistory } from '@mixcore/router';
 import { injectMixClient } from '@mixcore/sdk-client-ng';
+import { DialogService } from '@ngneat/dialog';
 import { MixTenantComponent } from './component';
 
 @Component({
@@ -19,6 +20,8 @@ export class AppComponent {
   readonly appConfig = injectAppConfig();
   readonly tenantsStore = inject(AppTenantStore);
   readonly client = injectMixClient();
+  readonly router = inject(Router);
+  readonly dialogService = inject(DialogService);
 
   public needChooseTenant = computed(() => {
     return (
@@ -29,6 +32,12 @@ export class AppComponent {
   constructor() {
     this.translocoService.langChanges$.subscribe((lang) => {
       localStorage.setItem('i18n', lang);
+    });
+
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.dialogService.closeAll();
+      }
     });
   }
 }

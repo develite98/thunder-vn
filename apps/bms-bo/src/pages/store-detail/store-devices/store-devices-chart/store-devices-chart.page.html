@@ -1,0 +1,12 @@
+<div class="store-devices-chart">
+  @if (rendingChart) {
+    <div class="flex items-center justify-center h-64">
+      <div class="loading loading-spinner loading-lg"></div>
+      <span class="ml-4 text-base-content/60">{{
+        'bms.device.renderingChart' | transloco
+      }}</span>
+    </div>
+  } @else {
+    <div #chartContainer class="w-full h-screen overflow-auto"></div>
+  }
+</div>

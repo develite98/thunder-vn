@@ -7,14 +7,8 @@ import {
 } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { BaseComponent, LoadingState } from '@mixcore/base';
-import { FormUtils } from '@mixcore/helper';
 import { MixQuery } from '@mixcore/sdk-client';
-import {
-  IBmsUser,
-  IBmsUserData,
-  IBranchMemberRelation,
-  ICreateBranchMemberRequest,
-} from '@mixcore/shared-domain';
+import { IBmsUserData } from '@mixcore/shared-domain';
 import { MixButtonComponent } from '@mixcore/ui/buttons';
 import { MixDialogWrapperComponent } from '@mixcore/ui/dialog';
 import { MixFormFieldComponent } from '@mixcore/ui/forms';
@@ -79,76 +73,69 @@ export class CreateStoreMemberFormComponent extends BaseComponent {
   }
 
   onSubmit() {
-    const userData = this.userData();
-    if (userData) {
-      const value: Partial<ICreateBranchMemberRequest> = {
-        childDatabaseName: 'bms_user_data',
-        childId: userData.id as number,
-        parentDatabaseName: 'bms_branch',
-        parentId: this.dialogRef.data.branchId,
-
-        userData: {
-          id: userData.id,
-          displayName: userData.display_name,
-          staffCode: userData.staff_code,
-          isAvailable: true,
-          createdAt: new Date(),
-        } as unknown as IBmsUser,
-      };
-
-      this.branchMemerStore
-        .createData(value as ICreateBranchMemberRequest, {
-          success: (result: IBranchMemberRelation) => {
-            this.dialogRef.close(result);
-          },
-          error: () => {
-            this.loadingState.set(LoadingState.Error);
-          },
-        })
-        .subscribe();
-
-      return;
-    }
-
-    if (FormUtils.validateForm(this.userDataForm)) {
-      const formValue = {
-        ...this.userDataForm.value,
-        staff_code: this.username.value,
-        full_name: `${this.userDataForm.value.firstName} ${this.userDataForm.value.lastName}`,
-        display_name: `${this.userDataForm.value.firstName} ${this.userDataForm.value.lastName}`,
-      } as IBmsUserData;
-
-      this.bmsUserDataStore
-        .createData(formValue, {
-          success: (item: IBmsUserData) => {
-            const value: Partial<ICreateBranchMemberRequest> = {
-              child_database_name: 'bms_user_data',
-              child_id: item.id as number,
-              parent_database_name: 'bms_branch',
-              parent_id: this.dialogRef.data.branchId,
-
-              userData: {
-                id: item.id,
-                displayName: item.display_name,
-                staffCode: item.staff_code,
-                isAvailable: true,
-                createdAt: new Date(),
-              } as unknown as IBmsUser,
-            };
-
-            this.branchMemerStore
-              .createData(value as ICreateBranchMemberRequest, {
-                success: (result: IBranchMemberRelation) => {
-                  this.dialogRef.close(result);
-                },
-                error: () => {
-                  this.loadingState.set(LoadingState.Error);
-                },
-              })
-              .subscribe();
-          },
-        })
-        .subscribe();
-    }
+    // const userData = this.userData();
+    // if (userData) {
+    //   const value: Partial<ICreateBranchMemberRequest> = {
+    //     childDatabaseName: 'bms_user_data',
+    //     childId: userData.id as number,
+    //     parentDatabaseName: 'bms_branch',
+    //     parentId: this.dialogRef.data.branchId,
+    //     userData: {
+    //       id: userData.id,
+    //       displayName: userData.display_name,
+    //       staffCode: userData.staff_code,
+    //       isAvailable: true,
+    //       createdAt: new Date(),
+    //     } as unknown as IBmsUser,
+    //   };
+    //   this.branchMemerStore
+    //     .createData(value as ICreateBranchMemberRequest, {
+    //       success: (result: IBranchMemberRelation) => {
+    //         this.dialogRef.close(result);
+    //       },
+    //       error: () => {
+    //         this.loadingState.set(LoadingState.Error);
+    //       },
+    //     })
+    //     .subscribe();
+    //   return;
+    // }
+    // if (FormUtils.validateForm(this.userDataForm)) {
+    //   const formValue = {
+    //     ...this.userDataForm.value,
+    //     staff_code: this.username.value,
+    //     full_name: `${this.userDataForm.value.firstName} ${this.userDataForm.value.lastName}`,
+    //     display_name: `${this.userDataForm.value.firstName} ${this.userDataForm.value.lastName}`,
+    //   } as IBmsUserData;
+    //   this.bmsUserDataStore
+    //     .createData(formValue, {
+    //       success: (item: IBmsUserData) => {
+    //         const value: Partial<ICreateBranchMemberRequest> = {
+    //           child_database_name: 'bms_user_data',
+    //           child_id: item.id as number,
+    //           parent_database_name: 'bms_branch',
+    //           parent_id: this.dialogRef.data.branchId,
+    //           userData: {
+    //             id: item.id,
+    //             displayName: item.display_name,
+    //             staffCode: item.staff_code,
+    //             isAvailable: true,
+    //             createdAt: new Date(),
+    //           } as unknown as IBmsUser,
+    //         };
+    //         this.branchMemerStore
+    //           .createData(value as unknown as IBranchMember, {
+    //             success: (result: IBranchMember) => {
+    //               this.dialogRef.close(result);
+    //             },
+    //             error: () => {
+    //               this.loadingState.set(LoadingState.Error);
+    //             },
+    //           })
+    //           .subscribe();
+    //       },
+    //     })
+    //     .subscribe();
+    // }
   }
 }

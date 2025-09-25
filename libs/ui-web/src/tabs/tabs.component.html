@@ -1,7 +1,11 @@
-<div role="tablist" class="mix-tabs tabs tabs-border w-fit {{ className() }}">
+<div
+  role="tablist"
+  class="mix-tabs tabs tabs-box tabs-sm w-fit {{ className() }}"
+>
   @for (tab of tabs(); track $index; let index = $index) {
     <a
       role="tab"
+      [style.--tab-p]="'1rem !important'"
       class="tab"
       (click)="onTabClick(tab.route || [], tab.queryParams)"
       [class.tab-active]="activeTabIndex() === index"

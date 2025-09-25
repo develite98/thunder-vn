@@ -6,6 +6,7 @@ import { BasePageComponent } from '@mixcore/base';
 import { MixQuery } from '@mixcore/sdk-client';
 import { MixButtonComponent } from '@mixcore/ui/buttons';
 import { MixCopyTextComponent } from '@mixcore/ui/copy-text';
+import { MixInlineInputComponent } from '@mixcore/ui/inline-input';
 import { injectModalService } from '@mixcore/ui/modal';
 import { MixPageContainerComponent } from '@mixcore/ui/page-container';
 import { GridContextMenu, MixTableModule } from '@mixcore/ui/table';
@@ -26,6 +27,7 @@ import { IHomeBanner } from '../../types';
     MixTableModule,
     MixCopyTextComponent,
     MixButtonComponent,
+    MixInlineInputComponent,
     DatePipe,
     TranslocoPipe,
   ],
@@ -104,5 +106,22 @@ export class EcomHomeBannersPageComponent extends BasePageComponent {
         });
       },
     );
+  }
+
+  public onUpdatePriority(item: IHomeBanner, priority: number) {
+    if (!item || !priority || item.priority === priority) return;
+
+    const { success, error } = this.toast.loading(
+      this.translate('common.update.processing'),
+    );
+
+    this.store.updateData({ ...item, priority } as IHomeBanner).subscribe({
+      next: () => {
+        success(this.translate('common.update.success'));
+      },
+      error: () => {
+        error(this.translate('common.update.error'));
+      },
+    });
   }
 }

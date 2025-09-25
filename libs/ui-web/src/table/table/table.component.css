@@ -58,3 +58,7 @@
   right: 0;
   background: var(--color-base-100);
 }
+
+.mix-table thead tr {
+  z-index: 4;
+}

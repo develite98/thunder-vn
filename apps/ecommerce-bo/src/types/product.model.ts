@@ -5,7 +5,7 @@ export interface IProduct {
   created_by: string;
   title: string;
   thumbnail: string;
-  price: string;
+  price: number;
   description: string;
   short_description: string;
   sub_title: string;
@@ -25,4 +25,12 @@ export interface IProductCategory {
   description: string;
   status: EMixContentStatus;
   product_slugs?: string;
+  priority: number;
+}
+
+export interface ICategoryProduct {
+  product_id: number;
+  category_id: number;
+  priority: number;
+  id: number;
 }

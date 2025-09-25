@@ -10,7 +10,6 @@ import { MixKeyValueEditorComponent } from '@mixcore/ui/key-value-editor';
 import { MixRichTextEditorComponent } from '@mixcore/ui/rich-text-editor';
 import { MixImageUploadComponent } from '@mixcore/ui/uploader';
 
-import { MixInputComponent } from '@mixcore/ui/input';
 import { MixToggleComponent } from '@mixcore/ui/toggle';
 import { FieldType, FieldTypeConfig, FormlyAttributes } from '@ngx-formly/core';
 import { IPropsConfig } from '../../types';
@@ -18,18 +17,13 @@ import { IPropsConfig } from '../../types';
 @Component({
   selector: 'mix-form-input',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    FormlyAttributes,
-    TranslocoPipe,
-    MixInputComponent,
-  ],
+  imports: [ReactiveFormsModule, FormlyAttributes, TranslocoPipe],
   template: `
-    <mix-input
-      class="w-full"
+    <input
+      class="w-full input form-control"
       [formControl]="formControl"
       [formlyAttributes]="field"
-      [placeHolder]="props.placeholder | transloco"
+      [placeholder]="props.placeholder | transloco"
       [type]="props.type || 'text'"
     />
   `,
@@ -63,11 +57,12 @@ export class FormTextAreaComponent extends FieldType<FieldTypeConfig> {}
       class="select select-bordered form-control w-full"
       [formControl]="formControl"
       [formlyAttributes]="field"
-      [multiple]="props['multiple'] || false"
     >
-      <option *ngFor="let opt of props['options']" [value]="opt.value">
-        {{ opt.label | transloco }}
-      </option>
+      @for (opt of props['options'] || []; track opt.value) {
+        <option [value]="opt.value">
+          {{ opt.label | transloco }}
+        </option>
+      }
     </select>
   `,
 })
@@ -171,6 +166,7 @@ export class FormImageUploadComponent extends FieldType<FieldTypeConfig> {
         base64FileUploadFn: (content: string) => {
           return (this.props as IPropsConfig)?.base64FileUploadFn?.(content);
         },
+        aspectRatios: (this.props as IPropsConfig)?.aspectRatios,
       },
     });
 
@@ -200,7 +196,7 @@ export class FormImageUploadComponent extends FieldType<FieldTypeConfig> {
 export class FormKeyValueInput extends FieldType<FieldTypeConfig> {}
 
 @Component({
-  selector: 'mix-form-date-picker',
+  selector: 'mix-form-checkbox',
   standalone: true,
   imports: [ReactiveFormsModule, FormlyAttributes, MixToggleComponent],
   template: `

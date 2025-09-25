@@ -11,7 +11,8 @@
       [hideToolbar]="true"
       [data]="store.dataEntities() || []"
       [loading]="store.isLoading()"
-      (rowClick)="dialogRef.close($event)"
+      [toggleRowSelectOnRowClick]="true"
+      [(rowSelection)]="selection"
     >
       <div mixTableColumn [header]="'ecommerce.product.name'" [key]="'title'">
         <ng-template mixColumnCell let-row>
@@ -36,6 +37,14 @@
   <div dialog-footer class="flex items-center justify-end gap-2">
     <mix-button (click)="dialogRef.close()" [disabled]="isLoading()">
       {{ 'common.cancel' | transloco }}
+    </mix-button>
+
+    <mix-button
+      (click)="onSumbit()"
+      [color]="'primary'"
+      [disabled]="isLoading()"
+    >
+      {{ 'common.ok' | transloco }}
     </mix-button>
   </div>
 </mix-dialog-wrapper>

@@ -9,6 +9,7 @@ export interface IPublicProductCategory {
   description: string;
   status: EMixContentStatus;
   product_slugs: string;
+  long_description: string;
 }
 
 export const publicCategoryStore = signalStore(
@@ -23,7 +24,7 @@ export const publicCategoryStore = signalStore(
           ),
         getByIdFn: (id) =>
           client.table.getDataById<IPublicProductCategory>(
-            'mix_blogs',
+            'mix_ecom_product_category',
             <string>id,
           ),
       })),

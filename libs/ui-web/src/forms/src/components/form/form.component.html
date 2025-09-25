@@ -1,6 +1,7 @@
 @if (form) {
-  <form [formGroup]="form">
+  <form [formGroup]="form" class="w-full flex gap-6">
     <formly-form
+      class="grow"
       [form]="form"
       [fields]="formConfig()"
       [model]="value()"

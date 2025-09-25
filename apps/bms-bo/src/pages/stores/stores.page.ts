@@ -15,19 +15,12 @@ import { DatePipe } from '@angular/common';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { injectMiniAppRouter } from '@mixcore/app-config';
 import { injectQueryParams } from '@mixcore/router';
-import {
-  ECompareOperator,
-  ESortDirection,
-  MixQuery,
-} from '@mixcore/sdk-client';
-import { debouncedSignal } from '@mixcore/signal';
+import { ESortDirection, MixQuery } from '@mixcore/sdk-client';
+import { debouncedSignal, watch } from '@mixcore/signal';
 import { injectDialog } from '@mixcore/ui/dialog';
-import { ITableFilter } from '@mixcore/ui/table';
 import { ITabItem } from '@mixcore/ui/tabs';
-import { injectDispatch } from '@ngrx/signals/events';
-import { explicitEffect } from 'ngxtension/explicit-effect';
 import { CreateStoreFormComponent } from '../../components';
-import { BranchStore, StoreListPageEvent } from '../../state';
+import { BranchStore } from '../../state';
 
 @Component({
   selector: 'app-stores-page',
@@ -46,8 +39,8 @@ export class StoresPageComponent extends BasePageComponent {
   readonly queryParams = injectQueryParams();
   readonly router = injectMiniAppRouter();
   readonly store = inject(BranchStore);
-  readonly event = injectDispatch(StoreListPageEvent);
   readonly dialog = injectDialog();
+
   readonly tabs: ITabItem[] = [
     {
       id: '1',
@@ -61,50 +54,29 @@ export class StoresPageComponent extends BasePageComponent {
     },
   ];
 
-  readonly filters = <ITableFilter[]>[
-    {
-      fieldName: 'status',
-      label: 'Status',
-      type: 'text',
-      compareOperator: [ECompareOperator.Equal, ECompareOperator.NotEqual],
-      options: [
-        { key: 'active', label: 'Active', value: true },
-        { key: 'inactive', label: 'Inactive', value: false },
-      ],
-    },
-    {
-      fieldName: 'code',
-      label: 'Store Code',
-      compareOperator: [
-        ECompareOperator.Equal,
-        ECompareOperator.NotEqual,
-        ECompareOperator.Contain,
-      ],
-      type: 'text',
-    },
-  ];
-
   public searchText = signal<string | undefined>(undefined);
   public searchTextDebounced = debouncedSignal(this.searchText, 300);
 
   constructor() {
     super();
 
-    explicitEffect([this.searchTextDebounced], ([keyword]) =>
+    watch([this.searchTextDebounced], ([keyword]) =>
       this.store.searchRouter(keyword),
     );
 
-    explicitEffect([this.queryParams], ([params]) => {
-      this.event.searched(
-        new MixQuery()
-          .default(10)
-          .sort('lastModified', ESortDirection.Desc)
-          .withParams(params, {
-            paramHandlers: {
-              keyword: (value) => MixQuery.Like('name', value),
-            },
-          }),
-      );
+    watch([this.queryParams], ([params]) => {
+      this.store
+        .search(
+          new MixQuery()
+            .default(10)
+            .sort('createdAt', ESortDirection.Desc)
+            .withParams(params, {
+              paramHandlers: {
+                keyword: (value) => MixQuery.Like('name', value),
+              },
+            }),
+        )
+        .subscribe();
 
       const keyword = params['keyword'];
       if (keyword) this.searchText.set(keyword);

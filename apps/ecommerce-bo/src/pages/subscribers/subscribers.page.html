@@ -42,6 +42,7 @@
       <div mixTableColumn [header]="'Trạng thái'" [key]="'status'">
         <ng-template mixColumnCell let-row>
           <mix-toggle
+            [disabled]="isLoading()"
             (valueChange)="onToggleStatus(row.data)"
             [value]="row.data.status === 'processed'"
             >Xử lí</mix-toggle

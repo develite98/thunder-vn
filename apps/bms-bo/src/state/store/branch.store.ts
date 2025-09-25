@@ -1,10 +1,10 @@
 import { inject } from '@angular/core';
+import { ECompareOperator } from '@mixcore/sdk-client';
 import { IBmsBranch, IBranch } from '@mixcore/shared-domain';
 import { withCRUD } from '@mixcore/signal';
 import { signalStore } from '@ngrx/signals';
 import { BranchApi } from '../../api-services';
 import { createFromTmsDb } from '../../helpers';
-import { StoreDetailPageEvent, StoreListPageEvent } from '../event/store.event';
 
 export const BranchStore = signalStore(
   {
@@ -13,14 +13,24 @@ export const BranchStore = signalStore(
   withCRUD<IBranch>({
     cacheKey: 'branch',
     apiFactory: createFromTmsDb('store-store'),
-    events: {
-      fetchDataOn: [
-        StoreListPageEvent.pageOpened,
-        StoreListPageEvent.refreshed,
-        StoreListPageEvent.searched,
-      ],
-      getDataByIdOn: [StoreDetailPageEvent.pageOpened],
-    },
+    filterConfig: [
+      {
+        fieldName: 'name',
+        label: 'Store name',
+        type: 'text',
+        allowdOperators: [ECompareOperator.Equal, ECompareOperator.Like],
+      },
+      {
+        fieldName: 'code',
+        label: 'Store Code',
+        allowdOperators: [
+          ECompareOperator.Equal,
+          ECompareOperator.NotEqual,
+          ECompareOperator.Contain,
+        ],
+        type: 'text',
+      },
+    ],
   }),
 );
 

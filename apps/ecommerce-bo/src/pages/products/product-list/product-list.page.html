@@ -3,6 +3,7 @@
     [data]="store.dataEntities() || []"
     [paging]="store.pagingInfo()"
     [loading]="store.isLoading()"
+    [filterOptions]="store.filterConfig"
     (goPrevious)="store.goPreviousPage()"
     (goNext)="store.goNextPage()"
     (rowClick)="goDetail($event.id)"
@@ -49,7 +50,17 @@
 
     <div [header]="'common.status'" key="'status'" mixTableColumn>
       <ng-template let-row mixColumnCell>
-        <mix-status-indicator [status]="row.data.status"></mix-status-indicator>
+        <div
+          class="w-32"
+          (click)="$event.stopPropagation(); $event.preventDefault()"
+          (keyup)="$event.stopPropagation(); $event.preventDefault()"
+          tabindex="0"
+        >
+          <mix-status-select
+            [value]="row.data.status"
+            (valueChange)="onUpdateStatus(row.data, $event)"
+          ></mix-status-select>
+        </div>
       </ng-template>
     </div>
 

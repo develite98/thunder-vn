@@ -1,0 +1,127 @@
+<label
+  class="input !min-w-72 rounded-lg"
+  #tippyRef="tippy"
+  [tp]="optionTpl"
+  [tpDelay]="0"
+  [tpVariation]="'popper'"
+  [tpTrigger]="'manual'"
+  [tpPlacement]="'bottom-start'"
+  (tpOnHide)="emitChange()"
+>
+  <kbd>
+    <mix-icon icon="search" />
+  </kbd>
+
+  @let temporaryFilter = tempFilter();
+  @if (filterValuesDisplay().length; as length) {
+    @if (length >= 3) {
+      <div
+        class="badge badge-sm badge-secondary cursor-pointer"
+        [tp]="abc"
+        [tpDelay]="0"
+        [tpVariation]="'popper'"
+        [tpTrigger]="'mouseenter'"
+      >
+        +{{ length }}
+      </div>
+      <ng-template #abc>
+        <div
+          class="flex flex-col gap-2 relative filter-value-container bg-base-100 rounded-lg p-4 shadow"
+        >
+          @for (filterValues of filterValuesDisplay(); track $index) {
+            <span
+              class="badge badge-secondary badge-soft filter-value-item"
+              (click)="removeFilter($index)"
+              >{{ filterValues.label }}
+              {{ OPERATOR_DISPLAY[filterValues.compareOperator || ''] }}
+              {{ filterValues.value }}</span
+            >
+          }
+        </div>
+      </ng-template>
+    } @else {
+      <div class="flex items-center gap-2 relative filter-value-container">
+        @for (filterValues of filterValuesDisplay(); track $index) {
+          <span
+            class="badge badge-secondary badge-soft filter-value-item cursor-pointer"
+            (click)="removeFilter($index)"
+            >{{ filterValues.label }}
+            {{ OPERATOR_DISPLAY[filterValues.compareOperator || ''] }}
+            {{ filterValues.value }}</span
+          >
+        }
+      </div>
+    }
+  }
+
+  @if (tempFilterLabel(); as label) {
+    <span class="badge badge-info badge-soft filter-value-item cursor-pointer">
+      {{ label }} {{ OPERATOR_DISPLAY[temporaryFilter?.compareOperator || ''] }}
+    </span>
+  }
+
+  <input
+    [formControl]="searchText"
+    class="grow min-w-54"
+    #inputEl
+    (focus)="tippyRef.show()"
+    (keydown)="onKeyDown($event)"
+    placeholder="Type to search or filter"
+  />
+</label>
+
+<ng-template #optionTpl>
+  <div class="bg-base-100 rounded-box shadow w-[400px]">
+    <ul class="menu w-full">
+      @let currentFilter = tempFilter();
+      @if (!currentFilter) {
+        <li class="menu-title">Choose field</li>
+        @for (item of searchFilterOption(); track $index) {
+          <li
+            [tabIndex]="$index"
+            class="w-full cursor-pointer"
+            (click)="chooseField(item)"
+            (mouseenter)="activeItemIndex.set($index)"
+          >
+            <a [class.menu-active]="activeItemIndex() === $index">{{
+              item.label
+            }}</a>
+          </li>
+        }
+      } @else {
+        @if (currentFilter.compareOperator) {
+          <li class="menu-title">Enter value</li>
+        } @else {
+          <li class="menu-title">Choose operator</li>
+          @for (item of operatorOptions(); track $index) {
+            <li
+              [tabIndex]="$index"
+              class="w-full cursor-pointer"
+              (click)="chooseOperator(item)"
+              (mouseenter)="activeItemIndex.set($index)"
+            >
+              <a [class.menu-active]="activeItemIndex() === $index"
+                >{{ item }}
+                <span class="ms-auto opacity-70">
+                  {{ OPERATOR_DISPLAY[item] }}
+                </span>
+              </a>
+            </li>
+          }
+        }
+      }
+    </ul>
+
+    <div class="p-4 text-xs mt-2 border-t border-base-content/10 border-dashed">
+      <p>
+        <kbd class="kbd kbd-sm">Up</kbd>
+        <kbd class="ms-1 me-1 kbd kbd-sm">Down</kbd> to moving
+      </p>
+      <p class="mt-2"><kbd class="kbd kbd-sm me-1">Enter</kbd> to choose</p>
+      <p class="mt-2">
+        <kbd class="kbd kbd-sm me-1">Esc</kbd> or click outside to close & apply
+        filter
+      </p>
+    </div>
+  </div>
+</ng-template>

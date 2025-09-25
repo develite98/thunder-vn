@@ -64,6 +64,7 @@ body {
   overflow-x: hidden;
 }
 
+.input > input,
 .input,
 .textarea {
   @apply placeholder-gray-400 w-full;
@@ -132,4 +133,8 @@ textarea:focus,
 :host {
   --swiper-navigation-size: 1.2rem;
   --swiper-pagination-bullet-inactive-color: #d1d5db;
+}
+
+.btn {
+  --radius-field: 4rem;
 }

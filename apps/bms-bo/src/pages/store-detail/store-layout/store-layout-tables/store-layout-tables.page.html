@@ -9,6 +9,8 @@
     [toolbarTpl]="toolar"
     [searchBarTpl]="searchBar"
     [contextMenu]="contextMenu"
+    [tableHeight]="'45vh'"
+    (rowClick)="updateTable($event)"
   >
     <ng-template #toolar>
       <mix-button
@@ -32,12 +34,6 @@
       ></mix-select>
     </ng-template>
 
-    <div mixTableColumn [header]="'common.label.id'" [key]="'id'">
-      <ng-template mixColumnCell let-row>
-        <mix-copy-text [text]="row.data.id" />
-      </ng-template>
-    </div>
-
     <div
       mixTableColumn
       [header]="'common.label.displayName'"
@@ -45,6 +41,18 @@
     >
       <ng-template mixColumnCell let-row>
         {{ row.data.name }}
+      </ng-template>
+    </div>
+
+    <div mixTableColumn [header]="'common.label.id'" [key]="'id'">
+      <ng-template mixColumnCell let-row>
+        <mix-copy-text [text]="row.data.id" />
+      </ng-template>
+    </div>
+
+    <div mixTableColumn [header]="'Capacity'" [key]="'capacity'">
+      <ng-template mixColumnCell let-row>
+        {{ row.data.capacity }}
       </ng-template>
     </div>
 

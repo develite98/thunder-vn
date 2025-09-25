@@ -18,12 +18,16 @@ import {
   publicCategoryStore,
 } from '../../stores/public-category.store';
 import {
+  categoryProductStore,
   IPublicProduct,
   publicProductListStore,
 } from '../../stores/public-product.store';
 
+import { DomSanitizer } from '@angular/platform-browser';
+import { BaseComponent, LoadingState } from '@mixcore/base';
 import { injectQueryParam } from '@mixcore/router';
 import { MixIconComponent } from '@mixcore/ui/icons';
+import { explicitEffect } from 'ngxtension/explicit-effect';
 
 @Component({
   selector: 'mix-products-page',
@@ -39,27 +43,44 @@ import { MixIconComponent } from '@mixcore/ui/icons';
   styleUrl: './products-page.component.css',
   providers: [publicProductListStore],
 })
-export class ProductsPageComponent {
+export class ProductsPageComponent extends BaseComponent {
   public searchText = injectQueryParam('keyword');
+  public router = inject(Router);
+  public activeRoute = inject(ActivatedRoute);
+  public santizer = inject(DomSanitizer);
+
   public productStore = inject(publicProductListStore);
   public categoryStore = inject(publicCategoryStore);
+  public categoryProductStore = inject(categoryProductStore);
+
   public cartStore = inject(CartStore);
   public dialog = inject(DialogService);
   public selectedCategory = signal<IPublicProductCategory | undefined>(
     undefined,
   );
 
+  public selectedCatId = computed(() => this.selectedCategory()?.id);
+
+  public products = signal<IPublicProduct[]>([]);
   public priceFilter = signal<number>(5000000);
-  public router = inject(Router);
-  public activeRoute = inject(ActivatedRoute);
+  public categoryDetail = this.categoryStore.selectEntityById(
+    this.selectedCatId,
+  );
+
+  public description = computed(() => {
+    const cat = this.categoryDetail();
+    if (cat) {
+      return this.santizer.bypassSecurityTrustHtml(cat.long_description || '');
+    }
+    return '';
+  });
 
   public displayProducts = computed(() => {
-    const category = this.selectedCategory();
-    const products = this.productStore.dataEntities();
+    const products = this.products();
     const price = this.priceFilter();
     const searchText = this.searchText();
 
-    return this.filter(products, category, price, searchText || '');
+    return this.filter(products, price, searchText || '');
   });
 
   public breadcrumb = [
@@ -74,27 +95,66 @@ export class ProductsPageComponent {
   ];
 
   constructor() {
+    super();
+
     this.categoryStore
       .search(
-        new MixQuery().default(10).equal('status', EMixContentStatus.Published),
+        new MixQuery()
+          .default(10)
+          .equal('status', EMixContentStatus.Published)
+          .select('id', 'title'),
       )
       .subscribe();
 
-    this.productStore
-      .search(
-        new MixQuery()
-          .default(100)
-          .select(
-            'title',
-            'created_date_time',
-            'price',
-            'thumbnail',
-            'price_list',
-            'seo_url',
+    explicitEffect([this.selectedCategory], ([category]) => {
+      this.loadingState.set(LoadingState.Loading);
+
+      if (!category) {
+        this.productStore
+          .search(
+            new MixQuery()
+              .default(100)
+              .select(
+                'title',
+                'created_date_time',
+                'price',
+                'thumbnail',
+                'price_list',
+                'seo_url',
+              )
+              .equal('status', EMixContentStatus.Published),
           )
-          .equal('status', EMixContentStatus.Published),
-      )
-      .subscribe();
+          .subscribe({
+            next: (result) => {
+              this.products.set(result?.items || []);
+              this.loadingState.set(LoadingState.Success);
+            },
+            error: () => {
+              this.products.set([]);
+              this.loadingState.set(LoadingState.Success);
+            },
+          });
+      } else {
+        this.categoryProductStore
+          .search(new MixQuery().default(100).equal('category_id', category.id))
+          .subscribe({
+            next: (result) => {
+              this.products.set(
+                (result?.items
+                  .map((x) => x.product)
+                  .filter(Boolean) as IPublicProduct[]) || [],
+              );
+              this.loadingState.set(LoadingState.Success);
+            },
+            error: (err) => {
+              this.products.set([]);
+              this.loadingState.set(LoadingState.Success);
+            },
+          });
+
+        this.categoryStore.getById(category.id).subscribe();
+      }
+    });
   }
 
   public addToCart(product: IPublicProduct) {
@@ -118,22 +178,12 @@ export class ProductsPageComponent {
 
   public filter(
     data: IPublicProduct[],
-    category?: IPublicProductCategory,
     price: number = 10000000,
     searchText: string = '',
   ) {
     if (!data) return [];
-    if (!category)
-      return data.filter(
-        (x) => x.price <= price && x.title.includes(searchText),
-      );
 
-    return data.filter(
-      (x) =>
-        category?.product_slugs?.includes(x.seo_url) &&
-        x.price <= price &&
-        x.title.includes(searchText),
-    );
+    return data.filter((x) => x.price <= price && x.title.includes(searchText));
   }
 
   public getProductPrices(product: IPublicProduct) {

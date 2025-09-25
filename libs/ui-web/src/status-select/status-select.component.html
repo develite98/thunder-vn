@@ -1,0 +1,42 @@
+<div
+  [tp]="selectTemplate"
+  [tpDelay]="0"
+  [tpVariation]="'popper'"
+  [tpPlacement]="'bottom-start'"
+  [tpInteractive]="true"
+  [tpOffset]="[0, 2]"
+>
+  <span class="input input-bordered flex items-center justify-between !w-44">
+    @if (cva.value) {
+      <mix-status-indicator [status]="cva.value"></mix-status-indicator>
+    } @else {
+      {{ 'Choose status' }}
+    }
+    <mix-icon icon="chevron-down"></mix-icon>
+  </span>
+</div>
+
+<ng-template #selectTemplate let-hide>
+  <ul
+    class="menu bg-base-100 border border-base-content/10 z-1 w-full p-2 rounded !animate-none !transition-none !w-72"
+  >
+    @for (item of statuses; track $index) {
+      <li
+        class="w-full"
+        (click)="cva.value = item; hide()"
+        [class.text-primary]="cva.value === item"
+      >
+        <a class="w-full flex items-center justify-between text-sm">
+          <mix-status-indicator
+            [status]="item"
+            [reverse]="true"
+          ></mix-status-indicator>
+
+          @if (cva.value === item) {
+            <mix-icon class="float-end text-primary" icon="check"></mix-icon>
+          }
+        </a>
+      </li>
+    }
+  </ul>
+</ng-template>

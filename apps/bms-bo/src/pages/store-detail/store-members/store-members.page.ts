@@ -2,16 +2,17 @@ import { DatePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  effect,
   inject,
   signal,
   ViewContainerRef,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
-import { BasePageComponent } from '@mixcore/base';
-import { injectParams } from '@mixcore/router';
+import { BasePageComponent, LoadingState } from '@mixcore/base';
+import { injectParams, injectQueryParams } from '@mixcore/router';
 import { ESortDirection, MixQuery } from '@mixcore/sdk-client';
-import { IBranchMemberRelation } from '@mixcore/shared-domain';
+import { injectMixClient } from '@mixcore/sdk-client-ng';
+import { IBranchMember } from '@mixcore/shared-domain';
 import { debouncedSignal } from '@mixcore/signal';
 import { MixButtonComponent } from '@mixcore/ui/buttons';
 import { MixCopyTextComponent } from '@mixcore/ui/copy-text';
@@ -19,14 +20,16 @@ import { injectModalService } from '@mixcore/ui/modal';
 import { GridContextMenu, MixTableModule } from '@mixcore/ui/table';
 import { injectToastService } from '@mixcore/ui/toast';
 import { DialogService } from '@ngneat/dialog';
-import { injectDispatch } from '@ngrx/signals/events';
-import { CreateStoreMemberFormComponent } from 'apps/bms-bo/src/components';
+import {
+  BulkCreateStoreMemberComponent,
+  CreateStoreMemberFormComponent,
+} from 'apps/bms-bo/src/components';
 import {
   BmsBranchStore,
   BranchMemberStore,
   BranchStore,
-  StoreMemberListPageEvent,
 } from 'apps/bms-bo/src/state';
+import { explicitEffect } from 'ngxtension/explicit-effect';
 
 @Component({
   selector: 'app-store-members-page',
@@ -41,14 +44,18 @@ import {
   ],
 })
 export class StoreMemberPage extends BasePageComponent {
-  public event = injectDispatch(StoreMemberListPageEvent);
-  public store = inject(BranchMemberStore);
-  public bmsStore = inject(BmsBranchStore);
+  readonly client = injectMixClient();
+
   public modal = injectModalService();
   public toast = injectToastService();
+  public queryParams = injectQueryParams();
+
+  public store = inject(BranchMemberStore);
+  public bmsStore = inject(BmsBranchStore);
   public translateSrv = inject(TranslocoService);
   public dialog = inject(DialogService);
   public vcr = inject(ViewContainerRef);
+  public router = inject(Router);
 
   public branchStore = inject(BranchStore);
   public branchId = injectParams('id');
@@ -67,20 +74,21 @@ export class StoreMemberPage extends BasePageComponent {
   constructor() {
     super();
 
-    effect(() => {
-      const branch = this.bmsBranch();
-
-      if (branch) {
-        this.event.pageOpened({
-          query: new MixQuery()
-            .inRange('ParentId', branch.id.toString())
-            .sort('id', ESortDirection.Desc),
-        });
-      }
+    explicitEffect([this.branch, this.queryParams], ([branch, params]) => {
+      if (branch?.id)
+        this.store
+          .search(
+            new MixQuery()
+              .default(100)
+              .equal('storeId', branch?.id)
+              .sort('id', ESortDirection.Desc)
+              .withParams(params),
+          )
+          .subscribe();
     });
   }
 
-  readonly contextMenu: GridContextMenu<IBranchMemberRelation>[] = [
+  readonly contextMenu: GridContextMenu<IBranchMember>[] = [
     {
       label: 'common.delete',
       icon: 'trash-2',
@@ -90,29 +98,61 @@ export class StoreMemberPage extends BasePageComponent {
   ];
 
   public onDelete(id: number) {
-    this.modal.asKForAction('Are you sure to delete this agency', () => {
-      const { success: toastSuccess, error: toastError } = this.toast.loading(
-        this.translateSrv.translate('common.delete.processing'),
-      );
+    this.modal.asKForAction(
+      this.translate('common.delete.confirmation'),
+      () => {
+        const { success: toastSuccess, error: toastError } = this.toast.loading(
+          this.translate('common.delete.processing'),
+        );
 
-      this.event.memberDeleted({
-        data: id,
-        callback: {
-          success: () => {
-            toastSuccess(this.translateSrv.translate('common.delete.success'));
-          },
-          error: (error) => {
-            toastError(this.translateSrv.translate('common.delete.error'));
-          },
-        },
-      });
-    });
+        this.store
+          .deleteDataById(id, {
+            success: () => {
+              toastSuccess(this.translate('common.delete.success'));
+            },
+            error: (error) => {
+              toastError(this.translate('common.delete.error'));
+            },
+          })
+          .subscribe();
+      },
+    );
   }
 
-  public addMember() {
-    this.dialog.open(CreateStoreMemberFormComponent, {
-      data: { branchId: this.bmsBranch()?.id },
-      vcr: this.vcr,
-    });
+  public addMember(addMany: boolean = false) {
+    if (addMany) {
+      this.dialog.open(BulkCreateStoreMemberComponent, {
+        data: {
+          storeId: this.branch()?.id,
+          current: this.store.dataEntities(),
+        },
+        vcr: this.vcr,
+        windowClass: 'fullscreen-dialog',
+      });
+    } else {
+      this.dialog.open(CreateStoreMemberFormComponent, {
+        data: { storeId: this.branch()?.id },
+        vcr: this.vcr,
+      });
+    }
+  }
+
+  public editMember(item: IBranchMember) {
+    if (this.isLoading()) return;
+
+    this.loadingState.set(LoadingState.Loading);
+    const { success: toastSuccess } = this.toast.loading('Processing member');
+    this.client.auth
+      .getUserByUsername(item.username, {
+        success: (user) => {
+          toastSuccess('Successfully extracting user info');
+          this.router.navigate(['app', 'iam', 'user', user.id]);
+        },
+        error: (err) => {
+          this.loadingState.set(LoadingState.Pending);
+          this.toast.error('Error fetching user info');
+        },
+      })
+      .then();
   }
 }

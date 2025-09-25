@@ -1,0 +1,17 @@
+.inline-input {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  min-height: 1.2rem;
+  width: 100%;
+
+  &.--empty {
+    @apply text-gray-400;
+  }
+}
+
+.inline-input-el {
+  min-height: unset !important;
+  max-height: unset !important;
+  height: fit-content !important;
+}

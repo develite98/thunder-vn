@@ -44,6 +44,8 @@ export interface IBranch {
   isDeleted: boolean;
   id: number;
   brandName?: string;
+  website?: string;
+  hotline?: string;
 }
 
 export interface IConfigurations {

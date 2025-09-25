@@ -4,14 +4,14 @@ import { FormGroup } from '@angular/forms';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { injectMiniAppRouter } from '@mixcore/app-config';
 import { injectParams } from '@mixcore/router';
+import { IUser } from '@mixcore/sdk-client';
 import { MixDeleteComponent } from '@mixcore/ui/delete';
-import { IFormConfig, MixFormComponent } from '@mixcore/ui/forms';
+import { IFormConfig, IFormSubmit, MixFormComponent } from '@mixcore/ui/forms';
 import { MixIconComponent } from '@mixcore/ui/icons';
 import { injectModalService } from '@mixcore/ui/modal';
 import { MixTileComponent } from '@mixcore/ui/tile';
 import { injectToastService } from '@mixcore/ui/toast';
-import { injectDispatch } from '@ngrx/signals/events';
-import { userDetailPage, UserStore } from 'apps/iam/src/state';
+import { UserStore } from 'apps/iam/src/state';
 
 @Component({
   selector: 'mix-iam-user-config-page',
@@ -29,7 +29,6 @@ export class IamUserConfigPageComponent {
   readonly modal = injectModalService();
   readonly useId = injectParams('userId');
   readonly store = inject(UserStore);
-  readonly event = injectDispatch(userDetailPage);
   readonly router = injectMiniAppRouter();
   readonly toast = injectToastService();
 
@@ -45,7 +44,7 @@ export class IamUserConfigPageComponent {
         placeholder: 'common.input.placeholder',
         description: '',
         required: true,
-        readonly: true, // Email is read-only
+        readonly: true,
       },
     },
     {
@@ -56,7 +55,7 @@ export class IamUserConfigPageComponent {
         placeholder: 'common.input.placeholder',
         description: '',
         required: true,
-        readonly: true, // Email is read-only
+        readonly: true,
       },
     },
     {
@@ -68,7 +67,6 @@ export class IamUserConfigPageComponent {
         description: '',
         type: 'email',
         required: true,
-        readonly: true, // Email is read-only
       },
     },
   ];
@@ -82,9 +80,8 @@ export class IamUserConfigPageComponent {
         'Trying to delete user...',
       );
 
-      this.event.deleted({
-        data: userId,
-        callback: {
+      this.store
+        .deleteDataById(userId, {
           success: () => {
             toastSuccess('User deleted successfully');
             this.router.navigate(['users']);
@@ -93,8 +90,27 @@ export class IamUserConfigPageComponent {
             toastError('Error deleting user');
             console.error('Error deleting user:', error);
           },
-        },
-      });
+        })
+        .subscribe();
     });
+  }
+
+  public onSubmit(event: IFormSubmit<IUser>) {
+    const { success: toastSuccess, error: toastError } = this.toast.loading(
+      'Trying to update user...',
+    );
+
+    this.store
+      .updateData(event.value, {
+        success: () => {
+          toastSuccess('User updated successfully');
+          event.resetControl?.();
+        },
+        error: (error) => {
+          toastError('Error updating agency');
+          console.error('Error updating user:', error);
+        },
+      })
+      .subscribe();
   }
 }
