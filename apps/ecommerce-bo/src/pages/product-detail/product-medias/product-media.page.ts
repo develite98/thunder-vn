@@ -99,6 +99,8 @@ export class ProductMediaPage extends BasePageComponent {
         );
       }
 
+      this.medias = value.media.mediaList;
+
       this.onSubmit(value as IProduct);
     });
   }
