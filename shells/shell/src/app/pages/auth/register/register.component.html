@@ -1,1 +1,41 @@
-<p>register works!</p>
+<div class="w-screen h-screen p-4 md:p-12">
+  <div
+    class="w-full h-full bg-base-100 rounded-lg shadow p-4 flex flex-col items-center relative"
+  >
+    <div class="w-fit md:w-[400px] mb-[10vh] pt-12">
+      <div class="flex gap-2">
+        <app-cultures-select></app-cultures-select>
+        <theme-select></theme-select>
+        <tenant-select></tenant-select>
+      </div>
+      <img
+        [src]="appSetting.appSetting?.appLogoUrl"
+        class="w-52 mt-4"
+        alt="App logo"
+      />
+    </div>
+
+    <div class="w-fit md:w-[400px]">
+      <div class="text-2xl mb-2 font-title">
+        {{ `Tell us about you ❤️` | transloco }}
+      </div>
+
+      <div class="text-sm text-base-content/60">
+        {{
+          'auth.register.description'
+            | transloco: { appName: appSetting.appSetting?.appName }
+        }}
+      </div>
+
+      <div class="pt-6 w-full">
+        <app-register-form></app-register-form>
+      </div>
+    </div>
+
+    <div class="w-full absolute bottom-0 left-0 p-4 flex">
+      <a class="opacity-60 text-sm">{{
+        appSetting.appSetting?.appCopyright
+      }}</a>
+    </div>
+  </div>
+</div>

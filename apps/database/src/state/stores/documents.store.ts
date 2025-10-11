@@ -29,6 +29,10 @@ export const TableDocumentStore = signalStore(
           const { dbSystemName, id } = parseDbString(value!.toString());
           return api.table.getDataById(dbSystemName, id!);
         },
+        createFn: (data) => {
+          const { dbSystemName, id, ...rest } = data as any;
+          return api.table.createData(dbSystemName, rest);
+        },
       };
     },
   }),

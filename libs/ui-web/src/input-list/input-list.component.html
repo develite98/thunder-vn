@@ -1,0 +1,25 @@
+<div
+  class="flex flex-col w-full gap-2"
+  cdkDropList
+  (cdkDropListDropped)="drop($event)"
+>
+  @for (item of cva.value; track $index) {
+    <div class="flex gap-2 items-center" cdkDrag>
+      <mix-icon cdkDragHandle icon="grip-vertical" />
+      <input
+        [value]="item"
+        (input)="onInput($event, $index)"
+        class="input w-full"
+      />
+      <button class="btn btn-square" (click)="removeItem(item)">
+        <mix-icon icon="trash" />
+      </button>
+    </div>
+  }
+
+  <div class="ps-6 mt-1">
+    <button class="btn btn-square !rounded" (click)="addItem()">
+      <mix-icon icon="plus" />
+    </button>
+  </div>
+</div>

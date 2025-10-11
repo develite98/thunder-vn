@@ -1,0 +1,91 @@
+<mix-wizard-dialog-wrapper>
+  <div wizard-header class="flex items-center gap-4">
+    <mix-button [type]="'ghost'" class="-ms-2.5" (click)="dialogRef.close()">
+      <mix-icon icon="arrow-big-left"></mix-icon>
+    </mix-button>
+
+    <div class="text-lg">Bulk add users</div>
+  </div>
+
+  <div wizard-side>
+    Prepare user data
+    <div></div>
+  </div>
+
+  <div wizard-main class="flex flex-col overflow-auto grow h-full no-scrollbar">
+    <div
+      class="flex w-full gap-2 items-center bg-base-100 sticky top-0 pb-2 z-20"
+    >
+      @if (users().length) {
+        <div class="text-base-content/60">
+          {{ users().length }} user{{ users().length > 1 ? 's' : '' }} found
+        </div>
+        <button class="btn btn-ghost btn-xs" (click)="users.set([])">
+          Clear all
+        </button>
+      } @else {
+        <input
+          [formControl]="textInput"
+          class="input grow"
+          placeholder="Input username here, separate with commas, eg PZ123, PZ124"
+        />
+        <button class="btn btn-primary" (click)="onSubmitFromInput()">
+          Submit
+        </button>
+        <div class="divider divider-horizontal !h-6 !mx-0 self-center"></div>
+        <button class="btn" (click)="upload.click()">
+          Import
+          <img alt="Excel" src="logos/brands/excel.png" class="h-1/2" />
+        </button>
+
+        <button class="btn btn-square" (click)="downloadSample()">
+          <mix-icon icon="download"></mix-icon>
+        </button>
+
+        <input
+          type="file"
+          (change)="onFileChange($event)"
+          class="hidden"
+          #upload
+        />
+      }
+    </div>
+
+    @if (parsingError(); as err) {
+      <div class="p-4 rounded-box bg-error/10 mt-4" [innerHTML]="err"></div>
+    }
+
+    @for (user of users(); track user) {
+      <div class="mt-4 flex flex-col gap-4">
+        <mix-create-user-item
+          (onRemoveItem)="onRemoveItem(user)"
+          [data]="user"
+          [loading]="user.isChecking || false"
+          [storeId]="storeId"
+        ></mix-create-user-item>
+      </div>
+    } @empty {
+      <div
+        class="mt-4 border border-dashed border-base-content/10 text-base-content/60 flex items-center justify-center h-44 rounded-box"
+      >
+        No items found
+      </div>
+    }
+
+    <div
+      class="py-4 mt-auto bg-base-100 sticky bottom-0 flex justify-end items-center border-t border-base-content/10 border-dashed"
+    >
+      <button class="btn btn-ghost mr-4" (click)="dialogRef.close()">
+        Cancel
+      </button>
+
+      <button
+        class="btn btn-primary"
+        (click)="onBulkCreate()"
+        [disabled]="!users().length || isChecking() || isLoading()"
+      >
+        Save {{ users().length || '' }} Changes
+      </button>
+    </div>
+  </div>
+</mix-wizard-dialog-wrapper>

@@ -37,6 +37,8 @@ import { explicitEffect } from 'ngxtension/explicit-effect';
       [paging]="store.pagingInfo()"
       [contextMenu]="contextMenu"
       [loading]="store.isLoading()"
+      [filterOptions]="store.filterConfig"
+      [filterValues]="store.query().queries || []"
       [(searchText)]="searchText"
       (goPrevious)="store.goPreviousPageRouter()"
       (rowClick)="goToDetail($event.id)"

@@ -62,16 +62,16 @@ export const ROUTES: Route[] = [
               {
                 path: 'table',
                 loadComponent: () =>
-                  import('./pages/store-detail/store-devices/store-devices-table/store-devices-table.page').then(
-                    (c) => c.StoreDevicesTablePage,
-                  ),
+                  import(
+                    './pages/store-detail/store-devices/store-devices-table/store-devices-table.page'
+                  ).then((c) => c.StoreDevicesTablePage),
               },
               {
                 path: 'chart',
                 loadComponent: () =>
-                  import('./pages/store-detail/store-devices/store-devices-chart/store-devices-chart.page').then(
-                    (c) => c.StoreDevicesChartPage,
-                  ),
+                  import(
+                    './pages/store-detail/store-devices/store-devices-chart/store-devices-chart.page'
+                  ).then((c) => c.StoreDevicesChartPage),
               },
               {
                 path: '',
@@ -79,6 +79,13 @@ export const ROUTES: Route[] = [
                 pathMatch: 'full',
               },
             ],
+          },
+          {
+            path: 'pos-config',
+            loadComponent: () =>
+              import(
+                './pages/store-detail/store-pos-config/store-pos-config.page'
+              ).then((c) => c.StorePOSConfigPage),
           },
           {
             path: '',

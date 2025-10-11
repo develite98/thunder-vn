@@ -1,26 +1,9 @@
-<mix-full-screen-page-container>
-  <mix-wizard-dialog-wrapper>
-    <div wizard-header class="flex items-center gap-4">
-      <mix-button [type]="'ghost'" class="-ms-2.5" (click)="goBack()">
-        <mix-icon icon="chevron-left"></mix-icon>
-      </mix-button>
-
-      <div class="text-lg">{{ data()?.name }}</div>
-    </div>
-
-    <div wizard-side>
-      <ul class="menu bg-base-200 rounded-box w-56">
-        <li><a>Main info</a></li>
-        <li><a>Attribute</a></li>
-
-        <li>
-          <span class="menu-dropdown-toggle menu-dropdown-show">Localize</span>
-          <ul class="menu-dropdown menu-dropdown-hide">
-            <li><a>Submenu 1</a></li>
-            <li><a>Submenu 2</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </mix-wizard-dialog-wrapper>
-</mix-full-screen-page-container>
+<mix-page-container
+  [loading]="dateState()?.isLoading"
+  [pageTitle]="data()?.name || ''"
+  [pageDescription]="data()?.itemTemplateCode || ''"
+  [backButton]="true"
+  [tabs]="tabs()"
+>
+  <router-outlet></router-outlet>
+</mix-page-container>

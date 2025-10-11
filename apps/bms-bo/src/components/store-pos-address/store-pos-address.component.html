@@ -1,0 +1,42 @@
+<mix-tile>
+  <div class="grid grid-cols-1 md:grid-cols-12">
+    <div class="col-span-12 md:col-span-5">
+      <div class="font-title text-2xl">Address</div>
+      <div class="w-3/4 opacity-60 text-sm mt-2">
+        Available nationalities display on POS when staff open new table for
+        customer
+      </div>
+    </div>
+    <div class="col-span-12 md:col-span-7">
+      <mix-form-field
+        [name]="'Address'"
+        [description]="'First line display on bill'"
+      >
+        <input class="input w-full" placeholder="Address" />
+      </mix-form-field>
+
+      <mix-form-field
+        [name]="'Second Adress'"
+        [description]="'Second line display on bill'"
+        class="mt-4"
+      >
+        <input
+          class="input w-full"
+          placeholder="Type the second address here"
+        />
+      </mix-form-field>
+    </div>
+  </div>
+
+  <div
+    class="sm:pt-4 lg:pt-8 sm:pt-3 border-t border-base-content/10 border-dashed flex items-center justify-end form-item-footer"
+  >
+    <mix-button
+      (click)="onSubmit()"
+      [loading]="isLoading()"
+      color="primary"
+      [size]="'md'"
+      >{{ 'Update' }}</mix-button
+    >
+  </div>
+</mix-tile>

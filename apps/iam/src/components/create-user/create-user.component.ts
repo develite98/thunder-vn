@@ -34,20 +34,22 @@ export class CreateUserComponent extends BaseComponent {
     confirmPassword: ['', [Validators.required]],
   });
 
-  public onSumbit() {
+  public onSubmit() {
     if (FormUtils.validateForm(this.form)) {
       this.loadingState.set(LoadingState.Loading);
-      this.store.createData(this.form.value as IUser, {
-        success: (item) => {
-          this.toast.success('User created successfully');
-          setTimeout(() => {
-            this.dialogRef.close(item);
-          }, 50);
-        },
-        error: () => {
-          this.loadingState.set(LoadingState.Pending);
-        },
-      });
+      this.store
+        .createData(this.form.value as IUser, {
+          success: (item) => {
+            this.toast.success('User created successfully');
+            setTimeout(() => {
+              this.dialogRef.close(item);
+            }, 50);
+          },
+          error: () => {
+            this.loadingState.set(LoadingState.Pending);
+          },
+        })
+        .subscribe();
     }
   }
 }

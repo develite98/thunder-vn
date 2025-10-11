@@ -8,45 +8,38 @@
     <div class="skeleton h-4 w-28"></div>
   </div>
 } @else {
-  <!-- Handle error state -->
-  @if (state?.isError) {
-    <div class="rounded-box mb-6 px-4 py-2 bg-error text-error-content">
-      {{ state?.error || 'Error when try to load content' }}
+  <div class="grid grid-cols-12 gap-6">
+    <div class="col-span-3">
+      <mix-menu-scrollspy
+        [title]="'Configurations'"
+        [scrollElementId]="'page-scroll-container'"
+        [items]="scrollSpyItems"
+        [stickyOffset]="172"
+      ></mix-menu-scrollspy>
     </div>
-  }
 
-  <!-- Handle silent loading state -->
-  @if (state?.isSilentLoading) {
-    <!-- Do something with silent loading -->
-  }
-
-  <!-- @if (product && !product?.isAvailable) {
-    <div class="w-full flex flex-col gap-4 mb-4">
-      @if (!product?.isAvailable) {
-        <div
-          class="badge badge-lg badge-soft badge-error flex justify-start items-center gap-2 whitespace-nowrap w-full py-4"
-        >
-          <mix-icon icon="triangle-alert"></mix-icon>
-
-          {{ 'bms.branch.inActiveWarning' | transloco }}
+    <div class="col-span-9">
+      @if (state?.isError) {
+        <div class="rounded-box mb-6 px-4 py-2 bg-error text-error-content">
+          {{ state?.error || 'Error when try to load content' }}
         </div>
       }
+
+      @if (fields(); as fields) {
+        <mix-form
+          [form]="form"
+          [value]="product"
+          [formConfig]="fields"
+          (onSubmit)="onSubmit($event)"
+        ></mix-form>
+      }
+
+      <mix-delete
+        (onDelete)="onDelete()"
+        class="mt-6 block"
+        description="common.deleteConfirmation"
+        buttonLabel="common.delete"
+      ></mix-delete>
     </div>
-  } -->
-
-  @if (fields(); as fields) {
-    <mix-form
-      [form]="form"
-      [value]="product"
-      [formConfig]="fields"
-      (onSubmit)="onSubmit($event)"
-    ></mix-form>
-  }
-
-  <mix-delete
-    (onDelete)="onDelete()"
-    class="mt-6 block"
-    description="common.deleteConfirmation"
-    buttonLabel="common.delete"
-  ></mix-delete>
+  </div>
 }

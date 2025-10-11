@@ -38,6 +38,7 @@
   "auth.login.microsoft": "Log in with Microsoft",
   "auth.login.forgotPassword": "Forgot your password?",
   "auth.login.success": "Welcome back! Redirecting...",
+  "auth.register.description": "Welcome to {{ appName }}, please register your account to continue.",
 
   "storage.menu.title": "Storage",
   "auth.menu.title": "Auth",

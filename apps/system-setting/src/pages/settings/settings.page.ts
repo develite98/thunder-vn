@@ -19,16 +19,10 @@ export class SettingPageComponent {
       route: ['s', 'common'],
     },
     {
-      id: '1',
+      id: '2',
       title: 'sys.setting.tab.oAuth',
       icon: 'key-round',
       route: ['s', 'oauth'],
-    },
-    {
-      id: '1',
-      title: 'sys.setting.tab.domain',
-      icon: 'key-round',
-      route: ['s', 'domain'],
     },
   ];
 }

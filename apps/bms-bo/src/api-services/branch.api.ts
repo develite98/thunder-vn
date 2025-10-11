@@ -95,6 +95,31 @@ export class BranchApi {
     }
   }
 
+  public async updateBmsBranch(
+    value: IBmsBranch,
+    callback?: IActionCallback<IBmsBranch>,
+  ) {
+    try {
+      const result = await this.client.api.put<
+        MixQuery,
+        TApiResponse<IPaginationResultModel<IBmsBranch>>
+      >(`/tms/api/v2/rest/bms-branch/${value.id}`, value);
+
+      const data = result.data?.items?.[0];
+      if (callback) {
+        callback?.success?.(data);
+      }
+
+      return data;
+    } catch (error) {
+      console.error('Error fetching requests:', error);
+      callback?.error?.(error);
+      throw error;
+    } finally {
+      callback?.finally?.();
+    }
+  }
+
   public async createBmsBranchByOriginId(
     value: Partial<IBmsBranch>,
     callback?: IActionCallback<IBmsBranch>,

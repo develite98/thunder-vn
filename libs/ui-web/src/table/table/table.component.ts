@@ -30,7 +30,13 @@ import {
   TableRowSelectionComponent,
 } from '../components/selection.component';
 import { MixTableColumnDirective } from '../directive';
-import { GridContextMenu, ITableSort, ITableSortChange } from '../types';
+import {
+  GridContextMenu,
+  IColumnVisibility,
+  IColumnVisibilityChange,
+  ITableSort,
+  ITableSortChange,
+} from '../types';
 
 @Component({
   selector: 'mix-table',
@@ -75,9 +81,11 @@ export class MixTableComponent<T> {
   public readonly filterValues = model<IFilterValue[]>([]);
   public readonly sorting = model<ITableSort[]>([]);
   public readonly rowSelection = model<Record<string, boolean>>({});
+  public readonly columnVisibility = model<IColumnVisibility>({});
 
   public readonly onFilterChange = output<IFilterValue[]>();
   public readonly onSortChange = output<ITableSortChange>();
+  public readonly onColumnVisibilityChange = output<IColumnVisibilityChange>();
   public readonly goNext = output<void>();
   public readonly goPrevious = output<void>();
   public readonly goToPage = output<{ pageIndex: number }>();
@@ -99,8 +107,12 @@ export class MixTableComponent<T> {
       ? []
       : [this.createSelectionColumn()];
 
+    const visibility = this.columnVisibility();
     this.cols()?.forEach((col) => {
-      columnDefs.push(this.createDataColumn(col));
+      // Only add column if it's visible (default to true if not specified)
+      if (visibility[col.key()] !== false) {
+        columnDefs.push(this.createDataColumn(col));
+      }
     });
 
     if (this.hasContextMenu()) {
@@ -108,6 +120,11 @@ export class MixTableComponent<T> {
     }
 
     return columnDefs;
+  });
+
+  public rowSelectionCount = computed(() => {
+    return Object.values(this.rowSelection()).filter((selected) => selected)
+      .length;
   });
 
   public readonly sortingState = computed((): SortingState => {
@@ -141,6 +158,16 @@ export class MixTableComponent<T> {
 
   public readonly dataLength = computed(() => this.data().length);
   public readonly isTableView = computed(() => this.viewMode() === 'table');
+
+  public readonly availableColumns = computed(() => {
+    const columns = this.cols();
+    return columns.map((col) => ({
+      id: col.key(),
+      label: col.header() || col.key(),
+      visible: this.columnVisibility()[col.key()] !== false,
+      disabled: false,
+    }));
+  });
 
   public readonly trackByRowId: TrackByFunction<{ id: string }> = (
     index: number,
@@ -202,6 +229,11 @@ export class MixTableComponent<T> {
     } else {
       this.onRowClick(data);
     }
+  }
+
+  public handleColumnVisibilityChange(event: IColumnVisibilityChange): void {
+    this.columnVisibility.set(event.columnVisibility);
+    this.onColumnVisibilityChange.emit(event);
   }
 
   private readonly handleSortChange = (sorts: ITableSort[]) => {

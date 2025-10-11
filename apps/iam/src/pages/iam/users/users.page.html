@@ -4,7 +4,9 @@
     [data]="store.dataEntities() || []"
     [paging]="store.pagingInfo()"
     [loading]="store.isLoading()"
-    [(searchText)]="searchText"
+    [filterOptions]="filterConfig"
+    [filterValues]="store.query().queries || []"
+    (onFilterChange)="store.filter($event)"
     (goPrevious)="store.goPreviousPageRouter()"
     (goNext)="store.goNextPageRouter()"
     (goToPage)="store.goToPageRouter($event.pageIndex)"
@@ -12,13 +14,23 @@
     (rowClick)="onEditUser($event.id)"
   >
     <ng-template #toolar>
-      <mix-button
-        [prefixIcon]="'plus'"
-        [color]="'primary'"
-        (click)="onCreateUser()"
-      >
-        {{ 'iam.user.create' | transloco }}
-      </mix-button>
+      <div class="flex items-center gap-2">
+        <mix-button
+          [prefixIcon]="'plus'"
+          [color]="'primary'"
+          (click)="onCreateUser()"
+        >
+          {{ 'iam.user.create' | transloco }}
+        </mix-button>
+
+        <mix-button
+          [prefixIcon]="'plus'"
+          [color]="'secondary'"
+          (click)="onCreateBulkUser()"
+        >
+          {{ 'iam.user.bulkCreate' | transloco }}
+        </mix-button>
+      </div>
     </ng-template>
 
     <div mixTableColumn [header]="'Key'" [key]="'systemName'">

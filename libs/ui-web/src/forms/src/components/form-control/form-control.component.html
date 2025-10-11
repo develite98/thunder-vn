@@ -1,6 +1,16 @@
+@if (groupLabel(); as label) {
+  <div
+    id="form-group-{{ label | lowercase }}"
+    class="ps-2 mb-4 text-lg flex items-center gap-4 uppercase font-bold tracking-wider text-base-content opacity-40"
+  >
+    <mix-icon icon="grip-vertical"></mix-icon>
+    {{ label }}
+  </div>
+}
 <div
   class="rounded-2xl bg-base-100 h-full border border-base-content/10 gap-4 hover:border-base-content/15"
   [class.--zoom]="zoom()"
+  id="form-item-{{ field.key }}"
 >
   <div class="p-8 grid grid-cols-1 md:grid-cols-12 form-item-container">
     <div [class]="labelClass()">
@@ -23,9 +33,9 @@
         <form-validation-message [field]="field" />
       }
 
-      @if (recommends().length) {
+      @if (recommends.length) {
         <div class="flex gap-2 items-center mt-4">
-          @for (item of recommends(); track trackByRecommend($index, item)) {
+          @for (item of recommends; track trackByRecommend($index, item)) {
             <button
               type="button"
               class="btn btn-sm"

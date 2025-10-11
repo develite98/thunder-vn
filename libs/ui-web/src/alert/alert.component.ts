@@ -30,9 +30,10 @@ import { MixTileComponent } from '@mixcore/ui/tile';
               <h3 class="text-lg font-semibold {{ stl.text }}">
                 {{ title() | transloco }}
               </h3>
-              <p class="text-sm text-base-content/60 w-90">
-                {{ description() | transloco }}
-              </p>
+              <p
+                class="text-sm text-base-content/60 w-90"
+                [innerHTML]="description() | transloco"
+              ></p>
             </div>
           </div>
           <div class="items-center justify-end col-span-1 md:col-span-7">

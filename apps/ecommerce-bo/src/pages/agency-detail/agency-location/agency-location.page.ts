@@ -61,6 +61,7 @@ export class EcomAgencyLocationPage {
     location.status = EMixContentStatus.Published;
     location.created_date = new Date();
     location.updated_date = new Date();
+    delete location.province.wards;
 
     if (!data.addresses?.data) {
       data.addresses = {

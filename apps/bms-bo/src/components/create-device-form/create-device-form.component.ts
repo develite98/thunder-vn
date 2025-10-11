@@ -66,6 +66,7 @@ export class DeviceFormComponent extends BaseComponent {
         typeId: this.dialogRef.data.data.typeId,
         storeId: this.dialogRef.data.data.storeId,
         masterDeviceId: this.dialogRef.data.data.masterDeviceId || undefined,
+        isDefault: this.dialogRef.data.data.isDefault || false,
       });
     }
   }

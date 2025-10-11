@@ -25,6 +25,12 @@ export const PublicRoutes: Routes = [
             .ProductsPageComponent,
       },
       {
+        path: 'agencies',
+        loadComponent: async () =>
+          (await import('./pages/agencies/agencies.page'))
+            .AgenciesPageComponent,
+      },
+      {
         path: 'p/:slug',
         loadComponent: async () =>
           (await import('./pages/page/page.component')).EcomPageComponent,

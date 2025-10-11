@@ -6,6 +6,7 @@ export interface IBmsBranch {
   name: string;
   shortName: string;
   lat: string;
+  address: string;
   firstAddressLine: string;
   secondAddressLine: string;
   website: string;
@@ -18,5 +19,7 @@ export interface IBmsBranch {
   isAvailable: boolean;
   createdAt: string;
   lastModified: string;
+  nationalities: string[];
   originId?: number; // Optional field for origin ID
+  enableSyncDwh?: boolean; // Optional field for DWH sync
 }

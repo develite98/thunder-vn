@@ -1,7 +1,8 @@
 {
   "appName": "System Configuration",
-  "setting.tab.oAuth": "OAuth",
+  "setting.tab.oAuth": "Login Providers",
   "setting.tab.general": "General",
   "setting.tab.domain": "Domain",
-  "setting.tab.common": "Overview"
+  "setting.tab.common": "Common settings",
+  "appDescription": "🥰 Control your system's configuration here"
 }

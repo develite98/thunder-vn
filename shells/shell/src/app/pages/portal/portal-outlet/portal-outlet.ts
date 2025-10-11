@@ -1,7 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import {
   ActivatedRoute,
+  NavigationCancel,
   NavigationEnd,
+  NavigationError,
+  NavigationStart,
   Router,
   RouterLink,
   RouterLinkActive,
@@ -76,10 +79,15 @@ export class PortalOutletComponent {
     [];
 
   public showLoading = signal(true);
+  public showNavigationProgress = signal(false);
 
   constructor() {
     this.router.events.pipe().subscribe((e) => {
-      if (e instanceof NavigationEnd) {
+      if (e instanceof NavigationStart) {
+        this.showNavigationProgress.set(true);
+      } else if (e instanceof NavigationEnd) {
+        this.showNavigationProgress.set(false);
+
         const subMenu = this.subMenu.find((x) =>
           this.matchLocation(x.pathMatch, e.url),
         );
@@ -91,6 +99,11 @@ export class PortalOutletComponent {
           this.showLevel1Menu = true;
           this.activeLevel2Menu.set(null);
         }
+      } else if (
+        e instanceof NavigationCancel ||
+        e instanceof NavigationError
+      ) {
+        this.showNavigationProgress.set(false);
       }
     });
 

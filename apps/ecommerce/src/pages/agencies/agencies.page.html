@@ -1,0 +1,56 @@
+<div data-theme="red">
+  <mix-public-header></mix-public-header>
+  <mix-breadcrumb [items]="breadcrumb"></mix-breadcrumb>
+
+  <div class="py-8 container mx-auto">
+    <div class="w-full md:w-102 mb-8">
+      <div class="fieldset w-full mb-2">
+        <label for="">Tên đại lý</label>
+        <input
+          [value]="searchText()"
+          (input)="searchText.set($event.target.value)"
+          class="input w-full"
+          placeholder="Nhập tên đại lý cần tìm"
+        />
+      </div>
+
+      <app-location-select
+        (singleValueChange)="
+          province.set($event.province); ward.set($event.ward)
+        "
+      ></app-location-select>
+    </div>
+
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4 md:mt-6"
+    >
+      @for (agency of displayAgencies(); track $index) {
+        <div class="rounded-lg px-4 py-4 border-dashed agency-card">
+          <p class="text-lg font-medium mb-2">{{ agency.title }}</p>
+          <p class="text-gray-500 text-sm mt-2">
+            Địa chỉ: {{ agency.address }}
+          </p>
+          <p class="text-gray-500 text-sm mt-2">
+            Số điện thoại:<mix-copy-text
+              class="ms-2"
+              [text]="agency.phone"
+            ></mix-copy-text>
+          </p>
+          <p class="text-gray-500 text-sm mt-2">Email: {{ agency.email }}</p>
+
+          <div class="flex items-center mt-4 gap-2">
+            <button class="btn btn-outline btn-xs mt-4">Gọi trực tiếp</button>
+
+            <button
+              (click)="showMap(agency.map)"
+              class="btn btn-outline btn-xs mt-4"
+            >
+              Xem bản đồ
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+  <mix-public-footer [showStore]="false"></mix-public-footer>
+</div>

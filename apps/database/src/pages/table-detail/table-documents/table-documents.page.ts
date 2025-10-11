@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  ViewContainerRef,
+} from '@angular/core';
 import { BasePageComponent } from '@mixcore/base';
 import { injectParams, injectQueryParams } from '@mixcore/router';
 import { MixButtonComponent } from '@mixcore/ui/buttons';
@@ -20,6 +25,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DbTableDocumentsPage extends BasePageComponent {
+  readonly vcr = inject(ViewContainerRef);
   readonly queryParams = injectQueryParams();
   readonly tableId = injectParams('tableId');
   readonly documentStore = inject(TableDocumentStore);
@@ -53,10 +59,12 @@ export class DbTableDocumentsPage extends BasePageComponent {
 
   public onCreateNew() {
     this.dialog.open(DbTableDocument, {
+      vcr: this.vcr,
       windowClass: 'fullscreen-dialog',
       data: {
         columns: this.table()?.columns,
         data: {},
+        systemName: this.table()?.systemName,
       },
     });
   }

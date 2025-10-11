@@ -12,6 +12,7 @@ import {
 
 import { MixIconComponent } from '@mixcore/ui/icons';
 import { register } from 'swiper/element/bundle';
+import { PrioritiyPipe } from '../../helper';
 import { EcomPinnedBlogsComponent } from '../pin-blogs/pin-blogs.component';
 import { SearchInputComponent } from '../search-input/search-input.component';
 register();
@@ -49,6 +50,7 @@ export interface Product {
     SearchInputComponent,
     MixIconComponent,
     EcomPinnedBlogsComponent,
+    PrioritiyPipe,
   ],
   templateUrl: './swiper-section.component.html',
   styleUrl: './swiper-section.component.scss',

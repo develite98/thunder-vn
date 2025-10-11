@@ -1,0 +1,54 @@
+<form
+  [formGroup]="registerForm"
+  autocomplete="off"
+  class="flex flex-col w-full"
+>
+  <fieldset class="fieldset w-full"></fieldset>
+
+  <mix-form-field [name]="'Email:'" [required]="true" class="mb-4">
+    <label class="input w-full">
+      <input
+        name="email"
+        id="email"
+        autocomplete="new-password"
+        formControlName="email"
+        [placeholder]="'auth.login.username' | transloco"
+      />
+    </label>
+    <mix-form-field-error formControlName="email" />
+  </mix-form-field>
+
+  <mix-form-field [name]="'Password:'" [required]="true" class="mb-4">
+    <mix-input-password
+      name="password"
+      id="password"
+      autocomplete="new-password"
+      formControlName="password"
+    />
+    <mix-form-field-error formControlName="password" />
+  </mix-form-field>
+
+  <mix-form-field [name]="'Confirm password:'" [required]="true" class="mb-4">
+    <mix-input-password
+      name="password"
+      id="password"
+      autocomplete="new-password"
+      formControlName="confirmPassword"
+      placeholder="Re-type your password"
+    />
+    <mix-form-field-error formControlName="confirmPassword" />
+    @if (registerForm.getError('passwordMismatch')) {
+      <div class="text-xs text-error mt-1">
+        {{ 'auth.register.passwordMismatch' | transloco }}
+      </div>
+    }
+  </mix-form-field>
+
+  <mix-button
+    (click)="onSubmit()"
+    class="btn-primary ms-auto mt-2 justify-between"
+    [postfixIcon]="'log-in'"
+    [loading]="isLoading()"
+    >Get's go</mix-button
+  >
+</form>

@@ -1,4 +1,9 @@
 <div class="w-screen h-screen flex overflow-auto overflow-x-hidden">
+  @if (showNavigationProgress()) {
+    <progress
+      class="progress progress-secondary h-[3px] w-full fixed top-0 left-0 z-50"
+    ></progress>
+  }
   @if (showLoading()) {
     <mix-loading class="w-full" />
   } @else {
@@ -43,7 +48,7 @@
                       [commingSoon]="item.isDevelopment"
                       [routerLink]="item.url"
                       [routerLinkActive]="'menu-active'"
-                      class="text-sm text-base-content/80 h-[40px] flex items-center rounded-lg"
+                      class="text-sm text-base-content/80 h-[2.5rem] flex items-center rounded-lg"
                     >
                       @if (item.icon) {
                         <mix-icon
@@ -70,7 +75,7 @@
 
               <li class="mt-auto">
                 <a
-                  class="text-sm text-base-content/80 h-[40px] flex items-center rounded-lg"
+                  class="text-sm text-base-content/80 h-[2.5rem] flex items-center rounded-lg"
                 >
                   <mix-icon
                     [class.opacity-60]="showLevel1Menu"
@@ -89,7 +94,7 @@
                 <a
                   [routerLink]="['/app/setting']"
                   [routerLinkActive]="'menu-active'"
-                  class="text-sm text-base-content/80 h-[40px] flex items-center rounded-lg"
+                  class="text-sm text-base-content/80 h-[2.5rem] flex items-center rounded-lg"
                 >
                   <mix-icon
                     [class.opacity-60]="showLevel1Menu"
@@ -129,7 +134,7 @@
                     [routerLink]="item.url"
                     [routerLinkActive]="'menu-active'"
                     [routerLinkActiveOptions]="{ exact: false }"
-                    class="text-sm w-full text-base-content/80 h-[40px] flex items-center rounded-lg"
+                    class="text-sm w-full text-base-content/80 h-[2.5rem] flex items-center rounded-lg"
                   >
                     @if (item.icon) {
                       <mix-icon [icon]="item.icon"></mix-icon>

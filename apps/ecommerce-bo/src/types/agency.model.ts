@@ -39,6 +39,7 @@ interface Province {
   code: number;
   name: string;
   districts: District[];
+  wards?: Ward[];
 }
 
 export interface IAgencyAddress {

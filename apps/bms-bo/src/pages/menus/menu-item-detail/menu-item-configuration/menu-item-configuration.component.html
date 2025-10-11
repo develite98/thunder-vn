@@ -1,0 +1,46 @@
+@let state = dataState();
+@let product = data();
+
+@if (state?.isLoading) {
+  <div class="flex w-52 flex-col gap-4">
+    <div class="skeleton h-32 w-full"></div>
+    <div class="skeleton h-4 w-28"></div>
+  </div>
+} @else {
+  @if (state?.isError) {
+    <div class="rounded-box mb-6 px-4 py-2 bg-error text-error-content">
+      {{ state?.error || 'Error when try to load content' }}
+    </div>
+  }
+
+  @if (state?.isSilentLoading) {
+    <!-- Do something with silent loading -->
+  }
+
+  <div class="grid grid-cols-12 gap-6">
+    <div class="col-span-3">
+      <mix-menu-scrollspy
+        [title]="'Configurations'"
+        [scrollElementId]="'page-scroll-container'"
+        [items]="scrollSpyItems"
+        [stickyOffset]="164"
+      ></mix-menu-scrollspy>
+    </div>
+    <div class="col-span-9">
+      @if (fields(); as fields) {
+        <mix-form
+          [form]="form"
+          [value]="product"
+          [formConfig]="fields"
+        ></mix-form>
+      }
+
+      <mix-delete
+        id="menu-item-delete"
+        class="mt-6 block"
+        description="common.deleteConfirmation"
+        buttonLabel="common.delete"
+      ></mix-delete>
+    </div>
+  </div>
+}

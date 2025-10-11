@@ -1,9 +1,4 @@
-import {
-  AbstractControl,
-  FormArray,
-  FormControl,
-  FormGroup,
-} from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 
 export class FormUtils {
   public static validateForm(
@@ -23,18 +18,15 @@ export class FormUtils {
       return form.valid;
     }
 
-    Object.values(form.controls).forEach((control: AbstractControl) => {
-      if (control.invalid) {
-        control.markAsDirty();
-        control.markAsTouched();
-        control.updateValueAndValidity({ onlySelf: true });
-      }
+    const invalidItem = Object.values(form.controls).find(
+      (control: AbstractControl) => !control.valid,
+    );
 
-      if (control instanceof FormArray)
-        control.controls.some(
-          (form: AbstractControl) => !FormUtils.validateForm(form as FormGroup),
-        );
-    });
+    if (invalidItem) {
+      invalidItem.markAsDirty();
+      invalidItem.markAsTouched();
+      invalidItem.updateValueAndValidity({ onlySelf: true });
+    }
 
     return form.valid;
   }

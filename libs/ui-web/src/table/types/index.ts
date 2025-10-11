@@ -29,6 +29,14 @@ export interface ITableSortChange {
   sorts: ITableSort[];
 }
 
+export interface IColumnVisibility {
+  [columnId: string]: boolean;
+}
+
+export interface IColumnVisibilityChange {
+  columnVisibility: IColumnVisibility;
+}
+
 export const OPERATOR_DISPLAY: Record<string, string> = {
   [ECompareOperator.Like]: 'similar',
   [ECompareOperator.ILike]: 'similar*',

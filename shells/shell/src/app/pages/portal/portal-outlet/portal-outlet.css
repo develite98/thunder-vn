@@ -2,7 +2,7 @@
 
 .menu-level-1 {
   transition: 0.2s ease;
-  width: 66px;
+  width: 4.125rem;
 }
 
 .menu-level-1.--active {

@@ -62,8 +62,8 @@
     <mix-button (click)="dialogRef.close()">
       {{ 'common.cancel' | transloco }}
     </mix-button>
-    <mix-button [color]="'primary'" (click)="onSubmit()">
-      {{ isUpdate ? 'common.update' : ('common.create' | transloco) }}
+    <mix-button [color]="'primary'" (click)="onSubmit()" [loading]="isLoading()">
+      {{ (isUpdate ? 'common.update' : 'common.create') | transloco }}
     </mix-button>
   </div>
 </mix-dialog-wrapper>
@@ -104,6 +104,6 @@
       }
     </div>
 
-    {{ isUpdate ? 'Update' : 'Add' }} {{ displayName }}
+    {{ (isUpdate ? 'common.update' : 'common.add') | transloco }} {{ displayName }}
   </span>
 </ng-template>

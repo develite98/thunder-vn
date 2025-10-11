@@ -27,6 +27,7 @@ import { appRoutes } from './app.routes';
 import { appSetting } from '../environments/environment';
 
 import { getAuth, provideAuth } from '@angular/fire/auth';
+import { DEFAULT_ERROR_MAP, provideFormError } from '@mixcore/ui/forms';
 
 @Injectable({ providedIn: 'root' })
 export class TranslocoHttpLoader implements TranslocoLoader {
@@ -88,5 +89,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(LucideAngularModule.pick(icons)),
     provideHotToastConfig({ position: 'top-right' }),
     provideAuth(() => getAuth()),
+    provideFormError(DEFAULT_ERROR_MAP),
   ],
 };

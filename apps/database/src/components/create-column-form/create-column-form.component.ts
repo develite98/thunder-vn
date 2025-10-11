@@ -74,7 +74,7 @@ export class CreateColumnFormComponent extends BaseComponent {
 
   public configurationForms = inject(NonNullableFormBuilder).group({
     isUnique: [false],
-    isMandatory: [false],
+    isRequire: [false],
     isEncrypt: [false],
   });
 

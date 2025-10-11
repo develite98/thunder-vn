@@ -65,6 +65,12 @@ export class StoreDetailPageComponent extends BasePageComponent {
         route: ['stores', id, 'devices', 'table'],
         icon: 'monitor-smartphone',
       },
+      {
+        id: '5',
+        title: 'bms.branch.tab.posConfiguration',
+        route: ['stores', id, 'pos-config'],
+        icon: 'store',
+      },
     ] as ITabItem[];
   });
 

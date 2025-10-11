@@ -11,7 +11,7 @@
   "branch.tab.layouts": "Layouts",
   "branch.tab.layouts.areas": "Areas",
   "branch.tab.layouts.tables": "Tables",
-
+  "branch.tab.posConfiguration": "POS Config",
   "branch.active": "Active",
   "branch.inactive": "Inactive",
   "branch.name": "Store Name",
@@ -78,5 +78,21 @@
   "device.pos": "POS",
   "device.printer": "Printer",
   "device.handy": "Handy",
-  "device.deleteConfirmation": "Are you sure you want to delete this device?"
+  "device.deleteConfirmation": "Are you sure you want to delete this device?",
+  "menuItem.tab.configuration": "Configuration",
+  "menuItem.tab.prices": "Prices",
+  "menuItem.tab.categories": "Categories",
+  "menuItem.tab.modifiers": "Modifiers",
+  "menuItem.tab.images": "Images",
+  "menuItem.tab.reviews": "Reviews",
+  "menuItem.tab.analytics": "Analytics",
+  "menuItem.tab.history": "History",
+  "menuItem.tab.i18n": "i18n",
+  "menuItem.tab.comments": "Comments",
+  "menuItem.receiptName": "Receipt name",
+  "menuItem.receiptNameDescription": "Receipt name display on receipt, include Final receipt, Order check, Bill check.",
+  "menuItem.kitchenName": "Kitchen name",
+  "menuItem.kitchenNameDescription": "Kitchen name display on kitchen printer receipt or KMS system",
+  "menuItem.displayName": "Display name",
+  "menuItem.displayNameDescription": "Common name display on our internal system"
 }

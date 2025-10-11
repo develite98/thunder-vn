@@ -64,6 +64,48 @@ body {
   overflow-x: hidden;
 }
 
+@media (max-width: 1700px) {
+  html,
+  body {
+    font-size: 90%;
+  }
+}
+
+@media (max-width: 1400px) {
+  html,
+  body {
+    font-size: 85%;
+  }
+}
+
+@media (max-width: 1200px) {
+  html,
+  body {
+    font-size: 75%;
+  }
+}
+
+@media (max-width: 992px) {
+  html,
+  body {
+    font-size: 65%;
+  }
+}
+
+@media (max-width: 768px) {
+  html,
+  body {
+    font-size: 50%;
+  }
+}
+
+@media (max-width: 576px) {
+  html,
+  body {
+    font-size: 50%;
+  }
+}
+
 .input > input,
 .input,
 .textarea {
@@ -137,4 +179,12 @@ textarea:focus,
 
 .btn {
   --radius-field: 4rem;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
 }

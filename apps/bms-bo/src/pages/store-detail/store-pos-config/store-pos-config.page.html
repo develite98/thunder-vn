@@ -1,0 +1,45 @@
+<div class="w-full flex flex-col gap-4 md:gap-6">
+  @if (bmsBranch(); as branch) {
+    <!-- <mix-inline-alert
+      [title]="'Enable sync Data Warehouse'"
+      [description]="
+        'When this option is enabled, all new and updated orders will be automatically sent to the Data Warehouse. If disabled, orders will only remain in the application'
+      "
+      [hideToolbar]="true"
+      [type]="'info'"
+      [mainTemplate]="mainTemplate"
+    >
+      <ng-template #mainTemplate>
+        <div>asd</div>
+      </ng-template>
+    </mix-inline-alert>
+
+    <mix-inline-alert
+      [title]="'Kitchen mode'"
+      [description]="
+        'When this option is enabled, all new and updated orders will be automatically sent to the Data Warehouse. Ensures that your reporting and analytics always have the latest order information. If disabled, orders will only remain in the application'
+      "
+      [hideToolbar]="true"
+      [type]="'info'"
+      [mainTemplate]="mainTemplate"
+    >
+      <ng-template #mainTemplate>
+        <div>asd</div>
+      </ng-template>
+    </mix-inline-alert> -->
+
+    <bms-store-pos-address [bmsBranch]="branch" />
+    <bms-store-pos-nationalities [bmsBranch]="branch" />
+  } @else {
+    <div class="flex w-52 flex-col gap-4">
+      <div class="flex items-center gap-4">
+        <div class="skeleton h-16 w-16 shrink-0 rounded-full"></div>
+        <div class="flex flex-col gap-4">
+          <div class="skeleton h-4 w-20"></div>
+          <div class="skeleton h-4 w-28"></div>
+        </div>
+      </div>
+      <div class="skeleton h-32 w-full"></div>
+    </div>
+  }
+</div>

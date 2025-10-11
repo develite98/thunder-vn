@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { ECompareOperator } from '@mixcore/sdk-client';
 import { IBmsBranch, IBranch } from '@mixcore/shared-domain';
 import { withCRUD } from '@mixcore/signal';
-import { signalStore } from '@ngrx/signals';
+import { signalStore, withMethods } from '@ngrx/signals';
 import { BranchApi } from '../../api-services';
 import { createFromTmsDb } from '../../helpers';
 
@@ -44,7 +44,13 @@ export const BmsBranchStore = signalStore(
       return {
         getByIdFn: (id) => requestApi.getBmsBranchById(id as number),
         createFn: (data) => requestApi.createBmsBranchByOriginId(data),
+        updateFn: (data) => requestApi.updateBmsBranch(data),
       };
     },
   }),
+  withMethods((store, api = inject(BranchApi)) => ({
+    fetchSyncDWH: (branchId: number) => {
+      //
+    },
+  })),
 );

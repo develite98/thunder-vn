@@ -2,5 +2,6 @@
   "appName": "Cài đặt hệ thống",
   "setting.tab.oAuth": "OAuth",
   "setting.tab.general": "General",
-  "setting.tab.domain": "Domain"
+  "setting.tab.domain": "Domain",
+  "appDescription": "🥰 Control your system's configuration here"
 }

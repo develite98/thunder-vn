@@ -7,7 +7,9 @@
   "tab.settings": "Cài đặt",
   "tab.roles": "Vai trò",
   "tab.permissions": "Quyền hạn",
-  "user.create": "Thêm người dùng",
+  "user.create": "Thêm",
+  "user.bulkCreate": "Thêm hàng loạt",
+
   "userDetail.inActiveWarning": "Người dùng này hiện đang không hoạt động. Bạn có thể kích hoạt lại họ trong tab cài đặt.",
   "userDetail.changePasswordWarning": "Người dùng này chưa đặt mật khẩu.",
   "user.role.title": "Roles",

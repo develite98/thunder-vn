@@ -79,8 +79,11 @@
       "@mixcore/ui/toast": ["libs/ui-web/src/toast/src/index.ts"],
       "@mixcore/ui/select": ["libs/ui-web/src/select/index.ts"],
       "@mixcore/ui/toggle": ["libs/ui-web/src/toggle/index.ts"],
+      "@mixcore/ui/menu-scrollspy": ["libs/ui-web/src/menu-scrollspy/index.ts"],
       "@mixcore/ui/inline-input": ["libs/ui-web/src/inline-input/index.ts"],
       "@mixcore/ui/code-editor": ["libs/ui-web/src/code-editor/index.ts"],
+      "@mixcore/ui/input-list": ["libs/ui-web/src/input-list/index.ts"],
+
       "@mixcore/ui-mobile/bottom-sheet": [
         "libs/ui-mobile/src/bottom-sheet/index.ts"
       ],

@@ -20,17 +20,32 @@ export const menuRoutes: Route[] = [
             (m) => m.MenuItemListPageComponent,
           ),
       },
-      {
-        path: 'menu-item/:id',
-        loadComponent: () =>
-          import('./menu-item-detail/menu-item-detail.page').then(
-            (m) => m.MenuItemDetailPage,
-          ),
-      },
+
       {
         path: '',
         pathMatch: 'full',
         redirectTo: 'menu-list',
+      },
+    ],
+  },
+  {
+    path: 'menu-item/:id',
+    loadComponent: () =>
+      import('./menu-item-detail/menu-item-detail.page').then(
+        (m) => m.MenuItemDetailPage,
+      ),
+    children: [
+      {
+        path: 'config',
+        loadComponent: () =>
+          import(
+            './menu-item-detail/menu-item-configuration/menu-item-configuration.component'
+          ).then((m) => m.MenuItemConfigurationPage),
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'config',
       },
     ],
   },

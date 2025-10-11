@@ -11,6 +11,7 @@ export interface IPublicProduct {
   status: EMixContentStatus;
   short_description: string;
   description: string;
+  priority: number;
   attributes: Record<string, string>;
   price_list: Record<string, number>;
 

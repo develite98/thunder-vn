@@ -1,0 +1,24 @@
+<div
+  class="relative rounded-lg md:rounded-2xl bg-base-100 flex flex-col gap-4 border border-base-content/10 sticky top-48"
+>
+  <ul class="menu w-full">
+    <li>
+      @if (title()) {
+        <h2 class="menu-title">{{ title() }}</h2>
+      }
+      <ul>
+        @for (item of items(); track item.id) {
+          <li class="active">
+            <a
+              (click)="scrollToItem(item.id)"
+              [class.menu-active]="activeItemId() === item.id"
+              class="active {{ item.labelClass }}"
+            >
+              {{ item.label }}
+            </a>
+          </li>
+        }
+      </ul>
+    </li>
+  </ul>
+</div>

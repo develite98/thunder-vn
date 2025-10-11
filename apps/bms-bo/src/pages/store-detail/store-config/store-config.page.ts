@@ -12,6 +12,10 @@ import { injectParams } from '@mixcore/router';
 import { IBranch } from '@mixcore/shared-domain';
 import { MixDeleteComponent } from '@mixcore/ui/delete';
 import { IFormSubmit, MixFormComponent } from '@mixcore/ui/forms';
+import {
+  IScrollspyMenuItem,
+  MixMenuScrollspyComponent,
+} from '@mixcore/ui/menu-scrollspy';
 import { injectModalService } from '@mixcore/ui/modal';
 import { injectToastService } from '@mixcore/ui/toast';
 
@@ -21,7 +25,7 @@ import { BranchStore, CurrencyStore } from 'apps/bms-bo/src/state';
   selector: 'app-store-config-page',
   templateUrl: './store-config.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MixFormComponent, MixDeleteComponent],
+  imports: [MixFormComponent, MixDeleteComponent, MixMenuScrollspyComponent],
 })
 export class StoreConfigPage extends BasePageComponent {
   public store = inject(BranchStore);
@@ -50,6 +54,7 @@ export class StoreConfigPage extends BasePageComponent {
           placeholder: 'common.input.placeholder',
           description: 'bms.branch.nameDescription',
           required: true,
+          groupLabel: 'Basic Information',
         },
       },
       {
@@ -68,6 +73,16 @@ export class StoreConfigPage extends BasePageComponent {
           label: 'bms.branch.label.sapCode',
           placeholder: 'common.input.placeholder',
           description: 'bms.branch.label.sapCodeDescription',
+          groupLabel: 'SAP Configuration',
+        },
+      },
+      {
+        key: 'taxCode',
+        type: 'input',
+        props: {
+          label: 'Tax code',
+          placeholder: 'common.input.placeholder',
+          description: 'Store tax code',
         },
       },
       {
@@ -90,6 +105,7 @@ export class StoreConfigPage extends BasePageComponent {
           label: 'bms.branch.firstAddressLine',
           placeholder: 'common.input.placeholder',
           description: 'bms.branch.firstAddressLineDescription',
+          groupLabel: 'Store Contact',
         },
       },
       {
@@ -119,6 +135,21 @@ export class StoreConfigPage extends BasePageComponent {
       },
     ];
   });
+
+  public scrollSpyItems: IScrollspyMenuItem[] = [
+    {
+      id: 'form-group-basic information',
+      label: 'Basic information',
+    },
+    {
+      id: 'form-group-sap configuration',
+      label: 'SAP Configuration',
+    },
+    {
+      id: 'form-group-store contact',
+      label: 'Store Contact',
+    },
+  ];
 
   public onSubmit(event: IFormSubmit<IBranch>) {
     const { success: toastSuccess, error: toastError } = this.toast.loading(

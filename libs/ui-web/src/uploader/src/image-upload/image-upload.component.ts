@@ -135,20 +135,15 @@ export class MixImageUploadComponent extends BaseComponent {
       return;
     }
 
-    if (this.base64FileUploadFn) {
+    if (this.fileUploadFn) {
       this.loadingState.set(LoadingState.Loading);
-      this.blobToBase64(cropImage.blob as Blob).then((base64) => {
-        if (this.base64FileUploadFn) {
-          this.base64FileUploadFn(base64)
-            .then((url) => {
-              this.dialogRef.close(url);
-              this.loadingState.set(LoadingState.Success);
-            })
-            .catch(() => {
-              this.loadingState.set(LoadingState.Success);
-              this.toast.error('Error uploading image');
-            });
-        }
+      const file = new File([cropImage.blob as Blob], 'image.png', {
+        type: 'image/png',
+      });
+      this.fileUploadFn(file).then((url) => {
+        this.dialogRef.close(url);
+
+        this.loadingState.set(LoadingState.Success);
       });
     } else {
       this.dialogRef.close(this.croppedImage);
@@ -160,7 +155,7 @@ export class MixImageUploadComponent extends BaseComponent {
       const reader = new FileReader();
       reader.onloadend = () => {
         const result = reader.result as string;
-        resolve(result);
+        resolve(result.split(',')[1]);
       };
       reader.onerror = reject;
       reader.readAsDataURL(blob);

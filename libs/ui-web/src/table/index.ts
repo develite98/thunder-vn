@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 
+import { CdkCopyToClipboard } from '@angular/cdk/clipboard';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,6 +10,7 @@ import { MixSelectComponent } from '@mixcore/ui/select';
 import { MixTileComponent } from '@mixcore/ui/tile';
 import { TippyDirective } from '@ngneat/helipopper';
 import { FlexRenderDirective } from '@tanstack/angular-table';
+import { ColumnVisibilityComponent } from './components/column-visibility.component';
 import { MixInputQueryBuilderComponent } from './components/input-query-builder.component';
 import {
   TableHeadSelectionComponent,
@@ -45,6 +47,8 @@ import { MixTableComponent } from './table/table.component';
     MixSelectComponent,
     AsyncPipe,
     MixInputQueryBuilderComponent,
+    ColumnVisibilityComponent,
+    CdkCopyToClipboard,
   ],
   exports: [
     MixTableComponent,
@@ -57,7 +61,11 @@ export class MixTableModule {}
 
 export type {
   GridContextMenu,
+  IColumnVisibility,
+  IColumnVisibilityChange,
   ITableFilter,
   ITableSort,
   ITableSortChange,
 } from './types';
+
+export { ColumnVisibilityComponent } from './components/column-visibility.component';

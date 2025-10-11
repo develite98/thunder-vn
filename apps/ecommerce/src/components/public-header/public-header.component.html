@@ -59,7 +59,7 @@
       class="btn btn-outline text-base-content relative px-3"
     >
       <mix-icon icon="store" />
-      <span class="hidden md:inline-block"> Đại lý</span>
+      <span class="hidden md:inline-block"> Làm đại lý</span>
     </label>
   </div>
 
@@ -161,6 +161,19 @@
 
       <a
         class="flex items-center cursor-pointer hover:opacity-60"
+        [routerLink]="['/agencies']"
+      >
+        <mix-icon
+          icon="map"
+          class="me-2"
+          [strokeWidth]="1.5"
+          [size]="22"
+        ></mix-icon>
+        Cửa hàng
+      </a>
+
+      <a
+        class="flex items-center cursor-pointer hover:opacity-60"
         [routerLink]="['/p', 'chinh-sach-doi-tra']"
       >
         <mix-icon
@@ -169,7 +182,7 @@
           [strokeWidth]="1.5"
           [size]="22"
         ></mix-icon>
-        Chính sách đổi trả
+        CS đổi trả
       </a>
 
       <a

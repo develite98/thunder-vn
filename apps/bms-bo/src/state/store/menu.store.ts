@@ -1,3 +1,4 @@
+import { ECompareOperator } from '@mixcore/sdk-client';
 import { withCRUD } from '@mixcore/signal';
 import { signalStore } from '@ngrx/signals';
 import { createFromTmsDb } from '../../helpers';
@@ -62,5 +63,12 @@ export const MenuItemStore = signalStore(
   },
   withCRUD<IMenuItem>({
     apiFactory: createFromTmsDb('item-materialized-view'),
+    filterConfig: [
+      {
+        fieldName: 'displayName',
+        allowdOperators: [ECompareOperator.Equal, ECompareOperator.Like],
+        label: 'Store name',
+      },
+    ],
   }),
 );

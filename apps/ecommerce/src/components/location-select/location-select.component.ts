@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-interface Ward {
+export interface Ward {
   name: string;
 }
 
-interface Province {
+export interface Province {
   province: string;
   name: string;
   wards: Ward[];
@@ -30,6 +30,11 @@ export class LocationSelectorComponent implements OnInit {
     ward?: Ward;
   }>();
 
+  singleValueChange = output<{
+    province: Province;
+    ward?: Ward;
+  }>();
+
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
@@ -47,6 +52,10 @@ export class LocationSelectorComponent implements OnInit {
 
     this.wards = selectedProvince?.wards || [];
     this.selectedWardCode = undefined;
+
+    this.singleValueChange.emit({
+      province: selectedProvince!,
+    });
   }
 
   onWardChange(): void {
@@ -69,6 +78,11 @@ export class LocationSelectorComponent implements OnInit {
     selectedProvince.name = selectedProvince.province;
 
     this.valueChange.emit({
+      province: selectedProvince,
+      ward: selectedWard,
+    });
+
+    this.singleValueChange.emit({
       province: selectedProvince,
       ward: selectedWard,
     });

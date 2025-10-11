@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { LowerCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -32,6 +33,7 @@ import { FormValidationMessage } from './form-control.error';
     TranslocoPipe,
     FormValidationMessage,
     MixIconComponent,
+    LowerCasePipe,
   ],
   templateUrl: './form-control.component.html',
   styleUrls: ['./form-control.component.scss'],
@@ -47,9 +49,10 @@ export class FormControlComponent extends FieldWrapper<
   public readonly defaultValue = new BehaviorSubject<any>(null);
   public readonly valueChanged = signal<boolean>(false);
 
-  public readonly recommends = computed(
-    () => (this.props as IPropsConfig).recommends || [],
-  );
+  public readonly recommends = (this.props as IPropsConfig).recommends || [];
+  public readonly groupLabel = computed(() => {
+    return (this.props as IPropsConfig).groupLabel || '';
+  });
 
   public zoom = signal(false);
 
@@ -82,6 +85,8 @@ export class FormControlComponent extends FieldWrapper<
       .subscribe(([value, defaultValue]) => {
         this.valueChanged.set(defaultValue !== value);
       });
+
+    console.log(this.props);
   }
 
   public onReset() {

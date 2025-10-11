@@ -10,6 +10,7 @@ export type IPropsConfig = FormlyFieldConfig['props'] & {
   fileUploadFn?: (file: File) => Promise<string>;
   base64FileUploadFn?: (content: string) => Promise<string>;
   aspectRatios?: { label: string; value: number }[];
+  groupLabel?: string;
 };
 export interface IFormConfig extends FormlyFieldConfig {
   id?: string;

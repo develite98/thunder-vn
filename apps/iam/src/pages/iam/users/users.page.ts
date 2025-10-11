@@ -1,18 +1,25 @@
-import { Component, inject, signal } from '@angular/core';
-import { ESortDirection, MixQuery } from '@mixcore/sdk-client';
+import { Component, inject, ViewContainerRef } from '@angular/core';
+import {
+  ECompareOperator,
+  ESortDirection,
+  MixQuery,
+} from '@mixcore/sdk-client';
 import { MixButtonComponent } from '@mixcore/ui/buttons';
 import { MixCopyTextComponent } from '@mixcore/ui/copy-text';
-import { MixTableModule } from '@mixcore/ui/table';
+import { ITableFilter, MixTableModule } from '@mixcore/ui/table';
 
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { injectMiniAppRouter } from '@mixcore/app-config';
+import { BasePageComponent } from '@mixcore/base';
 import { injectQueryParams } from '@mixcore/router';
-import { debouncedSignal } from '@mixcore/signal';
+import { watch } from '@mixcore/signal';
 import { injectDialog } from '@mixcore/ui/dialog';
-import { CreateUserComponent } from 'apps/iam/src/components';
-import { explicitEffect } from 'ngxtension/explicit-effect';
+import {
+  BulkCreateUserComponent,
+  CreateUserComponent,
+} from 'apps/iam/src/components';
 import { UserStore } from '../../../state';
 
 @Component({
@@ -28,43 +35,46 @@ import { UserStore } from '../../../state';
   ],
   providers: [],
 })
-export class IamUsersPage {
+export class IamUsersPage extends BasePageComponent {
   readonly dialog = injectDialog();
   readonly store = inject(UserStore);
   readonly router = injectMiniAppRouter();
   readonly appRouter = inject(Router);
   readonly queryParams = injectQueryParams();
+  readonly vcr = inject(ViewContainerRef);
 
-  public searchText = signal<string | undefined>(undefined);
-  public searchTextDebounced = debouncedSignal(this.searchText, 300);
+  public filterConfig: ITableFilter[] = [
+    {
+      fieldName: 'userName',
+      label: 'Username',
+      type: 'text',
+      allowdOperators: [ECompareOperator.Equal],
+    },
+  ];
 
   constructor() {
-    explicitEffect([this.searchTextDebounced], ([keyword]) =>
-      this.store.searchRouter(keyword),
-    );
+    super();
 
-    explicitEffect([this.queryParams], ([params]) => {
+    watch([this.queryParams], ([params]) => {
       const query = new MixQuery()
-        .default(10)
+        .default(15)
         .sort('CreatedDateTime', ESortDirection.Desc)
-        .withParams(params, {
-          paramHandlers: {
-            keyword: (value) => MixQuery.Equal('username', value),
-          },
-        });
+        .withParams(params);
 
-      if (params['keyword']) {
+      const username = query.queries?.find((x) => x.fieldName === 'userName');
+      if (username) {
         query.searchColumns = 'username';
-        query.keyword = params['keyword'];
+        query.keyword = username.value as string;
       }
 
       this.store.search(query).subscribe();
     });
   }
 
-  onCreateUser() {
+  public onCreateUser() {
     const ref = this.dialog.open(CreateUserComponent, {
       data: {},
+      vcr: this.vcr,
       enableClose: {
         backdrop: false,
         escape: true,
@@ -78,7 +88,14 @@ export class IamUsersPage {
     });
   }
 
-  onEditUser(userId: string) {
+  public onCreateBulkUser() {
+    this.dialog.open(BulkCreateUserComponent, {
+      vcr: this.vcr,
+      windowClass: 'fullscreen-dialog',
+    });
+  }
+
+  public onEditUser(userId: string) {
     this.router.navigate(['user', userId]);
   }
 }

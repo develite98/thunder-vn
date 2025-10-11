@@ -65,9 +65,10 @@ export class CreateStoreTableFormComponent extends BaseComponent {
 
       if (this.isBulkCreate()) {
         const tableNames = this.form.value.name?.split(',') || [];
-        const tables = tableNames.map((name) => ({
+        const tables = tableNames.map((name, index) => ({
           ...this.form.value,
           name: name.trim(),
+          priority: index + 1,
         })) as IBranchTable[];
 
         const requests = tables.map((table) => this.store.createData(table));

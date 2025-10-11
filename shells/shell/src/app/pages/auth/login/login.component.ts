@@ -2,14 +2,14 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { MixButtonComponent } from '@mixcore/ui/buttons';
 import { CulturesSelectComponent } from '@mixcore/ui/culture-select';
 import { MixIconComponent } from '@mixcore/ui/icons';
-import { injectToastObserve } from '@mixcore/ui/toast';
+import { injectToastObserve, injectToastService } from '@mixcore/ui/toast';
 
 import { TenantSelectComponent } from '@mixcore/ui/tenant';
 import { ThemeSelectComponent } from '@mixcore/ui/themes-select';
 
 import { TranslocoPipe } from '@jsverse/transloco';
 import { ELoginProvider, injectAppConfig } from '@mixcore/app-config';
-import { BaseComponent, injectTenant } from '@mixcore/base';
+import { BaseComponent, injectTenant, LoadingState } from '@mixcore/base';
 
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -38,6 +38,7 @@ export class LoginComponent extends BaseComponent {
   public appSetting = injectAppConfig();
   public tenant = injectTenant();
 
+  public toast = injectToastService();
   public toastObserve = injectToastObserve();
   public loginForm = inject(NonNullableFormBuilder).group({
     username: [''],
@@ -95,20 +96,49 @@ export class LoginComponent extends BaseComponent {
     const firebaseConfig = this.googleLogin()?.Config;
     if (!firebaseConfig) return;
 
-    this.firebase.init(firebaseConfig);
-    this.firebase
-      .loginWithGoogle()
-      .then((user) => {
-        if (user) {
-          this.router.navigate(['/app/overview']).catch(() => {
-            this.router.navigate(['/app/overview']);
-          });
-        } else {
+    this.loadingState.set(LoadingState.Loading);
+    try {
+      this.firebase.init(firebaseConfig);
+      this.firebase
+        .loginWithGoogle()
+        .then(async (user) => {
+          if (user) {
+            const idToken = await user.getIdToken();
+            this.client.auth.externalLogin(
+              {
+                provider: 'Firebase',
+                externalAccessToken: idToken,
+                email: user.email || '',
+                userName: user.email,
+                phoneNumber: user.phoneNumber || null,
+                data: {
+                  avatar: user.photoURL || '',
+                },
+                rememberMe: this.loginForm.value.rememberMe,
+              },
+              {
+                success: () => {
+                  this.toast.success(this.translate('auth.login.success'));
+                  this.router.navigate(['/app/overview']).catch(() => {
+                    this.router.navigate(['/app/overview']);
+                  });
+                },
+                error: () => {
+                  this.loadingState.set(LoadingState.Pending);
+                  this.showError.set(true);
+                },
+              },
+            );
+          } else {
+            this.showError.set(true);
+          }
+        })
+        .catch(() => {
+          this.loadingState.set(LoadingState.Pending);
           this.showError.set(true);
-        }
-      })
-      .catch(() => {
-        this.showError.set(true);
-      });
+        });
+    } catch {
+      this.loadingState.set(LoadingState.Pending);
+    }
   }
 }

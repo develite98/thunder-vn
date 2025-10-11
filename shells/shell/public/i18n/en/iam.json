@@ -7,7 +7,9 @@
   "tab.settings": "Settings",
   "tab.roles": "Roles",
   "tab.permissions": "Permissions",
-  "user.create": "Create user",
+  "user.create": "Create",
+  "user.bulkCreate": "Bulk create",
+
   "userDetail.inActiveWarning": "This user is currently inactive. You can reactivate them in the settings tab.",
   "userDetail.changePasswordWarning": "This user has not set a password yet",
   "user.role.title": "Roles",
