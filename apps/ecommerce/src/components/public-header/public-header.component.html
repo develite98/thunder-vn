@@ -215,7 +215,7 @@
     </div>
   </div>
 
-  @for (item of snStore.dataEntities(); track $index) {
+  @for (item of snStore.dataEntities() | priority; track $index) {
     <div>
       {{ item.display_name }}
       <button

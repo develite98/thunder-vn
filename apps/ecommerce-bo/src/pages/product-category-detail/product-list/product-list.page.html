@@ -63,10 +63,16 @@
     </ng-template>
   </div>
 
-  <div mixTableColumn [header]="'Priority'" [key]="'priority'">
+  <div mixTableColumn [header]="'Thứ tự'" [key]="'priority'">
     <ng-template mixColumnCell let-row>
-      <div class="w-32">
+      <div
+        class="w-32"
+        (click)="$event.stopPropagation(); $event.preventDefault()"
+        (keyup)="$event.stopPropagation(); $event.preventDefault()"
+        tabindex="0"
+      >
         <mix-inline-input
+          placeHolder="Type"
           [value]="row.data.priority"
           (valueChange)="onUpdatePriority(row.data, $event)"
         ></mix-inline-input>

@@ -28,6 +28,7 @@ import { BaseComponent, LoadingState } from '@mixcore/base';
 import { injectQueryParam } from '@mixcore/router';
 import { MixIconComponent } from '@mixcore/ui/icons';
 import { explicitEffect } from 'ngxtension/explicit-effect';
+import { PrioritiyPipe } from '../../helper';
 
 @Component({
   selector: 'mix-products-page',
@@ -38,6 +39,7 @@ import { explicitEffect } from 'ngxtension/explicit-effect';
     CurrencyComponent,
     FormsModule,
     MixIconComponent,
+    PrioritiyPipe,
   ],
   templateUrl: './products-page.component.html',
   styleUrl: './products-page.component.css',

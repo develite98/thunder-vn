@@ -81,7 +81,7 @@
               </div>
             </div>
           } @else {
-            @for (item of displayProducts(); track item.id) {
+            @for (item of displayProducts() | priority; track item.id) {
               <div
                 (click)="goToProductDetail(item.id)"
                 class="h-full card bg-base-100 border border-base-content/10 shadow-lg overflow-hidden hover:shadow-xl flex flex-col hover:scale-105 transition-all duration-300 cursor-pointer"

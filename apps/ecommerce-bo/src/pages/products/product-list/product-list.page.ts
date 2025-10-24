@@ -14,6 +14,7 @@ import { MixButtonComponent } from '@mixcore/ui/buttons';
 import { MixCopyTextComponent } from '@mixcore/ui/copy-text';
 import { MixCurrencyComponent, provideCurrency } from '@mixcore/ui/currency';
 import { injectDialog } from '@mixcore/ui/dialog';
+import { MixInlineInputComponent } from '@mixcore/ui/inline-input';
 import { MixStatusSelectComponent } from '@mixcore/ui/status-select';
 import { MixTableModule } from '@mixcore/ui/table';
 import { injectToastService } from '@mixcore/ui/toast';
@@ -32,6 +33,7 @@ import { explicitEffect } from 'ngxtension/explicit-effect';
     MixCurrencyComponent,
     MixButtonComponent,
     MixStatusSelectComponent,
+    MixInlineInputComponent,
     DatePipe,
     TranslocoPipe,
   ],
@@ -92,5 +94,27 @@ export class ProductListPage extends BasePageComponent {
         error(this.translate('common.update.error'));
       },
     });
+  }
+
+  public onUpdatePriority(item: IProduct, priority: string | number) {
+    if (!item || !priority || item.priority === priority) return;
+
+    const { success, error } = this.toast.loading(
+      this.translate('common.update.processing'),
+    );
+
+    this.store
+      .updateData({
+        ...item,
+        priority: parseInt(priority.toString()),
+      } as IProduct)
+      .subscribe({
+        next: () => {
+          success(this.translate('common.update.success'));
+        },
+        error: () => {
+          error(this.translate('common.update.error'));
+        },
+      });
   }
 }

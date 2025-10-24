@@ -10,7 +10,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MixQuery } from '@mixcore/sdk-client';
 import { MixIconComponent } from '@mixcore/ui/icons';
 import { DialogService } from '@ngneat/dialog';
-import { injectUiConfig } from '../../helper';
+import { injectUiConfig, PrioritiyPipe } from '../../helper';
 import { CartStore, socialNetworkStore } from '../../stores';
 import { IStoreConfiguration } from '../../types';
 import { CartModalComponent } from '../cart-modal/cart-modal.component';
@@ -23,6 +23,7 @@ import { SearchInputComponent } from '../search-input/search-input.component';
     MixIconComponent,
     ReactiveFormsModule,
     SearchInputComponent,
+    PrioritiyPipe,
   ],
   templateUrl: './public-header.component.html',
   styleUrl: './public-header.component.scss',

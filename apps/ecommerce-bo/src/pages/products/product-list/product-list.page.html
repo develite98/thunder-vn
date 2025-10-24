@@ -48,6 +48,23 @@
       </ng-template>
     </div>
 
+    <div mixTableColumn [header]="'Thứ tự'" [key]="'priority'">
+      <ng-template mixColumnCell let-row>
+        <div
+          class="w-32"
+          (click)="$event.stopPropagation(); $event.preventDefault()"
+          (keyup)="$event.stopPropagation(); $event.preventDefault()"
+          tabindex="0"
+        >
+          <mix-inline-input
+            placeHolder="Nhập tứ tự"
+            [value]="row.data.priority || 0"
+            (valueChange)="onUpdatePriority(row.data, $event)"
+          ></mix-inline-input>
+        </div>
+      </ng-template>
+    </div>
+
     <div [header]="'common.status'" key="'status'" mixTableColumn>
       <ng-template let-row mixColumnCell>
         <div

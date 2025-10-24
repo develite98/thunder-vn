@@ -8,6 +8,7 @@ export interface IProduct {
   price: number;
   description: string;
   short_description: string;
+  priority: number;
   sub_title: string;
   media?: {
     mediaList: string[];
